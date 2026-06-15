@@ -1,8 +1,10 @@
 package com.example.vubview
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
@@ -33,7 +35,29 @@ class CoursesActivity : AppCompatActivity() {
 
         binding.progressBar.visibility = View.VISIBLE
 
+        setupNavigation()
         loadCourses()
+    }
+
+    private fun setupNavigation() {
+        binding.llFooter.findViewById<View>(R.id.navHome).setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            startActivity(intent)
+        }
+        binding.llFooter.findViewById<View>(R.id.navSchedule).setOnClickListener {
+            startActivity(Intent(this, ScheduleActivity::class.java))
+            finish()
+        }
+        binding.llFooter.findViewById<View>(R.id.navExams).setOnClickListener {
+            startActivity(Intent(this, ExamsActivity::class.java))
+            finish()
+        }
+        binding.llFooter.findViewById<View>(R.id.navResults).setOnClickListener {
+            startActivity(Intent(this, ResultsActivity::class.java))
+            finish()
+        }
+        binding.llFooter.findViewById<View>(R.id.navCourses).setOnClickListener { /* Already here */ }
     }
 
     private fun loadCourses() {
@@ -48,28 +72,38 @@ class CoursesActivity : AppCompatActivity() {
         }
 
         Thread {
-            val resultsText = NetworkHelper.fetchUrl(resultsUrl)
-            val breakdownText = if (!breakdownUrl.isNullOrBlank()) NetworkHelper.fetchUrl(breakdownUrl) else ""
-            
-            val items = CsvParser.parseResultsCsv(resultsText)
-            val breakdowns = CsvParser.parseBreakdownCsv(breakdownText)
-            
-            allBreakdowns.clear()
-            allBreakdowns.addAll(breakdowns)
-            
-            runOnUiThread {
-                adapter.submitList(items)
-                binding.emptyView.visibility = if (items.isEmpty()) View.VISIBLE else View.GONE
-                binding.progressBar.visibility = View.GONE
+            try {
+                val resultsText = NetworkHelper.fetchUrl(resultsUrl)
+                val breakdownText = if (!breakdownUrl.isNullOrBlank()) NetworkHelper.fetchUrl(breakdownUrl) else ""
+                
+                val items = CsvParser.parseResultsCsv(resultsText)
+                val breakdowns = CsvParser.parseBreakdownCsv(breakdownText)
+                
+                allBreakdowns.clear()
+                allBreakdowns.addAll(breakdowns)
+                
+                runOnUiThread {
+                    adapter.submitList(items)
+                    binding.emptyView.visibility = if (items.isEmpty()) View.VISIBLE else View.GONE
+                    binding.progressBar.visibility = View.GONE
+                }
+            } catch (e: Exception) {
+                runOnUiThread {
+                    binding.emptyView.text = "Kon gegevens niet laden"
+                    binding.emptyView.visibility = View.VISIBLE
+                    binding.progressBar.visibility = View.GONE
+                }
             }
         }.start()
     }
 
     private fun showBreakdownDialog(result: ResultEntry) {
         val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_breakdown, null)
-        val dialog = AlertDialog.Builder(this, android.R.style.Theme_Translucent_NoTitleBar)
+        val dialog = AlertDialog.Builder(this)
             .setView(dialogView)
             .create()
+            
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
         dialogView.findViewById<TextView>(R.id.breakdownCourseTitle).text = result.course
         dialogView.findViewById<TextView>(R.id.breakdownFinalScore).text = String.format("%.1f / 20", result.grade)
@@ -106,5 +140,7 @@ class CoursesActivity : AppCompatActivity() {
 
         dialogView.findViewById<ImageView>(R.id.breakdownClose).setOnClickListener { dialog.dismiss() }
         dialog.show()
+
+        dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
     }
 }

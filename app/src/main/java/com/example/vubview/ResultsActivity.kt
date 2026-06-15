@@ -1,5 +1,6 @@
 package com.example.vubview
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -11,6 +12,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -47,7 +49,34 @@ class ResultsActivity : AppCompatActivity() {
             override fun afterTextChanged(s: Editable?) {}
         })
 
+        setupNavigation()
         refreshResults()
+    }
+
+    private fun setupNavigation() {
+        binding.navHome.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
+            startActivity(intent)
+        }
+        binding.navSchedule.setOnClickListener {
+            val intent = Intent(this, ScheduleActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
+            startActivity(intent)
+        }
+        binding.navExams.setOnClickListener {
+            val intent = Intent(this, ExamsActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
+            startActivity(intent)
+        }
+        binding.navResults.setOnClickListener {
+            // Already here
+        }
+        binding.navCourses.setOnClickListener {
+            val intent = Intent(this, CoursesActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
+            startActivity(intent)
+        }
     }
 
     private fun refreshResults() {

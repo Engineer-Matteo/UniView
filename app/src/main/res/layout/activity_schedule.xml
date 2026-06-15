@@ -57,7 +57,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:fillViewport="true"
-        app:layout_constraintBottom_toTopOf="@id/footer"
+        app:layout_constraintBottom_toTopOf="@id/llFooter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/headerContainer">
@@ -83,6 +83,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:gravity="center"
                 app:singleSelection="true"
                 app:selectionRequired="true"
                 app:checkedButton="@+id/viewCalendar">
@@ -95,6 +96,7 @@
                     android:layout_weight="1"
                     android:text="Kalender"
                     android:textAllCaps="false"
+                    android:textColor="@color/vub_blue"
                     app:strokeColor="@color/vub_blue" />
 
                 <com.google.android.material.button.MaterialButton
@@ -105,6 +107,7 @@
                     android:layout_weight="1"
                     android:text="Lijst"
                     android:textAllCaps="false"
+                    android:textColor="@color/vub_blue"
                     app:strokeColor="@color/vub_blue" />
 
             </com.google.android.material.button.MaterialButtonToggleGroup>
@@ -113,13 +116,13 @@
                 android:id="@+id/pageTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="24dp"
                 android:text="Wekelijkse uurrooster"
                 android:textColor="@color/vub_blue"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
-            <!-- Visible Week Navigation -->
+            <!-- Calendar Controls -->
             <LinearLayout
                 android:id="@+id/calendarControls"
                 android:layout_width="match_parent"
@@ -131,27 +134,29 @@
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/prevWeek"
                     style="@style/Widget.MaterialComponents.Button"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="54dp"
+                    android:layout_height="54dp"
                     android:padding="0dp"
                     android:text="←"
                     android:textColor="@color/white"
-                    android:textSize="20sp"
+                    android:textSize="24sp"
                     android:textStyle="bold"
                     app:backgroundTint="@color/vub_blue"
-                    app:cornerRadius="24dp"
-                    app:iconPadding="0dp" />
+                    app:cornerRadius="8dp" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/todayWeek"
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="54dp"
                     android:layout_marginHorizontal="8dp"
                     android:text="Vandaag"
                     android:textAllCaps="false"
                     android:textColor="@color/vub_blue"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    app:strokeColor="@color/vub_blue"
+                    app:strokeWidth="1dp"
+                    app:cornerRadius="8dp" />
 
                 <TextView
                     android:id="@+id/weekLabel"
@@ -167,26 +172,24 @@
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/nextWeek"
                     style="@style/Widget.MaterialComponents.Button"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="54dp"
+                    android:layout_height="54dp"
                     android:layout_marginStart="8dp"
                     android:padding="0dp"
                     android:text="→"
                     android:textColor="@color/white"
-                    android:textSize="20sp"
+                    android:textSize="24sp"
                     android:textStyle="bold"
                     app:backgroundTint="@color/vub_blue"
-                    app:cornerRadius="24dp"
-                    app:iconPadding="0dp" />
+                    app:cornerRadius="8dp" />
             </LinearLayout>
 
-            <!-- Timetable Container -->
+            <!-- Timetable Grid Container -->
             <HorizontalScrollView
                 android:id="@+id/timetableScroll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:scrollbars="horizontal">
+                android:layout_marginTop="16dp">
 
                 <LinearLayout
                     android:id="@+id/timetableContainer"
@@ -195,7 +198,7 @@
                     android:orientation="horizontal" />
             </HorizontalScrollView>
 
-            <!-- List View Container -->
+            <!-- List Container -->
             <LinearLayout
                 android:id="@+id/listContainer"
                 android:layout_width="match_parent"
@@ -217,7 +220,8 @@
                     android:backgroundTint="@color/vub_orange"
                     android:text="Toon vorige afspraken"
                     android:textAllCaps="false"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/white"
+                    android:visibility="gone" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/pastRecycler"
@@ -237,16 +241,12 @@
                 android:text="Geen roostergegevens beschikbaar"
                 android:visibility="gone" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="80dp" />
-
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
     <!-- Footer -->
     <LinearLayout
-        android:id="@+id/footer"
+        android:id="@+id/llFooter"
         style="@style/VUBFooterStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -256,28 +256,59 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/navHome"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Tekst grootte"
-            android:textColor="@color/white"
-            android:layout_marginEnd="16dp" />
-
-        <Button
-            android:id="@+id/btnTextMinus"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:backgroundTint="@color/vub_orange"
-            android:text="A-"
+            android:layout_weight="1"
+            app:icon="@drawable/baseline_home_24"
+            app:iconTint="@color/white"
+            app:iconGravity="textStart"
             android:padding="0dp" />
 
-        <Button
-            android:id="@+id/btnTextPlus"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:backgroundTint="@color/vub_orange"
-            android:layout_marginStart="8dp"
-            android:text="A+"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/navSchedule"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:icon="@drawable/baseline_schedule_24"
+            app:iconTint="@color/white"
+            app:iconGravity="textStart"
+            android:padding="0dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/navExams"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:icon="@drawable/baseline_assignment_24"
+            app:iconTint="@color/white"
+            app:iconGravity="textStart"
+            android:padding="0dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/navResults"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:icon="@drawable/baseline_assessment_24"
+            app:iconTint="@color/white"
+            app:iconGravity="textStart"
+            android:padding="0dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/navCourses"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:icon="@drawable/outline_book_2_24"
+            app:iconTint="@color/white"
+            app:iconGravity="textStart"
             android:padding="0dp" />
     </LinearLayout>
 

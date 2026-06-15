@@ -29,7 +29,32 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, SettingsActivity::class.java))
         }
 
+        setupNavigation()
         loadNextEventBanner()
+    }
+
+    private fun setupNavigation() {
+        binding.navHome.setOnClickListener { /* Already on Home */ }
+        binding.navSchedule.setOnClickListener {
+            val intent = Intent(this, ScheduleActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
+            startActivity(intent)
+        }
+        binding.navExams.setOnClickListener {
+            val intent = Intent(this, ExamsActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
+            startActivity(intent)
+        }
+        binding.navResults.setOnClickListener {
+            val intent = Intent(this, ResultsActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
+            startActivity(intent)
+        }
+        binding.navCourses.setOnClickListener {
+            val intent = Intent(this, CoursesActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
+            startActivity(intent)
+        }
     }
 
     private fun loadNextEventBanner() {
@@ -47,11 +72,13 @@ class MainActivity : AppCompatActivity() {
             val items = mutableListOf<NextEvent>()
 
             if (!classesUrl.isNullOrBlank()) {
-                val classes = CsvParser.parseScheduleCsv(fetchText(classesUrl))
+                val text = NetworkHelper.fetchUrl(classesUrl)
+                val classes = CsvParser.parseScheduleCsv(text)
                 items += classes
             }
             if (!examsUrl.isNullOrBlank()) {
-                val exams = CsvParser.parseExamsCsv(fetchText(examsUrl))
+                val text = NetworkHelper.fetchUrl(examsUrl)
+                val exams = CsvParser.parseExamsCsv(text)
                 items += exams
             }
 
@@ -64,9 +91,5 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }.start()
-    }
-
-    private fun fetchText(url: String): String {
-        return NetworkHelper.fetchUrl(url)
     }
 }

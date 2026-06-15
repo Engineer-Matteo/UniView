@@ -1,5 +1,6 @@
 package com.example.vubview
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.util.TypedValue
@@ -42,12 +43,32 @@ class ScheduleActivity : AppCompatActivity() {
 
         setupToggles()
         setupNav()
+        setupBottomNavigation()
         loadSchedule()
     }
 
+    private fun setupBottomNavigation() {
+        binding.llFooter.findViewById<View>(R.id.navHome).setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            startActivity(intent)
+        }
+        binding.llFooter.findViewById<View>(R.id.navSchedule).setOnClickListener { /* Already here */ }
+        binding.llFooter.findViewById<View>(R.id.navExams).setOnClickListener {
+            startActivity(Intent(this, ExamsActivity::class.java))
+            finish()
+        }
+        binding.llFooter.findViewById<View>(R.id.navResults).setOnClickListener {
+            startActivity(Intent(this, ResultsActivity::class.java))
+            finish()
+        }
+        binding.llFooter.findViewById<View>(R.id.navCourses).setOnClickListener {
+            startActivity(Intent(this, CoursesActivity::class.java))
+            finish()
+        }
+    }
+
     private fun setupToggles() {
-        // MaterialButtonToggleGroup handles its own child button backgrounds. 
-        // Manually calling setBackgroundResource on children causes a crash.
         binding.viewToggleGroup.addOnButtonCheckedListener { _, checkedId, isChecked ->
             if (isChecked) {
                 isCalendarView = (checkedId == R.id.viewCalendar)
@@ -110,7 +131,6 @@ class ScheduleActivity : AppCompatActivity() {
                 val text = NetworkHelper.fetchUrl(url)
                 allEvents = CsvParser.parseScheduleCsv(text)
                 runOnUiThread {
-                    // Set initial selection
                     binding.viewToggleGroup.check(R.id.viewCalendar)
                     updateViewContent()
                     renderWeek()

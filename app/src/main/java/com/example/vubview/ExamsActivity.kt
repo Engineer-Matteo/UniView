@@ -1,5 +1,6 @@
 package com.example.vubview
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -38,7 +39,29 @@ class ExamsActivity : AppCompatActivity() {
             binding.btnShowPast.text = if (isHidden) "Verberg geschiedenis ($pastCount)" else "Toon verleden ($pastCount)"
         }
 
+        setupBottomNavigation()
         loadExams()
+    }
+
+    private fun setupBottomNavigation() {
+        binding.llFooter.findViewById<View>(R.id.navHome).setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            startActivity(intent)
+        }
+        binding.llFooter.findViewById<View>(R.id.navSchedule).setOnClickListener {
+            startActivity(Intent(this, ScheduleActivity::class.java))
+            finish()
+        }
+        binding.llFooter.findViewById<View>(R.id.navExams).setOnClickListener { /* Already here */ }
+        binding.llFooter.findViewById<View>(R.id.navResults).setOnClickListener {
+            startActivity(Intent(this, ResultsActivity::class.java))
+            finish()
+        }
+        binding.llFooter.findViewById<View>(R.id.navCourses).setOnClickListener {
+            startActivity(Intent(this, CoursesActivity::class.java))
+            finish()
+        }
     }
 
     private fun loadExams() {
