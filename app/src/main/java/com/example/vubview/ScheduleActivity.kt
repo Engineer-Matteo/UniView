@@ -13,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.vubview.databinding.ActivityScheduleBinding
-import com.google.android.material.button.MaterialButtonToggleGroup
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -47,11 +46,12 @@ class ScheduleActivity : AppCompatActivity() {
     }
 
     private fun setupToggles() {
-        // Use the group's listener instead of individual button listeners to avoid background overwriting crashes
+        // MaterialButtonToggleGroup handles its own child button backgrounds. 
+        // Manually calling setBackgroundResource on children causes a crash.
         binding.viewToggleGroup.addOnButtonCheckedListener { _, checkedId, isChecked ->
             if (isChecked) {
                 isCalendarView = (checkedId == R.id.viewCalendar)
-                updateViewVisibility()
+                updateViewContent()
             }
         }
         
@@ -66,7 +66,7 @@ class ScheduleActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateViewVisibility() {
+    private fun updateViewContent() {
         if (isCalendarView) {
             binding.calendarControls.visibility = View.VISIBLE
             binding.timetableScroll.visibility = View.VISIBLE
@@ -110,9 +110,9 @@ class ScheduleActivity : AppCompatActivity() {
                 val text = NetworkHelper.fetchUrl(url)
                 allEvents = CsvParser.parseScheduleCsv(text)
                 runOnUiThread {
-                    // Start with calendar view selected in the toggle group
+                    // Set initial selection
                     binding.viewToggleGroup.check(R.id.viewCalendar)
-                    updateViewVisibility()
+                    updateViewContent()
                     renderWeek()
                     renderList()
                 }
