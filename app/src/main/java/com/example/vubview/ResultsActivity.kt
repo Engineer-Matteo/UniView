@@ -5,6 +5,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -103,9 +104,12 @@ class ResultsActivity : AppCompatActivity() {
 
     private fun showBreakdownDialog(result: ResultEntry) {
         val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_breakdown, null)
-        val dialog = AlertDialog.Builder(this, android.R.style.Theme_Translucent_NoTitleBar)
+        val dialog = AlertDialog.Builder(this)
             .setView(dialogView)
             .create()
+            
+        // Make the dialog background transparent so the CardView's corners and margins are visible
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
         val locale = Locale("nl", "BE")
         dialogView.findViewById<TextView>(R.id.breakdownCourseTitle).text = result.course
@@ -143,6 +147,10 @@ class ResultsActivity : AppCompatActivity() {
         }
 
         dialogView.findViewById<ImageView>(R.id.breakdownClose).setOnClickListener { dialog.dismiss() }
+        
         dialog.show()
+
+        // Set dimensions to MATCH_PARENT width and WRAP_CONTENT height to ensure centering and correct padding use
+        dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
     }
 }
