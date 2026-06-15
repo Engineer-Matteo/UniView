@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">VUB Overzicht</string>
+    <string name="next_event_loading">Even wachten...</string>
+    <string name="next_event_setup">Voer URL\'s in instellingen in om het volgende evenement te tonen.</string>
+    <string name="next_event_none">Geen komende evenementen gevonden.</string>
+    <string name="next_event_text">%1$s op %2$s om %3$s</string>
+    <string name="all_years">Alle jaren</string>
+    <string name="all_semesters">Alle semesters</string>
+    <string name="average_score_text">gem. %1$.1f /20</string>
+    <string name="settings_saved">Instellingen opgeslagen</string>
+    <string name="label_results_url">Results CSV URL</string>
+    <string name="label_breakdown_url">Breakdown CSV URL</string>
+    <string name="label_classes_url">Classes CSV URL</string>
+    <string name="label_exams_url">Exams CSV URL</string>
+    <string name="save_settings">Opslaan</string>
+    <string name="no_url_defined">Geen URL gedefinieerd</string>
+</resources>

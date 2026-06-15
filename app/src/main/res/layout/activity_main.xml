@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_light"
+    tools:context=".MainActivity">
+
+    <!-- Header -->
+    <TextView
+        android:id="@+id/tvHeader"
+        style="@style/VUBHeaderStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Homepage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/vHeaderDivider"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="@color/vub_orange"
+        app:layout_constraintTop_toBottomOf="@id/tvHeader" />
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/llFooter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/vHeaderDivider">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <!-- Next Event Banner -->
+            <LinearLayout
+                android:id="@+id/llNextEventContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_banner"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:layout_marginBottom="24dp">
+
+                <TextView
+                    android:id="@+id/tvNextEventLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Volgend examen:"
+                    android:textColor="@color/vub_orange"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvNextEventBanner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Even wachten..."
+                    android:textColor="@color/black"
+                    android:layout_marginTop="4dp" />
+            </LinearLayout>
+
+            <!-- Menu Items -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSchedule"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:layout_marginBottom="12dp"
+                android:gravity="center_vertical|start"
+                android:paddingStart="24dp"
+                android:text="Lesrooster"
+                android:textAllCaps="false"
+                android:textColor="@color/vub_blue"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:cornerRadius="12dp"
+                app:icon="@android:drawable/ic_menu_today"
+                app:iconPadding="16dp"
+                app:iconSize="24dp"
+                app:iconTint="@color/vub_blue"
+                app:strokeColor="@color/vub_blue"
+                app:strokeWidth="2dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnExams"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:layout_marginBottom="12dp"
+                android:gravity="center_vertical|start"
+                android:paddingStart="24dp"
+                android:text="Examenrooster"
+                android:textAllCaps="false"
+                android:textColor="@color/vub_blue"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:cornerRadius="12dp"
+                app:icon="@android:drawable/ic_menu_edit"
+                app:iconPadding="16dp"
+                app:iconSize="24dp"
+                app:iconTint="@color/vub_blue"
+                app:strokeColor="@color/vub_blue"
+                app:strokeWidth="2dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnResults"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:layout_marginBottom="12dp"
+                android:gravity="center_vertical|start"
+                android:paddingStart="24dp"
+                android:text="Resultaten"
+                android:textAllCaps="false"
+                android:textColor="@color/vub_blue"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:cornerRadius="12dp"
+                app:icon="@android:drawable/ic_menu_sort_by_size"
+                app:iconPadding="16dp"
+                app:iconSize="24dp"
+                app:iconTint="@color/vub_blue"
+                app:strokeColor="@color/vub_blue"
+                app:strokeWidth="2dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCourses"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:layout_marginBottom="12dp"
+                android:gravity="center_vertical|start"
+                android:paddingStart="24dp"
+                android:text="Opleidingsonderdelen"
+                android:textAllCaps="false"
+                android:textColor="@color/vub_blue"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:cornerRadius="12dp"
+                app:icon="@android:drawable/ic_menu_agenda"
+                app:iconPadding="16dp"
+                app:iconSize="24dp"
+                app:iconTint="@color/vub_blue"
+                app:strokeColor="@color/vub_blue"
+                app:strokeWidth="2dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSettings"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:layout_marginBottom="12dp"
+                android:gravity="center_vertical|start"
+                android:paddingStart="24dp"
+                android:text="Instellingen"
+                android:textAllCaps="false"
+                android:textColor="@color/vub_blue"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:cornerRadius="12dp"
+                app:icon="@android:drawable/ic_menu_preferences"
+                app:iconPadding="16dp"
+                app:iconSize="24dp"
+                app:iconTint="@color/vub_blue"
+                app:strokeColor="@color/vub_blue"
+                app:strokeWidth="2dp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Footer -->
+    <LinearLayout
+        android:id="@+id/llFooter"
+        style="@style/VUBFooterStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tekst grootte"
+            android:textColor="@color/white"
+            android:layout_marginEnd="16dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnTextMinus"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:backgroundTint="@color/vub_orange"
+            android:text="A-"
+            android:padding="0dp"
+            app:cornerRadius="4dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnTextPlus"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:backgroundTint="@color/vub_orange"
+            android:layout_marginStart="8dp"
+            android:text="A+"
+            android:padding="0dp"
+            app:cornerRadius="4dp" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

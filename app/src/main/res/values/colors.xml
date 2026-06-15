@@ -1,0 +1,13 @@
+<resources>
+    <color name="vub_blue">#003399</color>
+    <color name="vub_blue_dark">#002266</color>
+    <color name="vub_orange">#FF6600</color>
+    <color name="background_light">#F0F4F8</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="black">#FF000000</color>
+    <color name="grey_text">#666666</color>
+
+    <color name="score_red">#E53935</color>
+    <color name="score_orange">#FB8C00</color>
+    <color name="score_green">#43A047</color>
+</resources>
