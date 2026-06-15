@@ -39,9 +39,10 @@
             android:background="@color/vub_orange" />
     </LinearLayout>
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:fillViewport="true"
         app:layout_constraintBottom_toTopOf="@id/footer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -78,6 +79,7 @@
                 android:background="@color/vub_orange"
                 android:layout_marginBottom="16dp" />
 
+            <!-- Upcoming Exams -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/examsRecycler"
                 android:layout_width="match_parent"
@@ -93,20 +95,35 @@
                 android:text="Geen examengegevens beschikbaar"
                 android:visibility="gone" />
 
-            <Button
+            <!-- History Toggle -->
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnShowPast"
-                android:layout_width="wrap_content"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="32dp"
-                android:text="Toon verleden"
-                android:backgroundTint="@color/vub_orange"
+                android:layout_marginTop="24dp"
+                android:text="Toon vorige examens"
+                android:textAllCaps="false"
                 android:textColor="@color/white"
-                android:textAllCaps="false" />
+                app:backgroundTint="@color/vub_orange"
+                android:visibility="gone" />
+
+            <!-- Past Exams -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/pastExamsRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:nestedScrollingEnabled="false"
+                android:visibility="gone" />
+
+            <!-- Spacing for footer -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="80dp" />
 
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
     <!-- Footer -->
     <LinearLayout
@@ -128,6 +145,7 @@
             android:layout_marginEnd="16dp" />
 
         <Button
+            android:id="@+id/btnTextMinus"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:backgroundTint="@color/vub_orange"
@@ -135,6 +153,7 @@
             android:padding="0dp" />
 
         <Button
+            android:id="@+id/btnTextPlus"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:backgroundTint="@color/vub_orange"

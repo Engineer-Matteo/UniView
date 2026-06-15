@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="24dp">
+    android:padding="20dp">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -28,7 +28,6 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_toStartOf="@id/breakdownClose"
-                    android:text="Vak Naam"
                     android:textColor="@color/vub_blue"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -49,19 +48,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:orientation="horizontal">
-
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Eindscore"
                     android:textStyle="bold" />
-
                 <TextView
                     android:id="@+id/breakdownFinalScore"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="-- / 20" />
+                    android:layout_height="wrap_content" />
             </LinearLayout>
 
             <LinearLayout
@@ -69,19 +65,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:orientation="horizontal">
-
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Periode"
                     android:textStyle="bold" />
-
                 <TextView
                     android:id="@+id/breakdownPeriod"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="--" />
+                    android:layout_height="wrap_content" />
             </LinearLayout>
 
             <LinearLayout
@@ -89,19 +82,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:orientation="horizontal">
-
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="ECTS"
                     android:textStyle="bold" />
-
                 <TextView
                     android:id="@+id/breakdownEcts"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="-- studiepunten" />
+                    android:layout_height="wrap_content" />
             </LinearLayout>
 
             <View
@@ -115,7 +105,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical" />
-
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </FrameLayout>

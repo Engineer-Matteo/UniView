@@ -11,11 +11,11 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.vubview.databinding.ActivityResultsBinding
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.util.*
 
 class ResultsActivity : AppCompatActivity() {
@@ -104,7 +104,9 @@ class ResultsActivity : AppCompatActivity() {
 
     private fun showBreakdownDialog(result: ResultEntry) {
         val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_breakdown, null)
-        val dialog = AlertDialog.Builder(this)
+        
+        // Use MaterialAlertDialogBuilder for better style and centering
+        val dialog = MaterialAlertDialogBuilder(this)
             .setView(dialogView)
             .create()
             
