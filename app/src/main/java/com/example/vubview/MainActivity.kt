@@ -1,8 +1,14 @@
 package com.example.vubview
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
+import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
@@ -14,6 +20,14 @@ import java.util.concurrent.TimeUnit
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted: Boolean ->
+        if (isGranted) {
+            setupBackgroundSync()
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -23,20 +37,26 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, ResultsActivity::class.java))
         }
         binding.btnSchedule.setOnClickListener {
-            startActivity(Intent(this, ScheduleActivity::class.java))
+            val intent = Intent(this, ScheduleActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
+            startActivity(intent)
         }
         binding.btnExams.setOnClickListener {
-            startActivity(Intent(this, ExamsActivity::class.java))
+            val intent = Intent(this, ExamsActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
+            startActivity(intent)
         }
         binding.btnCourses.setOnClickListener {
-            startActivity(Intent(this, CoursesActivity::class.java))
+            val intent = Intent(this, CoursesActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
+            startActivity(intent)
         }
         binding.btnSettings.setOnClickListener {
             startActivity(Intent(this, SettingsActivity::class.java))
         }
 
         setupNavigation()
-        setupBackgroundSync()
+        checkPermissionsAndSync()
         loadNextEventBanner()
     }
 
@@ -61,6 +81,22 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, CoursesActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
             startActivity(intent)
+        }
+    }
+
+    private fun checkPermissionsAndSync() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.POST_NOTIFICATIONS
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                setupBackgroundSync()
+            } else {
+                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            }
+        } else {
+            setupBackgroundSync()
         }
     }
 
@@ -120,12 +156,15 @@ class MainActivity : AppCompatActivity() {
             val next = items.filter { it.isUpcoming() }.minByOrNull { it.dateTimeMillis() }
             runOnUiThread {
                 if (next == null) {
+                    binding.tvNextEventLabel.visibility = View.GONE
                     if (examsUrl.isNullOrBlank() && classesUrl.isNullOrBlank()) {
                         binding.tvNextEventBanner.text = getString(R.string.next_event_setup)
                     } else {
                         binding.tvNextEventBanner.text = getString(R.string.next_event_none)
                     }
                 } else {
+                    binding.tvNextEventLabel.visibility = View.VISIBLE
+                    binding.tvNextEventLabel.text = if (next.kind == "exam") "Volgend examen:" else "Volgende les:"
                     binding.tvNextEventBanner.text = getString(R.string.next_event_text, next.title, next.dateLabel(), next.timeLabel())
                 }
             }

@@ -14,4 +14,7 @@
     <string name="label_exams_url">Exams CSV URL</string>
     <string name="save_settings">Opslaan</string>
     <string name="no_url_defined">Geen URL gedefinieerd</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+    <string name="app_widget_description">This is an app widget description</string>
 </resources>

@@ -50,6 +50,7 @@ class ResultsActivity : AppCompatActivity() {
         })
 
         setupNavigation()
+        loadCachedData()
         refreshResults()
     }
 
@@ -79,38 +80,70 @@ class ResultsActivity : AppCompatActivity() {
         }
     }
 
+    private fun loadCachedData() {
+        val cachedResults = CsvCacheManager.getResults(this)
+        val cachedBreakdown = CsvCacheManager.getBreakdown(this)
+        
+        if (cachedResults.isNotBlank()) {
+            allResults.clear()
+            allResults.addAll(CsvParser.parseResultsCsv(cachedResults))
+            updateFilters()
+            loadFilteredResults()
+        }
+        
+        if (cachedBreakdown.isNotBlank()) {
+            allBreakdowns.clear()
+            allBreakdowns.addAll(CsvParser.parseBreakdownCsv(cachedBreakdown))
+        }
+    }
+
     private fun refreshResults() {
         binding.progressBar.visibility = View.VISIBLE
         Thread {
             val resultsUrl = dataStore.resultsUrl
             val breakdownUrl = dataStore.breakdownUrl
             
-            val resultsText = if (!resultsUrl.isNullOrBlank()) NetworkHelper.fetchUrl(resultsUrl) else ""
-            val breakdownText = if (!breakdownUrl.isNullOrBlank()) NetworkHelper.fetchUrl(breakdownUrl) else ""
-            
-            val rows = CsvParser.parseResultsCsv(resultsText)
-            val breakdownRows = CsvParser.parseBreakdownCsv(breakdownText)
-            
-            allResults.clear()
-            allResults.addAll(rows)
-            
-            allBreakdowns.clear()
-            allBreakdowns.addAll(breakdownRows)
-
-            val years = allResults.map { it.period.year }.filter { it.isNotBlank() }.distinct().sorted()
-            val semesters = allResults.map { it.period.semester }.filter { it.isNotBlank() }.distinct().sorted()
-
-            runOnUiThread {
-                binding.filterYear.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, listOf(getString(R.string.all_years)) + years).apply {
-                    setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            try {
+                val resultsText = if (!resultsUrl.isNullOrBlank()) NetworkHelper.fetchUrl(resultsUrl) else ""
+                val breakdownText = if (!breakdownUrl.isNullOrBlank()) NetworkHelper.fetchUrl(breakdownUrl) else ""
+                
+                if (resultsText.isNotBlank()) {
+                    CsvCacheManager.saveResults(this, resultsText)
+                    val rows = CsvParser.parseResultsCsv(resultsText)
+                    allResults.clear()
+                    allResults.addAll(rows)
                 }
-                binding.filterSemester.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, listOf(getString(R.string.all_semesters)) + semesters).apply {
-                    setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                
+                if (breakdownText.isNotBlank()) {
+                    CsvCacheManager.saveBreakdown(this, breakdownText)
+                    val breakdownRows = CsvParser.parseBreakdownCsv(breakdownText)
+                    allBreakdowns.clear()
+                    allBreakdowns.addAll(breakdownRows)
                 }
-                loadFilteredResults()
-                binding.progressBar.visibility = View.GONE
+
+                runOnUiThread {
+                    updateFilters()
+                    loadFilteredResults()
+                    binding.progressBar.visibility = View.GONE
+                }
+            } catch (e: Exception) {
+                runOnUiThread {
+                    binding.progressBar.visibility = View.GONE
+                }
             }
         }.start()
+    }
+
+    private fun updateFilters() {
+        val years = allResults.map { it.period.year }.filter { it.isNotBlank() }.distinct().sorted()
+        val semesters = allResults.map { it.period.semester }.filter { it.isNotBlank() }.distinct().sorted()
+
+        binding.filterYear.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, listOf(getString(R.string.all_years)) + years).apply {
+            setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        }
+        binding.filterSemester.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, listOf(getString(R.string.all_semesters)) + semesters).apply {
+            setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        }
     }
 
     private fun loadFilteredResults() {
@@ -134,12 +167,10 @@ class ResultsActivity : AppCompatActivity() {
     private fun showBreakdownDialog(result: ResultEntry) {
         val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_breakdown, null)
         
-        // Use MaterialAlertDialogBuilder for better style and centering
         val dialog = MaterialAlertDialogBuilder(this)
             .setView(dialogView)
             .create()
             
-        // Make the dialog background transparent so the CardView's corners and margins are visible
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
         val locale = Locale("nl", "BE")
@@ -149,7 +180,6 @@ class ResultsActivity : AppCompatActivity() {
         dialogView.findViewById<TextView>(R.id.breakdownEcts).text = String.format(locale, "%.1f studiepunten", result.ects)
         
         val container = dialogView.findViewById<LinearLayout>(R.id.breakdownItemsContainer)
-        // Use lenient matching for course name
         val items = allBreakdowns.filter { it.course.trim().equals(result.course.trim(), ignoreCase = true) }
 
         if (items.isEmpty()) {
@@ -181,7 +211,6 @@ class ResultsActivity : AppCompatActivity() {
         
         dialog.show()
 
-        // Set dimensions to MATCH_PARENT width and WRAP_CONTENT height to ensure centering and correct padding use
         dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
     }
 }
