@@ -81,7 +81,7 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:cornerRadius="12dp"
-                app:icon="@android:drawable/ic_menu_today"
+                app:icon="@drawable/baseline_schedule_24"
                 app:iconPadding="16dp"
                 app:iconSize="24dp"
                 app:iconTint="@color/vub_blue"
@@ -102,7 +102,7 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:cornerRadius="12dp"
-                app:icon="@android:drawable/ic_menu_edit"
+                app:icon="@drawable/baseline_assignment_24"
                 app:iconPadding="16dp"
                 app:iconSize="24dp"
                 app:iconTint="@color/vub_blue"
@@ -123,7 +123,7 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:cornerRadius="12dp"
-                app:icon="@android:drawable/ic_menu_sort_by_size"
+                app:icon="@drawable/baseline_assessment_24"
                 app:iconPadding="16dp"
                 app:iconSize="24dp"
                 app:iconTint="@color/vub_blue"
@@ -144,7 +144,7 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:cornerRadius="12dp"
-                app:icon="@android:drawable/ic_menu_agenda"
+                app:icon="@drawable/outline_book_2_24"
                 app:iconPadding="16dp"
                 app:iconSize="24dp"
                 app:iconTint="@color/vub_blue"
@@ -165,7 +165,7 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:cornerRadius="12dp"
-                app:icon="@android:drawable/ic_menu_preferences"
+                app:icon="@drawable/outline_admin_panel_settings_24"
                 app:iconPadding="16dp"
                 app:iconSize="24dp"
                 app:iconTint="@color/vub_blue"
@@ -175,43 +175,87 @@
         </LinearLayout>
     </ScrollView>
 
-    <!-- Footer -->
+    <!-- Footer Navigation -->
     <LinearLayout
         android:id="@+id/llFooter"
         style="@style/VUBFooterStyle"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="64dp"
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tekst grootte"
-            android:textColor="@color/white"
-            android:layout_marginEnd="16dp" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/navHome"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:icon="@drawable/baseline_home_24"
+            app:iconTint="@color/white"
+            app:iconSize="28dp"
+            app:iconGravity="textStart"
+            android:padding="0dp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnTextMinus"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:backgroundTint="@color/vub_orange"
-            android:text="A-"
+            android:id="@+id/navSchedule"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:icon="@drawable/baseline_schedule_24"
+            app:iconTint="@color/white"
+            app:iconSize="28dp"
+            app:iconGravity="textStart"
             android:padding="0dp"
-            app:cornerRadius="4dp" />
+            android:insetTop="0dp"
+            android:insetBottom="0dp" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnTextPlus"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:backgroundTint="@color/vub_orange"
-            android:layout_marginStart="8dp"
-            android:text="A+"
+            android:id="@+id/navExams"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:icon="@drawable/baseline_assignment_24"
+            app:iconTint="@color/white"
+            app:iconSize="28dp"
+            app:iconGravity="textStart"
             android:padding="0dp"
-            app:cornerRadius="4dp" />
+            android:insetTop="0dp"
+            android:insetBottom="0dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/navResults"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:icon="@drawable/baseline_assessment_24"
+            app:iconTint="@color/white"
+            app:iconSize="28dp"
+            app:iconGravity="textStart"
+            android:padding="0dp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/navCourses"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:icon="@drawable/outline_book_2_24"
+            app:iconTint="@color/white"
+            app:iconSize="28dp"
+            app:iconGravity="textStart"
+            android:padding="0dp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

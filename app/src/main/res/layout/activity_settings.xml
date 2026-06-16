@@ -42,7 +42,7 @@
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/footer"
+        app:layout_constraintBottom_toTopOf="@id/llFooter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/headerContainer">
@@ -157,12 +157,16 @@
                 android:padding="16dp"
                 android:textColor="@android:color/holo_green_dark" />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="80dp" />
+
         </LinearLayout>
     </ScrollView>
 
-    <!-- Footer -->
+    <!-- Footer Navigation -->
     <LinearLayout
-        android:id="@+id/footer"
+        android:id="@+id/llFooter"
         style="@style/VUBFooterStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -172,27 +176,60 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/navHome"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Tekst grootte"
-            android:textColor="@color/white"
-            android:layout_marginEnd="16dp" />
+            android:layout_weight="1"
+            android:padding="0dp"
+            app:icon="@drawable/baseline_home_24"
+            app:iconGravity="textStart"
+            app:iconTint="@color/white" />
 
-        <Button
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:backgroundTint="@color/vub_orange"
-            android:text="A-"
-            android:padding="0dp" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/navSchedule"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="0dp"
+            app:icon="@drawable/baseline_schedule_24"
+            app:iconGravity="textStart"
+            app:iconTint="@color/white" />
 
-        <Button
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:backgroundTint="@color/vub_orange"
-            android:layout_marginStart="8dp"
-            android:text="A+"
-            android:padding="0dp" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/navExams"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="0dp"
+            app:icon="@drawable/baseline_assignment_24"
+            app:iconGravity="textStart"
+            app:iconTint="@color/white" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/navResults"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="0dp"
+            app:icon="@drawable/baseline_assessment_24"
+            app:iconGravity="textStart"
+            app:iconTint="@color/white" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/navCourses"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="0dp"
+            app:icon="@drawable/outline_book_2_24"
+            app:iconGravity="textStart"
+            app:iconTint="@color/white" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

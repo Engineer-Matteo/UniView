@@ -1,5 +1,6 @@
 package com.example.vubview
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.util.TypedValue
@@ -42,17 +43,37 @@ class ScheduleActivity : AppCompatActivity() {
 
         setupToggles()
         setupNav()
+        setupBottomNavigation()
         loadSchedule()
     }
 
-    private fun setupToggles() {
-        binding.viewCalendar.setOnClickListener {
-            isCalendarView = true
-            updateView()
+    private fun setupBottomNavigation() {
+        binding.llFooter.findViewById<View>(R.id.navHome).setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            startActivity(intent)
         }
-        binding.viewList.setOnClickListener {
-            isCalendarView = false
-            updateView()
+        binding.llFooter.findViewById<View>(R.id.navSchedule).setOnClickListener { /* Already here */ }
+        binding.llFooter.findViewById<View>(R.id.navExams).setOnClickListener {
+            startActivity(Intent(this, ExamsActivity::class.java))
+            finish()
+        }
+        binding.llFooter.findViewById<View>(R.id.navResults).setOnClickListener {
+            startActivity(Intent(this, ResultsActivity::class.java))
+            finish()
+        }
+        binding.llFooter.findViewById<View>(R.id.navCourses).setOnClickListener {
+            startActivity(Intent(this, CoursesActivity::class.java))
+            finish()
+        }
+    }
+
+    private fun setupToggles() {
+        binding.viewToggleGroup.addOnButtonCheckedListener { _, checkedId, isChecked ->
+            if (isChecked) {
+                isCalendarView = (checkedId == R.id.viewCalendar)
+                updateViewContent()
+            }
         }
         
         binding.btnShowPast.setOnClickListener {
@@ -66,29 +87,17 @@ class ScheduleActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateView() {
+    private fun updateViewContent() {
         if (isCalendarView) {
-            binding.viewCalendar.setBackgroundResource(R.drawable.bg_toggle_selected)
-            binding.viewCalendar.setTextColor(ContextCompat.getColor(this, R.color.vub_blue))
-            binding.viewList.setBackgroundResource(R.drawable.bg_toggle_unselected)
-            binding.viewList.setTextColor(ContextCompat.getColor(this, R.color.grey_text))
-            
             binding.calendarControls.visibility = View.VISIBLE
             binding.timetableScroll.visibility = View.VISIBLE
             binding.listContainer.visibility = View.GONE
-            
             binding.pageTitle.text = "Wekelijkse uurrooster"
             renderWeek() 
         } else {
-            binding.viewCalendar.setBackgroundResource(R.drawable.bg_toggle_unselected)
-            binding.viewCalendar.setTextColor(ContextCompat.getColor(this, R.color.grey_text))
-            binding.viewList.setBackgroundResource(R.drawable.bg_toggle_selected)
-            binding.viewList.setTextColor(ContextCompat.getColor(this, R.color.vub_blue))
-            
             binding.calendarControls.visibility = View.GONE
             binding.timetableScroll.visibility = View.GONE
             binding.listContainer.visibility = View.VISIBLE
-            
             binding.pageTitle.text = "Lijstweergave"
             renderList()
         }
@@ -118,12 +127,20 @@ class ScheduleActivity : AppCompatActivity() {
         }
 
         Thread {
-            val text = NetworkHelper.fetchUrl(url)
-            allEvents = CsvParser.parseScheduleCsv(text)
-            runOnUiThread {
-                updateView()
-                renderWeek()
-                renderList()
+            try {
+                val text = NetworkHelper.fetchUrl(url)
+                allEvents = CsvParser.parseScheduleCsv(text)
+                runOnUiThread {
+                    binding.viewToggleGroup.check(R.id.viewCalendar)
+                    updateViewContent()
+                    renderWeek()
+                    renderList()
+                }
+            } catch (e: Exception) {
+                runOnUiThread {
+                    binding.emptyView.text = "Kon gegevens niet laden"
+                    binding.emptyView.visibility = View.VISIBLE
+                }
             }
         }.start()
     }
@@ -170,20 +187,19 @@ class ScheduleActivity : AppCompatActivity() {
         
         updateAverageWeeklyHours(monday)
 
-        val weekDates = mutableListOf<String>()
         val weekCalendars = mutableListOf<Calendar>()
         for (i in 0..6) {
             val d = monday.clone() as Calendar
             d.add(Calendar.DAY_OF_YEAR, i)
-            weekDates.add(toYMD(d))
             weekCalendars.add(d)
         }
 
-        // We should use dateTimeMillis for matching if possible, but if toYMD matches the CSV 'date' field it's fine.
-        // CsvParser.parseScheduleCsv doesn't normalize dates, so we rely on string matching or parsing.
+        val mondayStart = monday.timeInMillis
+        val sundayEnd = sunday.timeInMillis + 86400000
+
         val weekRows = allEvents.filter { event ->
             val eventMillis = event.dateTimeMillis()
-            eventMillis >= monday.timeInMillis && eventMillis < (sunday.timeInMillis + 86400000)
+            eventMillis >= mondayStart && eventMillis < sundayEnd
         }
         
         val activeDayIndices = (0..6).filter { i ->
@@ -373,7 +389,7 @@ class ScheduleActivity : AppCompatActivity() {
         val items = mutableListOf<ScheduleListItem>()
         var lastDate: String? = null
         events.forEach { event ->
-            val dateKey = event.date // Using raw date string as key for grouping
+            val dateKey = event.date
             if (dateKey != lastDate) {
                 items.add(ScheduleListItem.Header(event.formattedDate()))
                 lastDate = dateKey

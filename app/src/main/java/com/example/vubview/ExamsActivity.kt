@@ -1,5 +1,6 @@
 package com.example.vubview
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -9,9 +10,9 @@ import com.example.vubview.databinding.ActivityExamsBinding
 class ExamsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityExamsBinding
     private lateinit var dataStore: VubPreferences
-    private val adapter = EventsAdapter()
+    private val upcomingAdapter = EventsAdapter()
+    private val pastAdapter = EventsAdapter()
     private var allEvents = listOf<NextEvent>()
-    private var showingPast = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,16 +23,45 @@ class ExamsActivity : AppCompatActivity() {
         
         binding.backToHome.setOnClickListener { finish() }
 
+        // Setup Upcoming Recycler
         binding.examsRecycler.layoutManager = LinearLayoutManager(this)
-        binding.examsRecycler.adapter = adapter
+        binding.examsRecycler.adapter = upcomingAdapter
+
+        // Setup Past Recycler
+        binding.pastExamsRecycler.layoutManager = LinearLayoutManager(this)
+        binding.pastExamsRecycler.adapter = pastAdapter
 
         binding.btnShowPast.setOnClickListener {
-            showingPast = !showingPast
-            updateDisplayedEvents()
-            binding.btnShowPast.text = if (showingPast) "Verberg geschiedenis" else "Toon verleden"
+            val isHidden = binding.pastExamsRecycler.visibility == View.GONE
+            binding.pastExamsRecycler.visibility = if (isHidden) View.VISIBLE else View.GONE
+            
+            val pastCount = allEvents.count { !it.isUpcoming() }
+            binding.btnShowPast.text = if (isHidden) "Verberg geschiedenis ($pastCount)" else "Toon verleden ($pastCount)"
         }
 
+        setupBottomNavigation()
         loadExams()
+    }
+
+    private fun setupBottomNavigation() {
+        binding.llFooter.findViewById<View>(R.id.navHome).setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            startActivity(intent)
+        }
+        binding.llFooter.findViewById<View>(R.id.navSchedule).setOnClickListener {
+            startActivity(Intent(this, ScheduleActivity::class.java))
+            finish()
+        }
+        binding.llFooter.findViewById<View>(R.id.navExams).setOnClickListener { /* Already here */ }
+        binding.llFooter.findViewById<View>(R.id.navResults).setOnClickListener {
+            startActivity(Intent(this, ResultsActivity::class.java))
+            finish()
+        }
+        binding.llFooter.findViewById<View>(R.id.navCourses).setOnClickListener {
+            startActivity(Intent(this, CoursesActivity::class.java))
+            finish()
+        }
     }
 
     private fun loadExams() {
@@ -44,33 +74,37 @@ class ExamsActivity : AppCompatActivity() {
         }
 
         Thread {
-            val text = NetworkHelper.fetchUrl(url)
-            allEvents = CsvParser.parseExamsCsv(text)
-            runOnUiThread {
-                updateDisplayedEvents()
+            try {
+                val text = NetworkHelper.fetchUrl(url)
+                allEvents = CsvParser.parseExamsCsv(text)
+                runOnUiThread {
+                    updateUI()
+                }
+            } catch (e: Exception) {
+                runOnUiThread {
+                    binding.emptyView.text = "Kon examengegevens niet laden"
+                    binding.emptyView.visibility = View.VISIBLE
+                }
             }
         }.start()
     }
 
-    private fun updateDisplayedEvents() {
+    private fun updateUI() {
         val future = allEvents.filter { it.isUpcoming() }.sortedBy { it.dateTimeMillis() }
         val past = allEvents.filter { !it.isUpcoming() }.sortedByDescending { it.dateTimeMillis() }
         
-        val filtered = if (showingPast) {
-            future + past // Show everything: upcoming followed by full history
+        upcomingAdapter.submitList(mapEventsToItems(future))
+        pastAdapter.submitList(mapEventsToItems(past))
+        
+        binding.emptyView.visibility = if (future.isEmpty() && past.isEmpty()) View.VISIBLE else View.GONE
+        
+        // Show/Update history button
+        if (past.isNotEmpty()) {
+            binding.btnShowPast.visibility = View.VISIBLE
+            binding.btnShowPast.text = "Toon verleden (${past.size})"
         } else {
-            future
+            binding.btnShowPast.visibility = View.GONE
         }
-        
-        adapter.submitList(mapEventsToItems(filtered))
-        binding.emptyView.visibility = if (filtered.isEmpty()) View.VISIBLE else View.GONE
-        
-        // Dynamic title
-        binding.pageTitle.text = if (showingPast) "Examen geschiedenis" else "Komende examens"
-        
-        // Only show history button if there are actually past events
-        val hasPast = allEvents.any { !it.isUpcoming() }
-        binding.btnShowPast.visibility = if (hasPast) View.VISIBLE else View.GONE
     }
 
     private fun mapEventsToItems(events: List<NextEvent>): List<ScheduleListItem> {

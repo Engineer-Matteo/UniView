@@ -1,31 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.vubview">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
         android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:theme="@style/Theme.VUBView"
         android:usesCleartextTraffic="true">
+        <receiver
+            android:name=".NextEventWidget"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
 
-        <activity android:name=".SettingsActivity"
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/next_event_widget_info" />
+        </receiver>
+
+        <activity
+            android:name=".SettingsActivity"
             android:label="Instellingen" />
-        <activity android:name=".ResultsActivity"
+        <activity
+            android:name=".ResultsActivity"
             android:label="Resultaten" />
-        <activity android:name=".ScheduleActivity"
+        <activity
+            android:name=".ScheduleActivity"
             android:label="Lesrooster" />
-        <activity android:name=".ExamsActivity"
+        <activity
+            android:name=".ExamsActivity"
             android:label="Examenrooster" />
-        <activity android:name=".CoursesActivity"
+        <activity
+            android:name=".CoursesActivity"
             android:label="Opleidingsonderdelen" />
         <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
     </application>
+
 </manifest>
