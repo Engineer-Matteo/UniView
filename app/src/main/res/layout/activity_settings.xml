@@ -84,7 +84,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:checked="true"
-                android:text="Meldingen voor nieuwe resultaten" />
+                android:text="Meldingen voor nieuwe resultaten"
+                android:textColor="@color/black" />
 
             <Space
                 android:layout_width="match_parent"
@@ -94,7 +95,8 @@
                 android:id="@+id/switch2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Meldingen voor roosterwijzigingen" />
+                android:text="Meldingen voor roosterwijzigingen"
+                android:textColor="@color/black" />
 
             <Space
                 android:layout_width="match_parent"
@@ -104,7 +106,8 @@
                 android:id="@+id/switch3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Meldingen voor examenroosterwijzigingen" />
+                android:text="Meldingen voor examenroosterwijzigingen"
+                android:textColor="@color/black" />
 
             <Space
                 android:layout_width="match_parent"
@@ -114,7 +117,8 @@
                 android:id="@+id/switch4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Meldingen voor volgende les" />
+                android:text="Meldingen voor volgende les"
+                android:textColor="@color/black" />
 
             <Space
                 android:layout_width="match_parent"
