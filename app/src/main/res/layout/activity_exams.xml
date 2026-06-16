@@ -130,7 +130,7 @@
         android:id="@+id/llFooter"
         style="@style/VUBFooterStyle"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="64dp"
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -141,10 +141,11 @@
             android:id="@+id/navHome"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             app:icon="@drawable/baseline_home_24"
             app:iconTint="@color/white"
+            app:iconSize="28dp"
             app:iconGravity="textStart"
             android:padding="0dp" />
 
@@ -152,10 +153,11 @@
             android:id="@+id/navSchedule"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             app:icon="@drawable/baseline_schedule_24"
             app:iconTint="@color/white"
+            app:iconSize="28dp"
             app:iconGravity="textStart"
             android:padding="0dp" />
 
@@ -163,10 +165,11 @@
             android:id="@+id/navExams"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             app:icon="@drawable/baseline_assignment_24"
             app:iconTint="@color/white"
+            app:iconSize="28dp"
             app:iconGravity="textStart"
             android:padding="0dp" />
 
@@ -174,10 +177,11 @@
             android:id="@+id/navResults"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             app:icon="@drawable/baseline_assessment_24"
             app:iconTint="@color/white"
+            app:iconSize="28dp"
             app:iconGravity="textStart"
             android:padding="0dp" />
 
@@ -185,10 +189,11 @@
             android:id="@+id/navCourses"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             app:icon="@drawable/outline_book_2_24"
             app:iconTint="@color/white"
+            app:iconSize="28dp"
             app:iconGravity="textStart"
             android:padding="0dp" />
     </LinearLayout>
