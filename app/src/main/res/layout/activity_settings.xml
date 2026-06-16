@@ -110,6 +110,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="2dp" />
 
+            <Switch
+                android:id="@+id/switch4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Meldingen voor volgende les" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="2dp" />
+
             <Button
                 android:id="@+id/buttonSaveSettings"
                 android:layout_width="match_parent"

@@ -36,4 +36,12 @@ class VubPreferences(context: Context) {
     var notifyExams: Boolean
         get() = prefs.getBoolean("notify_exams", false)
         set(value) = prefs.edit().putBoolean("notify_exams", value).apply()
+
+    var notifyNextLesson: Boolean
+        get() = prefs.getBoolean("notify_next_lesson", false)
+        set(value) = prefs.edit().putBoolean("notify_next_lesson", value).apply()
+
+    var lastNotifiedLessonTime: Long
+        get() = prefs.getLong("last_notified_lesson_time", 0L)
+        set(value) = prefs.edit().putLong("last_notified_lesson_time", value).apply()
 }

@@ -66,6 +66,7 @@ class SettingsActivity : AppCompatActivity() {
         binding.switch1.isChecked = dataStore.notifyResults
         binding.switch2.isChecked = dataStore.notifySchedule
         binding.switch3.isChecked = dataStore.notifyExams
+        binding.switch4.isChecked = dataStore.notifyNextLesson
     }
 
     private fun saveUrls() {
@@ -80,5 +81,6 @@ class SettingsActivity : AppCompatActivity() {
         dataStore.notifyResults = binding.switch1.isChecked
         dataStore.notifySchedule = binding.switch2.isChecked
         dataStore.notifyExams = binding.switch3.isChecked
+        dataStore.notifyNextLesson = binding.switch4.isChecked
     }
 }

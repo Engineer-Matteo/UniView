@@ -12,8 +12,13 @@ import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.work.Data
+import androidx.work.ExistingWorkPolicy
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import androidx.work.Worker
 import androidx.work.WorkerParameters
+import java.util.concurrent.TimeUnit
 
 class SyncWorker(context: Context, workerParams: WorkerParameters) : Worker(context, workerParams) {
 
@@ -22,6 +27,7 @@ class SyncWorker(context: Context, workerParams: WorkerParameters) : Worker(cont
         private const val ID_RESULTS = 1001
         private const val ID_SCHEDULE = 1002
         private const val ID_EXAMS = 1003
+        private const val ID_NEXT_CLASS = 1004
     }
 
     override fun doWork(): androidx.work.ListenableWorker.Result {
@@ -77,7 +83,59 @@ class SyncWorker(context: Context, workerParams: WorkerParameters) : Worker(cont
             NextEventWidget.triggerUpdate(applicationContext)
         }
 
+        // Check for upcoming classes to notify 15 mins before
+        checkAndNotifyUpcomingClass(prefs)
+
         return androidx.work.ListenableWorker.Result.success()
+    }
+
+    private fun checkAndNotifyUpcomingClass(prefs: VubPreferences) {
+        if (!prefs.notifyNextLesson) return
+
+        val classesData = CsvCacheManager.getClasses(applicationContext)
+        if (classesData.isBlank()) return
+
+        val classes = CsvParser.parseScheduleCsv(classesData)
+        val now = System.currentTimeMillis()
+        
+        // Find classes starting in the next 75 minutes (Worker runs hourly, so 75m covers window + buffer)
+        val upcomingClasses = classes.filter { it.kind == "class" }
+            .filter { 
+                val startTime = it.dateTimeMillis()
+                val diff = startTime - now
+                diff in 0..75 * 60 * 1000
+            }
+
+        upcomingClasses.forEach { lesson ->
+            val startTime = lesson.dateTimeMillis()
+            val reminderTime = startTime - (15 * 60 * 1000)
+            val delay = reminderTime - now
+
+            if (delay <= 0) {
+                // If we are already within the 15-minute window (or late), notify now if not done
+                if (startTime > now && prefs.lastNotifiedLessonTime != startTime) {
+                    sendNextLessonNotification("${lesson.title} begint om ${lesson.start}")
+                    prefs.lastNotifiedLessonTime = startTime
+                }
+            } else {
+                // Plan a one-time reminder for the exact moment (15 mins before)
+                val inputData = Data.Builder()
+                    .putString("message", "${lesson.title} begint om ${lesson.start}")
+                    .build()
+
+                val reminderRequest = OneTimeWorkRequestBuilder<LessonReminderWorker>()
+                    .setInitialDelay(delay, TimeUnit.MILLISECONDS)
+                    .setInputData(inputData)
+                    .build()
+
+                // Use the startTime as a unique tag to avoid duplicate workers for the same lesson
+                WorkManager.getInstance(applicationContext).enqueueUniqueWork(
+                    "LessonReminder_${startTime}",
+                    ExistingWorkPolicy.KEEP,
+                    reminderRequest
+                )
+            }
+        }
     }
 
     private fun syncResults(url: String, oldData: String, shouldNotify: Boolean): Boolean {
@@ -207,9 +265,34 @@ class SyncWorker(context: Context, workerParams: WorkerParameters) : Worker(cont
         }
     }
 
+    private fun sendNextLessonNotification(nextLesson: String) {
+        createNotificationChannel()
+        val context = applicationContext
+        val intent = Intent(context, ScheduleActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        val pendingIntent: PendingIntent = PendingIntent.getActivity(
+            context, ID_NEXT_CLASS, intent,
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+        )
+        val builder = NotificationCompat.Builder(context, CHANNEL_ID)
+            .setSmallIcon(R.drawable.baseline_schedule_24)
+            .setContentTitle("Volgende les")
+            .setContentText(nextLesson)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setContentIntent(pendingIntent)
+            .setAutoCancel(true)
+
+        with(NotificationManagerCompat.from(context)) {
+            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
+                notify(ID_NEXT_CLASS, builder.build())
+            }
+        }
+    }
+
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name = "VUB VIEW Updates"
+            val name = "VUBVIEW Updates"
             val descriptionText = "Meldingen voor nieuwe resultaten en roosterwijzigingen"
             val importance = NotificationManager.IMPORTANCE_DEFAULT
             val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
