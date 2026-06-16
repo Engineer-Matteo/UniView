@@ -8,6 +8,7 @@ object CsvCacheManager {
     private const val BREAKDOWN_FILE = "breakdown_cache.csv"
     private const val CLASSES_FILE = "classes_cache.csv"
     private const val EXAMS_FILE = "exams_cache.csv"
+    private const val COURSES_FILE = "courses_cache.csv"
 
     fun saveResults(context: Context, data: String) = saveFile(context, RESULTS_FILE, data)
     fun getResults(context: Context): String = readFile(context, RESULTS_FILE)
@@ -20,6 +21,9 @@ object CsvCacheManager {
 
     fun saveExams(context: Context, data: String) = saveFile(context, EXAMS_FILE, data)
     fun getExams(context: Context): String = readFile(context, EXAMS_FILE)
+
+    fun saveCourses(context: Context, data: String) = saveFile(context, COURSES_FILE, data)
+    fun getCourses(context: Context): String = readFile(context, COURSES_FILE)
 
     private fun saveFile(context: Context, fileName: String, data: String) {
         context.openFileOutput(fileName, Context.MODE_PRIVATE).use {

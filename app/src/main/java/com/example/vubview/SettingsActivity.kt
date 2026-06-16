@@ -2,6 +2,7 @@ package com.example.vubview
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.example.vubview.databinding.ActivitySettingsBinding
 
@@ -18,26 +19,28 @@ class SettingsActivity : AppCompatActivity() {
         
         binding.backToHome.setOnClickListener { finish() }
 
+        setupNavigation()
         loadSavedUrls()
-        setupBottomNavigation()
+        loadNotificationSettings()
 
         binding.buttonSaveSettings.setOnClickListener {
             saveUrls()
+            saveNotificationSettings()
             binding.statusText.text = getString(R.string.settings_saved)
         }
     }
 
-    private fun setupBottomNavigation() {
-        binding.navHome.setOnClickListener {
+    private fun setupNavigation() {
+        binding.llFooter.findViewById<View>(R.id.navHome).setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
             startActivity(intent)
         }
-        binding.navSchedule.setOnClickListener {
+        binding.llFooter.findViewById<View>(R.id.navSchedule).setOnClickListener {
             startActivity(Intent(this, ScheduleActivity::class.java))
             finish()
         }
-        binding.navExams.setOnClickListener {
+        binding.llFooter.findViewById<View>(R.id.navExams).setOnClickListener {
             startActivity(Intent(this, ExamsActivity::class.java))
             finish()
         }
@@ -56,6 +59,13 @@ class SettingsActivity : AppCompatActivity() {
         binding.inputBreakdownUrl.setText(dataStore.breakdownUrl)
         binding.inputClassesUrl.setText(dataStore.classesUrl)
         binding.inputExamsUrl.setText(dataStore.examsUrl)
+        binding.inputCoursesUrl.setText(dataStore.coursesUrl)
+    }
+
+    private fun loadNotificationSettings() {
+        binding.switch1.isChecked = dataStore.notifyResults
+        binding.switch2.isChecked = dataStore.notifySchedule
+        binding.switch3.isChecked = dataStore.notifyExams
     }
 
     private fun saveUrls() {
@@ -63,5 +73,12 @@ class SettingsActivity : AppCompatActivity() {
         dataStore.breakdownUrl = binding.inputBreakdownUrl.text.toString().trim()
         dataStore.classesUrl = binding.inputClassesUrl.text.toString().trim()
         dataStore.examsUrl = binding.inputExamsUrl.text.toString().trim()
+        dataStore.coursesUrl = binding.inputCoursesUrl.text.toString().trim()
+    }
+
+    private fun saveNotificationSettings() {
+        dataStore.notifyResults = binding.switch1.isChecked
+        dataStore.notifySchedule = binding.switch2.isChecked
+        dataStore.notifyExams = binding.switch3.isChecked
     }
 }

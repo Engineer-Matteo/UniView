@@ -117,6 +117,30 @@ object CsvParser {
         }
     }
 
+    fun parseCoursesCsv(text: String): List<CourseEntry> {
+        val cleanText = text.replace("\uFEFF", "").replace("\r\n", "\n").replace("\r", "\n")
+        val lines = cleanText.lines().map { it.trim() }.filter { it.isNotBlank() }
+        if (lines.isEmpty()) return emptyList()
+
+        val delimiter = detectDelimiter(cleanText)
+        val header = splitCsvLine(lines[0], delimiter)
+        // name,year,semester,ects,professor,description
+        val isHeader = header.any { it.lowercase() in listOf("name", "naam", "year", "ects", "professor") }
+
+        return lines.drop(if (isHeader) 1 else 0).mapNotNull { line ->
+            val cols = splitCsvLine(line, delimiter)
+            if (cols.size < 4) return@mapNotNull null
+            CourseEntry(
+                name = cols.getOrNull(0) ?: "",
+                year = cols.getOrNull(1) ?: "",
+                semester = cols.getOrNull(2) ?: "",
+                ects = cols.getOrNull(3) ?: "",
+                professor = cols.getOrNull(4) ?: "",
+                description = cols.getOrNull(5) ?: ""
+            )
+        }
+    }
+
     private fun parsePeriod(period: String): Period {
         val parts = period.trim().split(Regex("[\\s,;/-]+"))
         var semester = ""; var year = ""

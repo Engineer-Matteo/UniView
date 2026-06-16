@@ -20,6 +20,15 @@ data class BreakdownEntry(
     val weight: String
 )
 
+data class CourseEntry(
+    val name: String,
+    val year: String,
+    val semester: String,
+    val ects: String,
+    val professor: String,
+    val description: String
+)
+
 data class NextEvent(
     val title: String,
     val date: String,

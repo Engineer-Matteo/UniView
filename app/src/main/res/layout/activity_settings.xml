@@ -63,6 +63,70 @@
                 android:layout_marginBottom="16dp" />
 
             <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="Meldingen"
+                android:textColor="@color/vub_blue"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="16dp"
+                android:background="@color/vub_orange" />
+
+            <Switch
+                android:id="@+id/switch1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="Meldingen voor nieuwe resultaten" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="2dp" />
+
+            <Switch
+                android:id="@+id/switch2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Meldingen voor roosterwijzigingen" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="2dp" />
+
+            <Switch
+                android:id="@+id/switch3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Meldingen voor examenroosterwijzigingen" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="2dp" />
+
+            <Button
+                android:id="@+id/buttonSaveSettings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/vub_orange"
+                android:text="Opslaan"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/statusText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="16dp"
+                android:textColor="@android:color/holo_green_dark" />
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="CSV Configuratie"
@@ -116,6 +180,7 @@
                 android:textColor="@color/vub_blue"
                 android:textSize="12sp"
                 android:textStyle="bold" />
+
             <EditText
                 android:id="@+id/inputClassesUrl"
                 android:layout_width="match_parent"
@@ -132,6 +197,7 @@
                 android:textColor="@color/vub_blue"
                 android:textSize="12sp"
                 android:textStyle="bold" />
+
             <EditText
                 android:id="@+id/inputExamsUrl"
                 android:layout_width="match_parent"
@@ -139,23 +205,23 @@
                 android:background="@drawable/bg_input_field"
                 android:inputType="textUri"
                 android:paddingHorizontal="12dp"
-                android:layout_marginBottom="16dp" />
-
-            <Button
-                android:id="@+id/buttonSaveSettings"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/vub_orange"
-                android:text="Opslaan"
-                android:textColor="@color/white" />
+                android:layout_marginBottom="12dp" />
 
             <TextView
-                android:id="@+id/statusText"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="16dp"
-                android:textColor="@android:color/holo_green_dark" />
+                android:text="Courses CSV URL"
+                android:textColor="@color/vub_blue"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+            <EditText
+                android:id="@+id/inputCoursesUrl"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/bg_input_field"
+                android:inputType="textUri"
+                android:paddingHorizontal="12dp"
+                android:layout_marginBottom="16dp" />
 
             <View
                 android:layout_width="match_parent"

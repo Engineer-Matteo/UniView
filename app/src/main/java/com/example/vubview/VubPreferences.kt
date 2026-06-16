@@ -20,4 +20,20 @@ class VubPreferences(context: Context) {
     var examsUrl: String?
         get() = prefs.getString("exams_url", null)
         set(value) = prefs.edit().putString("exams_url", value).apply()
+
+    var coursesUrl: String?
+        get() = prefs.getString("courses_url", null)
+        set(value) = prefs.edit().putString("courses_url", value).apply()
+
+    var notifyResults: Boolean
+        get() = prefs.getBoolean("notify_results", true)
+        set(value) = prefs.edit().putBoolean("notify_results", value).apply()
+
+    var notifySchedule: Boolean
+        get() = prefs.getBoolean("notify_schedule", false)
+        set(value) = prefs.edit().putBoolean("notify_schedule", value).apply()
+
+    var notifyExams: Boolean
+        get() = prefs.getBoolean("notify_exams", false)
+        set(value) = prefs.edit().putBoolean("notify_exams", value).apply()
 }

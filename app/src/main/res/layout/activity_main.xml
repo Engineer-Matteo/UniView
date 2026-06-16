@@ -26,6 +26,7 @@
         app:layout_constraintTop_toBottomOf="@id/tvHeader" />
 
     <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@id/llFooter"
@@ -44,10 +45,10 @@
                 android:id="@+id/llNextEventContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
                 android:background="@drawable/bg_banner"
                 android:orientation="vertical"
-                android:padding="16dp"
-                android:layout_marginBottom="24dp">
+                android:padding="16dp">
 
                 <TextView
                     android:id="@+id/tvNextEventLabel"
@@ -61,9 +62,9 @@
                     android:id="@+id/tvNextEventBanner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
                     android:text="Even wachten..."
-                    android:textColor="@color/black"
-                    android:layout_marginTop="4dp" />
+                    android:textColor="@color/black" />
             </LinearLayout>
 
             <!-- Menu Items -->
@@ -73,6 +74,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="64dp"
                 android:layout_marginBottom="12dp"
+                android:backgroundTint="@color/white"
                 android:gravity="center_vertical|start"
                 android:paddingStart="24dp"
                 android:text="Lesrooster"
@@ -94,6 +96,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="64dp"
                 android:layout_marginBottom="12dp"
+                android:backgroundTint="@color/white"
                 android:gravity="center_vertical|start"
                 android:paddingStart="24dp"
                 android:text="Examenrooster"
@@ -115,6 +118,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="64dp"
                 android:layout_marginBottom="12dp"
+                android:backgroundTint="@color/white"
                 android:gravity="center_vertical|start"
                 android:paddingStart="24dp"
                 android:text="Resultaten"
@@ -136,6 +140,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="64dp"
                 android:layout_marginBottom="12dp"
+                android:backgroundTint="@color/white"
                 android:gravity="center_vertical|start"
                 android:paddingStart="24dp"
                 android:text="Opleidingsonderdelen"
@@ -157,6 +162,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="64dp"
                 android:layout_marginBottom="12dp"
+                android:backgroundTint="@color/white"
                 android:gravity="center_vertical|start"
                 android:paddingStart="24dp"
                 android:text="Instellingen"
@@ -259,11 +265,12 @@
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/imageView2"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        app:srcCompat="@drawable/ic_launcher_foreground"
-        tools:layout_editor_absoluteX="341dp"
-        tools:layout_editor_absoluteY="0dp" />
+        app:layout_constraintBottom_toTopOf="@+id/scrollView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_launcher_foreground" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
