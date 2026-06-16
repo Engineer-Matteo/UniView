@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">VUB Overzicht</string>
+    <string name="app_name">VUBVIEW</string>
     <string name="next_event_loading">Even wachten...</string>
     <string name="next_event_setup">Voer URL\'s in instellingen in om het volgende evenement te tonen.</string>
     <string name="next_event_none">Geen komende evenementen gevonden.</string>
