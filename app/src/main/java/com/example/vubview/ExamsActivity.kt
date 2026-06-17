@@ -15,12 +15,13 @@ class ExamsActivity : AppCompatActivity() {
     private var allEvents = listOf<NextEvent>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        dataStore = VubPreferences(this)
+        dataStore.applyTheme()
+
         super.onCreate(savedInstanceState)
         binding = ActivityExamsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        dataStore = VubPreferences(this)
-        
         binding.backToHome.setOnClickListener { finish() }
 
         // Setup Upcoming Recycler

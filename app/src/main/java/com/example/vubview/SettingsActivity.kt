@@ -11,21 +11,24 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var dataStore: VubPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        dataStore = VubPreferences(this)
+        dataStore.applyTheme()
+
         super.onCreate(savedInstanceState)
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        dataStore = VubPreferences(this)
         
         binding.backToHome.setOnClickListener { finish() }
 
         setupNavigation()
         loadSavedUrls()
         loadNotificationSettings()
+        loadThemeSetting()
 
         binding.buttonSaveSettings.setOnClickListener {
             saveUrls()
             saveNotificationSettings()
+            saveThemeSetting()
             binding.statusText.text = getString(R.string.settings_saved)
         }
     }
@@ -69,6 +72,14 @@ class SettingsActivity : AppCompatActivity() {
         binding.switch4.isChecked = dataStore.notifyNextLesson
     }
 
+    private fun loadThemeSetting() {
+        when (dataStore.themeMode) {
+            1 -> binding.radioButton.isChecked = true
+            2 -> binding.radioButton2.isChecked = true
+            else -> binding.radioButton3.isChecked = true
+        }
+    }
+
     private fun saveUrls() {
         dataStore.resultsUrl = binding.inputResultsUrl.text.toString().trim()
         dataStore.breakdownUrl = binding.inputBreakdownUrl.text.toString().trim()
@@ -82,5 +93,15 @@ class SettingsActivity : AppCompatActivity() {
         dataStore.notifySchedule = binding.switch2.isChecked
         dataStore.notifyExams = binding.switch3.isChecked
         dataStore.notifyNextLesson = binding.switch4.isChecked
+    }
+
+    private fun saveThemeSetting() {
+        val selectedMode = when (binding.themeRadioGroup.checkedRadioButtonId) {
+            R.id.radioButton -> 1
+            R.id.radioButton2 -> 2
+            else -> 0
+        }
+        dataStore.themeMode = selectedMode
+        dataStore.applyTheme()
     }
 }

@@ -28,11 +28,13 @@ class ResultsActivity : AppCompatActivity() {
     private val allBreakdowns = mutableListOf<BreakdownEntry>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        dataStore = VubPreferences(this)
+        dataStore.applyTheme()
+
         super.onCreate(savedInstanceState)
         binding = ActivityResultsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        dataStore = VubPreferences(this)
         binding.resultsRecycler.layoutManager = LinearLayoutManager(this)
         binding.resultsRecycler.adapter = adapter
 

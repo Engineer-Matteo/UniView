@@ -24,11 +24,12 @@ class CoursesActivity : AppCompatActivity() {
     private val allCourses = mutableListOf<CourseEntry>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        dataStore = VubPreferences(this)
+        dataStore.applyTheme()
+
         super.onCreate(savedInstanceState)
         binding = ActivityCoursesBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        dataStore = VubPreferences(this)
         
         binding.backToHome.setOnClickListener { finish() }
         

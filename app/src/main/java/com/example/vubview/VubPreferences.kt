@@ -1,6 +1,7 @@
 package com.example.vubview
 
 import android.content.Context
+import androidx.appcompat.app.AppCompatDelegate
 
 class VubPreferences(context: Context) {
     private val prefs = context.getSharedPreferences("vub_prefs", Context.MODE_PRIVATE)
@@ -44,4 +45,23 @@ class VubPreferences(context: Context) {
     var lastNotifiedLessonTime: Long
         get() = prefs.getLong("last_notified_lesson_time", 0L)
         set(value) = prefs.edit().putLong("last_notified_lesson_time", value).apply()
+
+    /**
+     * Theme preference:
+     * 0: Follow System
+     * 1: Light Mode (Default)
+     * 2: Dark Mode
+     */
+    var themeMode: Int
+        get() = prefs.getInt("theme_mode", 1)
+        set(value) = prefs.edit().putInt("theme_mode", value).apply()
+
+    fun applyTheme() {
+        val mode = when (themeMode) {
+            1 -> AppCompatDelegate.MODE_NIGHT_NO
+            2 -> AppCompatDelegate.MODE_NIGHT_YES
+            else -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+        }
+        AppCompatDelegate.setDefaultNightMode(mode)
+    }
 }

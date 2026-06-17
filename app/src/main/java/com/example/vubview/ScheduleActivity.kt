@@ -27,11 +27,12 @@ class ScheduleActivity : AppCompatActivity() {
     private var isCalendarView = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        dataStore = VubPreferences(this)
+        dataStore.applyTheme()
+
         super.onCreate(savedInstanceState)
         binding = ActivityScheduleBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        dataStore = VubPreferences(this)
         
         binding.backToHome.setOnClickListener { finish() }
 

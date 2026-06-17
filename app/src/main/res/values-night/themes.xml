@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Force Light Mode even when the system is in Dark Mode -->
-    <style name="Theme.VUBView" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <!-- Base application theme for Dark Mode -->
+    <style name="Theme.VUBView" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/vub_blue</item>
         <item name="colorPrimaryVariant">@color/vub_blue_dark</item>
@@ -9,8 +9,8 @@
         <item name="colorSecondary">@color/vub_orange</item>
         <item name="colorOnSecondary">@color/white</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor">@color/vub_blue_dark</item>
-        <!-- Use Light Mode background -->
+        <item name="android:statusBarColor">@color/black</item>
+        <!-- Use Dark Mode background -->
         <item name="android:windowBackground">@color/background_light</item>
     </style>
 </resources>
