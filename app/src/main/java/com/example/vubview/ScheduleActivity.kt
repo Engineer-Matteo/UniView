@@ -80,8 +80,7 @@ class ScheduleActivity : AppCompatActivity() {
             val isHidden = binding.pastRecycler.visibility == View.GONE
             binding.pastRecycler.visibility = if (isHidden) View.VISIBLE else View.GONE
             
-            val now = Calendar.getInstance().timeInMillis
-            val pastEventsCount = allEvents.count { it.dateTimeMillis() < now && it.dateTimeMillis() != 0L }
+            val pastEventsCount = allEvents.count { !it.isUpcoming() }
             
             binding.btnShowPast.text = if (isHidden) "Verberg vorige afspraken ($pastEventsCount)" else "Toon vorige afspraken ($pastEventsCount)"
         }
@@ -368,15 +367,8 @@ class ScheduleActivity : AppCompatActivity() {
     }
 
     private fun renderList() {
-        val now = Calendar.getInstance()
-        now.set(Calendar.HOUR_OF_DAY, 0)
-        now.set(Calendar.MINUTE, 0)
-        now.set(Calendar.SECOND, 0)
-        now.set(Calendar.MILLISECOND, 0)
-        val todayMillis = now.timeInMillis
-        
-        val upcomingEvents = allEvents.filter { it.dateTimeMillis() >= todayMillis }.sortedBy { it.dateTimeMillis() }
-        val pastEvents = allEvents.filter { it.dateTimeMillis() < todayMillis && it.dateTimeMillis() != 0L }.sortedByDescending { it.dateTimeMillis() }
+        val upcomingEvents = allEvents.filter { it.isUpcoming() }.sortedBy { it.dateTimeMillis() }
+        val pastEvents = allEvents.filter { !it.isUpcoming() }.sortedByDescending { it.dateTimeMillis() }
         
         upcomingAdapter.submitList(mapEventsToItems(upcomingEvents))
         pastAdapter.submitList(mapEventsToItems(pastEvents))

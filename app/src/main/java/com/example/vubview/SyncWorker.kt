@@ -81,6 +81,7 @@ class SyncWorker(context: Context, workerParams: WorkerParameters) : Worker(cont
         if (anyChanged) {
             Log.d("SyncWorker", "Data changed, updating widgets")
             NextEventWidget.triggerUpdate(applicationContext)
+            WeeklyScheduleWidget.triggerUpdate(applicationContext)
         }
 
         // Check for upcoming classes to notify 15 mins before

@@ -38,25 +38,31 @@ data class NextEvent(
     val type: String = "",
     val room: String = ""
 ) {
+    /**
+     * Used for Schedule and Exam tabs. 
+     * Returns true if the event has not finished yet.
+     */
     fun isUpcoming(): Boolean {
-        return try {
-            val eventDate = dateTimeMillis()
-            if (eventDate == 0L) return true
-            
-            val cal = Calendar.getInstance()
-            cal.set(Calendar.HOUR_OF_DAY, 0)
-            cal.set(Calendar.MINUTE, 0)
-            cal.set(Calendar.SECOND, 0)
-            cal.set(Calendar.MILLISECOND, 0)
-            
-            // Upcoming means today or in the future
-            eventDate >= cal.timeInMillis
-        } catch (e: Exception) {
-            true
-        }
+        val endTime = endDateTimeMillis()
+        if (endTime == 0L) return true
+        return endTime > System.currentTimeMillis()
     }
 
-    fun dateTimeMillis(): Long {
+    /**
+     * Used for Widgets. 
+     * Returns true if the event has not started yet.
+     */
+    fun isFuture(): Boolean {
+        val startTime = dateTimeMillis()
+        if (startTime == 0L) return true
+        return startTime > System.currentTimeMillis()
+    }
+
+    fun dateTimeMillis(): Long = parseDateTime(start)
+
+    fun endDateTimeMillis(): Long = parseDateTime(end)
+
+    private fun parseDateTime(timeStr: String): Long {
         return try {
             // Match any non-digit separator
             val parts = date.split(Regex("[^0-9]+")).filter { it.isNotBlank() }.map { it.toInt() }
@@ -85,7 +91,7 @@ data class NextEvent(
             cal.set(y, m, d)
 
             // Parse time if available
-            val timeParts = start.split(Regex("[^0-9]+")).filter { it.isNotBlank() }.map { it.toInt() }
+            val timeParts = timeStr.split(Regex("[^0-9]+")).filter { it.isNotBlank() }.map { it.toInt() }
             if (timeParts.size >= 2) {
                 cal.set(Calendar.HOUR_OF_DAY, timeParts[0])
                 cal.set(Calendar.MINUTE, timeParts[1])

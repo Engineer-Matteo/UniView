@@ -157,7 +157,8 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
-            val next = items.filter { it.isUpcoming() }.minByOrNull { it.dateTimeMillis() }
+            // For the main banner, we show the next event that hasn't started yet
+            val next = items.filter { it.isFuture() }.minByOrNull { it.dateTimeMillis() }
             runOnUiThread {
                 if (next == null) {
                     binding.tvNextEventLabel.visibility = View.GONE

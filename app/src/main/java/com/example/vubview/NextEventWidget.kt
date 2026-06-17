@@ -72,7 +72,8 @@ internal fun updateAppWidget(
         items += CsvParser.parseExamsCsv(cachedExams)
     }
 
-    val next = items.filter { it.isUpcoming() }.minByOrNull { it.dateTimeMillis() }
+    // Use isFuture() to show the next event that hasn't started yet
+    val next = items.filter { it.isFuture() }.minByOrNull { it.dateTimeMillis() }
 
     if (next == null) {
         views.setViewVisibility(R.id.widget_label, View.GONE)
