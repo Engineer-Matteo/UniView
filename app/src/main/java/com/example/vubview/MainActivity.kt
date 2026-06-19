@@ -131,11 +131,11 @@ class MainActivity : AppCompatActivity() {
             // Try to load from cache first for immediate display
             val cachedClasses = CsvCacheManager.getClasses(this)
             if (cachedClasses.isNotBlank()) {
-                items += CsvParser.parseScheduleCsv(cachedClasses)
+                items += IcalParser.parse(cachedClasses, "class")
             }
             val cachedExams = CsvCacheManager.getExams(this)
             if (cachedExams.isNotBlank()) {
-                items += CsvParser.parseExamsCsv(cachedExams)
+                items += IcalParser.parse(cachedExams, "exam")
             }
 
             // Also try to fetch latest if urls available
@@ -144,14 +144,14 @@ class MainActivity : AppCompatActivity() {
                     try {
                         val text = NetworkHelper.fetchUrl(classesUrl)
                         CsvCacheManager.saveClasses(this, text)
-                        items += CsvParser.parseScheduleCsv(text)
+                        items += IcalParser.parse(text, "class")
                     } catch (e: Exception) {}
                 }
                 if (!examsUrl.isNullOrBlank()) {
                     try {
                         val text = NetworkHelper.fetchUrl(examsUrl)
                         CsvCacheManager.saveExams(this, text)
-                        items += CsvParser.parseExamsCsv(text)
+                        items += IcalParser.parse(text, "exam")
                     } catch (e: Exception) {}
                 }
             }

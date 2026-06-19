@@ -66,10 +66,10 @@ internal fun updateAppWidget(
 
     val items = mutableListOf<NextEvent>()
     if (cachedClasses.isNotBlank()) {
-        items += CsvParser.parseScheduleCsv(cachedClasses)
+        items += IcalParser.parse(cachedClasses, "class")
     }
     if (cachedExams.isNotBlank()) {
-        items += CsvParser.parseExamsCsv(cachedExams)
+        items += IcalParser.parse(cachedExams, "exam")
     }
 
     // Use isFuture() to show the next event that hasn't started yet

@@ -68,10 +68,10 @@ class WeeklyScheduleFactory(private val context: Context) : RemoteViewsService.R
 
         val allEvents = mutableListOf<NextEvent>()
         if (cachedClasses.isNotBlank()) {
-            allEvents += CsvParser.parseScheduleCsv(cachedClasses)
+            allEvents += IcalParser.parse(cachedClasses, "class")
         }
         if (cachedExams.isNotBlank()) {
-            allEvents += CsvParser.parseExamsCsv(cachedExams)
+            allEvents += IcalParser.parse(cachedExams, "exam")
         }
 
         // Start of this week (Monday)

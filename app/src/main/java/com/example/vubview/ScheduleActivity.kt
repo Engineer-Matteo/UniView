@@ -120,26 +120,43 @@ class ScheduleActivity : AppCompatActivity() {
 
     private fun loadSchedule() {
         val url = dataStore.classesUrl
+        
+        // Load from cache first
+        val cached = CsvCacheManager.getClasses(this)
+        if (cached.isNotBlank()) {
+            allEvents = IcalParser.parse(cached, "class")
+            binding.viewToggleGroup.check(R.id.viewCalendar)
+            updateViewContent()
+        }
+
         if (url.isNullOrBlank()) {
-            binding.emptyView.text = getString(R.string.no_url_defined)
-            binding.emptyView.visibility = View.VISIBLE
+            if (allEvents.isEmpty()) {
+                binding.emptyView.text = getString(R.string.no_url_defined)
+                binding.emptyView.visibility = View.VISIBLE
+            }
             return
         }
 
         Thread {
             try {
                 val text = NetworkHelper.fetchUrl(url)
-                allEvents = CsvParser.parseScheduleCsv(text)
-                runOnUiThread {
-                    binding.viewToggleGroup.check(R.id.viewCalendar)
-                    updateViewContent()
-                    renderWeek()
-                    renderList()
+                if (text.isNotBlank()) {
+                    CsvCacheManager.saveClasses(this, text)
+                    allEvents = IcalParser.parse(text, "class")
+                    runOnUiThread {
+                        binding.emptyView.visibility = View.GONE
+                        binding.viewToggleGroup.check(R.id.viewCalendar)
+                        updateViewContent()
+                        renderWeek()
+                        renderList()
+                    }
                 }
             } catch (e: Exception) {
                 runOnUiThread {
-                    binding.emptyView.text = "Kon gegevens niet laden"
-                    binding.emptyView.visibility = View.VISIBLE
+                    if (allEvents.isEmpty()) {
+                        binding.emptyView.text = "Kon gegevens niet laden"
+                        binding.emptyView.visibility = View.VISIBLE
+                    }
                 }
             }
         }.start()

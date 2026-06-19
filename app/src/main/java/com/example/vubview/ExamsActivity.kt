@@ -67,24 +67,39 @@ class ExamsActivity : AppCompatActivity() {
 
     private fun loadExams() {
         val url = dataStore.examsUrl
+        
+        // Load from cache first for immediate responsiveness
+        val cached = CsvCacheManager.getExams(this)
+        if (cached.isNotBlank()) {
+            allEvents = IcalParser.parse(cached, "exam")
+            updateUI()
+        }
+
         if (url.isNullOrBlank()) {
-            binding.emptyView.text = getString(R.string.no_url_defined)
-            binding.emptyView.visibility = View.VISIBLE
-            binding.btnShowPast.visibility = View.GONE
+            if (allEvents.isEmpty()) {
+                binding.emptyView.text = getString(R.string.no_url_defined)
+                binding.emptyView.visibility = View.VISIBLE
+                binding.btnShowPast.visibility = View.GONE
+            }
             return
         }
 
         Thread {
             try {
                 val text = NetworkHelper.fetchUrl(url)
-                allEvents = CsvParser.parseExamsCsv(text)
-                runOnUiThread {
-                    updateUI()
+                if (text.isNotBlank()) {
+                    CsvCacheManager.saveExams(this, text)
+                    allEvents = IcalParser.parse(text, "exam")
+                    runOnUiThread {
+                        updateUI()
+                    }
                 }
             } catch (e: Exception) {
                 runOnUiThread {
-                    binding.emptyView.text = "Kon examengegevens niet laden"
-                    binding.emptyView.visibility = View.VISIBLE
+                    if (allEvents.isEmpty()) {
+                        binding.emptyView.text = "Kon examengegevens niet laden"
+                        binding.emptyView.visibility = View.VISIBLE
+                    }
                 }
             }
         }.start()
@@ -102,7 +117,8 @@ class ExamsActivity : AppCompatActivity() {
         // Show/Update history button
         if (past.isNotEmpty()) {
             binding.btnShowPast.visibility = View.VISIBLE
-            binding.btnShowPast.text = "Toon verleden (${past.size})"
+            binding.btnShowPast.text = if (binding.pastExamsRecycler.visibility == View.VISIBLE) 
+                "Verberg geschiedenis (${past.size})" else "Toon verleden (${past.size})"
         } else {
             binding.btnShowPast.visibility = View.GONE
         }

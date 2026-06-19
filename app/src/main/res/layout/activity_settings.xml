@@ -239,7 +239,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Classes CSV URL"
+                android:text="Classes iCal URL"
                 android:textColor="@color/vub_blue"
                 android:textSize="12sp"
                 android:textStyle="bold" />
@@ -256,7 +256,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Exams CSV URL"
+                android:text="Exams iCal URL"
                 android:textColor="@color/vub_blue"
                 android:textSize="12sp"
                 android:textStyle="bold" />

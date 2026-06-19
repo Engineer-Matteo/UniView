@@ -96,7 +96,7 @@ class SyncWorker(context: Context, workerParams: WorkerParameters) : Worker(cont
         val classesData = CsvCacheManager.getClasses(applicationContext)
         if (classesData.isBlank()) return
 
-        val classes = CsvParser.parseScheduleCsv(classesData)
+        val classes = IcalParser.parse(classesData, "class")
         val now = System.currentTimeMillis()
         
         // Find classes starting in the next 75 minutes (Worker runs hourly, so 75m covers window + buffer)
