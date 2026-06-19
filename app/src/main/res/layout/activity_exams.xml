@@ -58,10 +58,10 @@
                 android:id="@+id/backToHome"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="← Terug naar homepage"
+                android:layout_marginBottom="16dp"
+                android:text="← Vorige pagina"
                 android:textColor="@color/vub_blue"
-                android:textStyle="bold"
-                android:layout_marginBottom="16dp" />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/pageTitle"

@@ -66,7 +66,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingVertical="8dp"
-            android:text="← Terug naar homepage"
+            android:text="← Vorige pagina"
             android:textColor="@color/vub_blue"
             android:textStyle="bold" />
 
