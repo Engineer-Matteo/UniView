@@ -76,7 +76,7 @@ class CoursesActivity : AppCompatActivity() {
     }
 
     private fun loadCachedData() {
-        val cachedJson = CsvCacheManager.getMainJson(this)
+        val cachedJson = DataCacheManager.getMainJson(this)
         if (cachedJson.isNotBlank()) {
             val (_, _, courses) = JsonParser.parseMainJson(cachedJson)
             allCourses.clear()
@@ -101,15 +101,16 @@ class CoursesActivity : AppCompatActivity() {
             try {
                 val jsonText = NetworkHelper.fetchUrl(url)
                 if (jsonText.isNotBlank()) {
-                    CsvCacheManager.saveMainJson(this, jsonText)
+                    DataCacheManager.saveMainJson(this, jsonText)
                     val (_, _, courses) = JsonParser.parseMainJson(jsonText)
                     allCourses.clear()
                     allCourses.addAll(courses)
-                    runOnUiThread {
-                        updateFilters()
-                        loadFilteredCourses()
-                        binding.progressBar.visibility = View.GONE
-                    }
+                }
+
+                runOnUiThread {
+                    updateFilters()
+                    loadFilteredCourses()
+                    binding.progressBar.visibility = View.GONE
                 }
             } catch (e: Exception) {
                 runOnUiThread {
@@ -124,28 +125,34 @@ class CoursesActivity : AppCompatActivity() {
     }
 
     private fun updateFilters() {
-        val years = allCourses.map { it.year }.filter { it.isNotBlank() }.distinct().sorted()
+        val programs = allCourses.map { it.program }.filter { it.isNotBlank() }.distinct().sorted()
         val semesters = allCourses.map { it.semester }.filter { it.isNotBlank() }.distinct().sorted()
 
-        val yearAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, listOf("Alle jaren") + years)
+        val allYearsText = getString(R.string.all_years)
+        val allSemestersText = getString(R.string.all_semesters)
+
+        val yearAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, listOf(allYearsText) + programs)
         yearAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.filterYear.adapter = yearAdapter
 
-        val semesterAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, listOf("Alle semesters") + semesters)
+        val semesterAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, listOf(allSemestersText) + semesters)
         semesterAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.filterSemester.adapter = semesterAdapter
     }
 
     private fun loadFilteredCourses() {
-        val year = binding.filterYear.selectedItem?.toString().takeIf { it != "Alle jaren" }
-        val semester = binding.filterSemester.selectedItem?.toString().takeIf { it != "Alle semesters" }
+        val allYearsText = getString(R.string.all_years)
+        val allSemestersText = getString(R.string.all_semesters)
+        
+        val program = binding.filterYear.selectedItem?.toString().takeIf { it != allYearsText }
+        val semester = binding.filterSemester.selectedItem?.toString().takeIf { it != allSemestersText }
         val query = binding.searchCourse.text.toString().lowercase()
 
         val filtered = allCourses.filter { course ->
-            val matchesYear = year?.let { course.year == it } ?: true
+            val matchesProgram = program?.let { course.program == it } ?: true
             val matchesSemester = semester?.let { course.semester == it } ?: true
             val matchesQuery = course.name.lowercase().contains(query) || course.professor.lowercase().contains(query)
-            matchesYear && matchesSemester && matchesQuery
+            matchesProgram && matchesSemester && matchesQuery
         }
         
         adapter.submitList(filtered)
@@ -163,7 +170,7 @@ class CoursesActivity : AppCompatActivity() {
 
         dialogView.findViewById<TextView>(R.id.detailCourseName).text = course.name
         dialogView.findViewById<TextView>(R.id.detailProfessor).text = course.professor
-        dialogView.findViewById<TextView>(R.id.detailMeta).text = "${course.year} · ${course.semester} · ${course.ects} ECTS"
+        dialogView.findViewById<TextView>(R.id.detailMeta).text = "${course.program} · ${course.semester} · ${course.ects} ECTS"
         dialogView.findViewById<TextView>(R.id.detailDescription).text = course.description
 
         dialogView.findViewById<ImageView>(R.id.detailClose).setOnClickListener { dialog.dismiss() }

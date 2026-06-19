@@ -1,40 +1,69 @@
 package com.example.vubview
 
+import android.util.Log
 import org.json.JSONArray
 import org.json.JSONObject
 
 object JsonParser {
+    private const val TAG = "JsonParser"
+
     fun parseMainJson(jsonStr: String): Triple<List<ResultEntry>, List<BreakdownEntry>, List<CourseEntry>> {
         val results = mutableListOf<ResultEntry>()
         val breakdowns = mutableListOf<BreakdownEntry>()
         val courses = mutableListOf<CourseEntry>()
 
+        if (jsonStr.isBlank()) {
+            Log.w(TAG, "JSON string is blank")
+            return Triple(results, breakdowns, courses)
+        }
+
         try {
-            val root = JSONArray(jsonStr)
+            // Remove Byte Order Mark (BOM) and common invisible characters
+            val cleanStr = jsonStr.replace("\uFEFF", "").trim()
+            
+            // Find the actual start of JSON content
+            val startIndex = cleanStr.indexOfAny(charArrayOf('[', '{'))
+            if (startIndex == -1) {
+                Log.e(TAG, "No JSON start character found in response")
+                return Triple(results, breakdowns, courses)
+            }
+            
+            // Sanitize common syntax errors (trailing/missing commas)
+            val sanitized = sanitizeJson(cleanStr.substring(startIndex))
+            Log.d(TAG, "Starting to parse sanitized JSON of length: ${sanitized.length}")
+            
+            val root = JSONArray(sanitized)
+            
             for (i in 0 until root.length()) {
                 val courseObj = root.getJSONObject(i)
-                val courseName = courseObj.optString("courseName", "")
-                val ects = courseObj.optString("ects", "0").replace(",", ".").toFloatOrNull() ?: 0f
-                val score = courseObj.optString("score", "").replace(",", ".").toFloatOrNull() ?: 0f
+                
+                val courseName = courseObj.optString("courseName", "Onbekend")
+                val ectsStr = courseObj.optString("ects", "0")
+                // ECTS is an Int. Strip decimal parts if present.
+                val ects = ectsStr.replace(",", ".").split(".")[0].toIntOrNull() ?: 0
+                
+                val scoreStr = courseObj.optString("score", "")
+                val score = scoreStr.replace(",", ".").toFloatOrNull() ?: 0f
                 val description = courseObj.optString("description", "")
                 val professor = courseObj.optString("professor", "")
                 
-                // For existing UI compatibility, use default period if missing
-                val year = courseObj.optString("year", "2023-2024")
-                val semester = courseObj.optString("semester", "Onbekend")
+                val year = courseObj.optString("year", "2024-2025")
+                val semester = courseObj.optString("semester", "1")
+                val program = courseObj.optString("program", "")
 
                 // 1. Create CourseEntry
                 courses.add(CourseEntry(
                     name = courseName,
                     year = year,
                     semester = semester,
-                    ects = courseObj.optString("ects", "0"),
+                    ects = ects,
                     professor = professor,
-                    description = description
+                    description = description,
+                    program = program
                 ))
 
-                // 2. Create ResultEntry (if score is present)
-                if (courseObj.has("score") && courseObj.getString("score").isNotBlank()) {
+                // 2. Create ResultEntry (only if score is not empty)
+                if (scoreStr.isNotBlank()) {
                     results.add(ResultEntry(
                         course = courseName,
                         grade = score,
@@ -50,23 +79,48 @@ object JsonParser {
                     for (j in 0 until partials.length()) {
                         val partial = partials.getJSONObject(j)
                         val pName = partial.optString("name", "Deel")
-                        val pWeight = partial.optString("weight", "")
+                        val pWeightStr = partial.optString("weight", "")
                         val pScoreStr = partial.optString("score", "")
                         val pScore = pScoreStr.replace(",", ".").toFloatOrNull() ?: 0f
                         
+                        val weightDisplay = try {
+                            if (pWeightStr.isNotEmpty()) {
+                                val w = pWeightStr.replace(",", ".").toFloat()
+                                "${(w * 100).toInt()}%"
+                            } else ""
+                        } catch (e: Exception) {
+                            pWeightStr
+                        }
+
                         breakdowns.add(BreakdownEntry(
                             course = courseName,
                             subTitle = pName,
                             score = pScore,
-                            weight = if (pWeight.isNotEmpty()) "${(pWeight.toFloatOrNull() ?: 0f) * 100}%" else ""
+                            weight = weightDisplay
                         ))
                     }
                 }
             }
+            Log.d(TAG, "Successfully parsed ${courses.size} courses, ${results.size} results, ${breakdowns.size} partials")
         } catch (e: Exception) {
+            Log.e(TAG, "JSON Syntax Error: ${e.message}")
+            if (jsonStr.length > 50) {
+                Log.e(TAG, "Preview: ${jsonStr.take(100)}")
+            }
             e.printStackTrace()
         }
 
         return Triple(results, breakdowns, courses)
+    }
+
+    /**
+     * Attempts to fix common JSON syntax errors.
+     * Escaping ] and } to avoid PatternSyntaxException on some Android versions.
+     */
+    private fun sanitizeJson(json: String): String {
+        return json.trim()
+            .replace(Regex(",\\s*\\]"), "]")
+            .replace(Regex(",\\s*\\}"), "}")
+            .replace(Regex("(\"|\\d|true|false|null)\\s*\\n\\s*\""), "$1,\n\"")
     }
 }

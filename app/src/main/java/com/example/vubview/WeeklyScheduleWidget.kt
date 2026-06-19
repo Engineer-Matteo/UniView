@@ -63,8 +63,8 @@ class WeeklyScheduleFactory(private val context: Context) : RemoteViewsService.R
     override fun onCreate() {}
 
     override fun onDataSetChanged() {
-        val cachedClasses = CsvCacheManager.getClasses(context)
-        val cachedExams = CsvCacheManager.getExams(context)
+        val cachedClasses = DataCacheManager.getClasses(context)
+        val cachedExams = DataCacheManager.getExams(context)
 
         val allEvents = mutableListOf<NextEvent>()
         if (cachedClasses.isNotBlank()) {

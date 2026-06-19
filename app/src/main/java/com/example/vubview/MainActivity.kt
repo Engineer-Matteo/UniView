@@ -129,11 +129,11 @@ class MainActivity : AppCompatActivity() {
             val items = mutableListOf<NextEvent>()
 
             // Try to load from cache first for immediate display
-            val cachedClasses = CsvCacheManager.getClasses(this)
+            val cachedClasses = DataCacheManager.getClasses(this)
             if (cachedClasses.isNotBlank()) {
                 items += IcalParser.parse(cachedClasses, "class")
             }
-            val cachedExams = CsvCacheManager.getExams(this)
+            val cachedExams = DataCacheManager.getExams(this)
             if (cachedExams.isNotBlank()) {
                 items += IcalParser.parse(cachedExams, "exam")
             }
@@ -143,14 +143,14 @@ class MainActivity : AppCompatActivity() {
                 if (!classesUrl.isNullOrBlank()) {
                     try {
                         val text = NetworkHelper.fetchUrl(classesUrl)
-                        CsvCacheManager.saveClasses(this, text)
+                        DataCacheManager.saveClasses(this, text)
                         items += IcalParser.parse(text, "class")
                     } catch (e: Exception) {}
                 }
                 if (!examsUrl.isNullOrBlank()) {
                     try {
                         val text = NetworkHelper.fetchUrl(examsUrl)
-                        CsvCacheManager.saveExams(this, text)
+                        DataCacheManager.saveExams(this, text)
                         items += IcalParser.parse(text, "exam")
                     } catch (e: Exception) {}
                 }

@@ -32,7 +32,8 @@ class CoursesAdapter(
         fun bind(item: CourseEntry) {
             name.text = item.name
             professor.text = item.professor
-            meta.text = "${item.year} · ${item.semester} · ${item.ects} ECTS"
+            // Use 'program' (BA1 IR, etc.) instead of academic 'year'
+            meta.text = "${item.program} · ${item.semester} · ${item.ects} ECTS"
             
             itemView.setOnClickListener { onCourseClick(item) }
         }
@@ -40,7 +41,7 @@ class CoursesAdapter(
 
     class CourseDiffCallback : DiffUtil.ItemCallback<CourseEntry>() {
         override fun areItemsTheSame(oldItem: CourseEntry, newItem: CourseEntry): Boolean {
-            return oldItem.name == newItem.name && oldItem.year == newItem.year
+            return oldItem.name == newItem.name && oldItem.program == newItem.program
         }
 
         override fun areContentsTheSame(oldItem: CourseEntry, newItem: CourseEntry): Boolean {

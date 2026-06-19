@@ -40,21 +40,21 @@ class SyncWorker(context: Context, workerParams: WorkerParameters) : Worker(cont
         var anyChanged = false
 
         if (!mainJsonUrl.isNullOrBlank()) {
-            val oldData = CsvCacheManager.getMainJson(applicationContext)
+            val oldData = DataCacheManager.getMainJson(applicationContext)
             if (syncMainJson(mainJsonUrl, oldData, prefs.notifyResults)) {
                 anyChanged = true
             }
         }
 
         if (!classesUrl.isNullOrBlank()) {
-            val oldData = CsvCacheManager.getClasses(applicationContext)
+            val oldData = DataCacheManager.getClasses(applicationContext)
             if (syncClasses(classesUrl, oldData, prefs.notifySchedule)) {
                 anyChanged = true
             }
         }
 
         if (!examsUrl.isNullOrBlank()) {
-            val oldData = CsvCacheManager.getExams(applicationContext)
+            val oldData = DataCacheManager.getExams(applicationContext)
             if (syncExams(examsUrl, oldData, prefs.notifyExams)) {
                 anyChanged = true
             }
@@ -75,13 +75,13 @@ class SyncWorker(context: Context, workerParams: WorkerParameters) : Worker(cont
     private fun checkAndNotifyUpcomingClass(prefs: VubPreferences) {
         if (!prefs.notifyNextLesson) return
 
-        val classesData = CsvCacheManager.getClasses(applicationContext)
+        val classesData = DataCacheManager.getClasses(applicationContext)
         if (classesData.isBlank()) return
 
         val classes = IcalParser.parse(classesData, "class")
         val now = System.currentTimeMillis()
         
-        // Find classes starting in the next 75 minutes (Worker runs hourly, so 75m covers window + buffer)
+        // Find classes starting in the next 75 minutes
         val upcomingClasses = classes.filter { it.kind == "class" }
             .filter { 
                 val startTime = it.dateTimeMillis()
@@ -95,13 +95,11 @@ class SyncWorker(context: Context, workerParams: WorkerParameters) : Worker(cont
             val delay = reminderTime - now
 
             if (delay <= 0) {
-                // If we are already within the 15-minute window (or late), notify now if not done
                 if (startTime > now && prefs.lastNotifiedLessonTime != startTime) {
                     sendNextLessonNotification("${lesson.title} begint om ${lesson.start}")
                     prefs.lastNotifiedLessonTime = startTime
                 }
             } else {
-                // Plan a one-time reminder for the exact moment (15 mins before)
                 val inputData = Data.Builder()
                     .putString("message", "${lesson.title} begint om ${lesson.start}")
                     .build()
@@ -111,7 +109,6 @@ class SyncWorker(context: Context, workerParams: WorkerParameters) : Worker(cont
                     .setInputData(inputData)
                     .build()
 
-                // Use the startTime as a unique tag to avoid duplicate workers for the same lesson
                 WorkManager.getInstance(applicationContext).enqueueUniqueWork(
                     "LessonReminder_${startTime}",
                     ExistingWorkPolicy.KEEP,
@@ -126,15 +123,15 @@ class SyncWorker(context: Context, workerParams: WorkerParameters) : Worker(cont
             val newData = NetworkHelper.fetchUrl(url)
             if (newData.isNotBlank() && newData != oldData) {
                 if (shouldNotify && oldData.isNotBlank()) {
-                    val (oldList, _, _) = JsonParser.parseMainJson(oldData)
-                    val (newList, _, _) = JsonParser.parseMainJson(newData)
+                    val (oldResults, _, _) = JsonParser.parseMainJson(oldData)
+                    val (newResultsList, _, _) = JsonParser.parseMainJson(newData)
 
-                    val newResults = findNewResults(oldList, newList)
+                    val newResults = findNewResults(oldResults, newResultsList)
                     if (newResults.isNotEmpty()) {
                         sendResultsNotification(newResults)
                     }
                 }
-                CsvCacheManager.saveMainJson(applicationContext, newData)
+                DataCacheManager.saveMainJson(applicationContext, newData)
                 true
             } else {
                 false
@@ -158,7 +155,7 @@ class SyncWorker(context: Context, workerParams: WorkerParameters) : Worker(cont
                         R.drawable.baseline_schedule_24
                     )
                 }
-                CsvCacheManager.saveClasses(applicationContext, newData)
+                DataCacheManager.saveClasses(applicationContext, newData)
                 true
             } else {
                 false
@@ -182,7 +179,7 @@ class SyncWorker(context: Context, workerParams: WorkerParameters) : Worker(cont
                         R.drawable.baseline_assignment_24
                     )
                 }
-                CsvCacheManager.saveExams(applicationContext, newData)
+                DataCacheManager.saveExams(applicationContext, newData)
                 true
             } else {
                 false
@@ -198,7 +195,7 @@ class SyncWorker(context: Context, workerParams: WorkerParameters) : Worker(cont
         return newList.filter { newItem ->
             val key = newItem.course + newItem.period.toString()
             val oldItem = oldMap[key]
-            oldItem == null || (oldItem.grade == 0f && newItem.grade > 0f)
+            oldItem == null || (oldItem.grade <= 0f && newItem.grade > 0f)
         }
     }
 

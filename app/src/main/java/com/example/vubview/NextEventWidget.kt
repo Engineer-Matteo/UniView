@@ -61,8 +61,8 @@ internal fun updateAppWidget(
     views.setOnClickPendingIntent(R.id.widget_container, pendingIntent)
 
     // Load data from cache
-    val cachedClasses = CsvCacheManager.getClasses(context)
-    val cachedExams = CsvCacheManager.getExams(context)
+    val cachedClasses = DataCacheManager.getClasses(context)
+    val cachedExams = DataCacheManager.getExams(context)
 
     val items = mutableListOf<NextEvent>()
     if (cachedClasses.isNotBlank()) {

@@ -82,7 +82,7 @@ class ResultsActivity : AppCompatActivity() {
     }
 
     private fun loadCachedData() {
-        val cachedJson = CsvCacheManager.getMainJson(this)
+        val cachedJson = DataCacheManager.getMainJson(this)
         if (cachedJson.isNotBlank()) {
             val (results, breakdowns, _) = JsonParser.parseMainJson(cachedJson)
             allResults.clear()
@@ -103,7 +103,7 @@ class ResultsActivity : AppCompatActivity() {
             try {
                 val jsonText = NetworkHelper.fetchUrl(jsonUrl)
                 if (jsonText.isNotBlank()) {
-                    CsvCacheManager.saveMainJson(this, jsonText)
+                    DataCacheManager.saveMainJson(this, jsonText)
                     val (results, breakdowns, _) = JsonParser.parseMainJson(jsonText)
                     allResults.clear()
                     allResults.addAll(results)
@@ -137,8 +137,11 @@ class ResultsActivity : AppCompatActivity() {
     }
 
     private fun loadFilteredResults() {
-        val year = binding.filterYear.selectedItem?.toString().takeIf { it != getString(R.string.all_years) }
-        val semester = binding.filterSemester.selectedItem?.toString().takeIf { it != getString(R.string.all_semesters) }
+        val allYearsText = getString(R.string.all_years)
+        val allSemestersText = getString(R.string.all_semesters)
+
+        val year = binding.filterYear.selectedItem?.toString().takeIf { it != allYearsText }
+        val semester = binding.filterSemester.selectedItem?.toString().takeIf { it != allSemestersText }
         val query = binding.searchCourse.text.toString().lowercase()
 
         val filtered = allResults.filter { result ->
@@ -150,8 +153,8 @@ class ResultsActivity : AppCompatActivity() {
         adapter.submitList(filtered)
         binding.emptyView.visibility = if (filtered.isEmpty()) View.VISIBLE else View.GONE
 
-        val average = CsvParser.weightedAverage(filtered)
-        binding.averageBadge.text = String.format(Locale("nl", "BE"), "gem. %.1f /20", average)
+        val average = ResultUtils.calculateWeightedAverage(filtered)
+        binding.averageBadge.text = String.format(Locale("nl", "BE"), getString(R.string.average_score_text), average)
     }
 
     private fun showBreakdownDialog(result: ResultEntry) {
@@ -167,7 +170,7 @@ class ResultsActivity : AppCompatActivity() {
         dialogView.findViewById<TextView>(R.id.breakdownCourseTitle).text = result.course
         dialogView.findViewById<TextView>(R.id.breakdownFinalScore).text = String.format(locale, "%.1f / 20", result.grade)
         dialogView.findViewById<TextView>(R.id.breakdownPeriod).text = "${result.period.semester} ${result.period.year}"
-        dialogView.findViewById<TextView>(R.id.breakdownEcts).text = String.format(locale, "%.1f studiepunten", result.ects)
+        dialogView.findViewById<TextView>(R.id.breakdownEcts).text = "${result.ects} studiepunten"
         
         val container = dialogView.findViewById<LinearLayout>(R.id.breakdownItemsContainer)
         val items = allBreakdowns.filter { it.course.trim().equals(result.course.trim(), ignoreCase = true) }

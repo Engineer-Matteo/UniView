@@ -69,7 +69,7 @@ class ExamsActivity : AppCompatActivity() {
         val url = dataStore.examsUrl
         
         // Load from cache first for immediate responsiveness
-        val cached = CsvCacheManager.getExams(this)
+        val cached = DataCacheManager.getExams(this)
         if (cached.isNotBlank()) {
             allEvents = IcalParser.parse(cached, "exam")
             updateUI()
@@ -88,7 +88,7 @@ class ExamsActivity : AppCompatActivity() {
             try {
                 val text = NetworkHelper.fetchUrl(url)
                 if (text.isNotBlank()) {
-                    CsvCacheManager.saveExams(this, text)
+                    DataCacheManager.saveExams(this, text)
                     allEvents = IcalParser.parse(text, "exam")
                     runOnUiThread {
                         updateUI()

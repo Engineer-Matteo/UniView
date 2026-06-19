@@ -122,7 +122,7 @@ class ScheduleActivity : AppCompatActivity() {
         val url = dataStore.classesUrl
         
         // Load from cache first
-        val cached = CsvCacheManager.getClasses(this)
+        val cached = DataCacheManager.getClasses(this)
         if (cached.isNotBlank()) {
             allEvents = IcalParser.parse(cached, "class")
             binding.viewToggleGroup.check(R.id.viewCalendar)
@@ -141,7 +141,7 @@ class ScheduleActivity : AppCompatActivity() {
             try {
                 val text = NetworkHelper.fetchUrl(url)
                 if (text.isNotBlank()) {
-                    CsvCacheManager.saveClasses(this, text)
+                    DataCacheManager.saveClasses(this, text)
                     allEvents = IcalParser.parse(text, "class")
                     runOnUiThread {
                         binding.emptyView.visibility = View.GONE
