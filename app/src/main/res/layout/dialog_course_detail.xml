@@ -58,6 +58,14 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/grey_text"
                 android:textSize="13sp"
+                android:layout_marginBottom="4dp" />
+
+            <TextView
+                android:id="@+id/detailYearLocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/grey_text"
+                android:textSize="13sp"
                 android:layout_marginBottom="16dp" />
 
             <View

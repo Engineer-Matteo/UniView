@@ -171,6 +171,14 @@ class CoursesActivity : AppCompatActivity() {
         dialogView.findViewById<TextView>(R.id.detailCourseName).text = course.name
         dialogView.findViewById<TextView>(R.id.detailProfessor).text = course.professor
         dialogView.findViewById<TextView>(R.id.detailMeta).text = "${course.program} · ${course.semester} · ${course.ects} ECTS"
+        
+        val yearLocation = if (course.location.isNullOrBlank()) {
+            course.year
+        } else {
+            "${course.year} · ${course.location}"
+        }
+        dialogView.findViewById<TextView>(R.id.detailYearLocation).text = yearLocation
+
         dialogView.findViewById<TextView>(R.id.detailDescription).text = course.description
 
         dialogView.findViewById<ImageView>(R.id.detailClose).setOnClickListener { dialog.dismiss() }

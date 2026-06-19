@@ -50,6 +50,7 @@ object JsonParser {
                 val year = courseObj.optString("year", "2024-2025")
                 val semester = courseObj.optString("semester", "1")
                 val program = courseObj.optString("program", "")
+                val location = courseObj.optString("location", "")
 
                 // 1. Create CourseEntry
                 courses.add(CourseEntry(
@@ -59,7 +60,8 @@ object JsonParser {
                     ects = ects,
                     professor = professor,
                     description = description,
-                    program = program
+                    program = program,
+                    location = location
                 ))
 
                 // 2. Create ResultEntry (only if score is not empty)

@@ -27,7 +27,8 @@ data class CourseEntry(
     val ects: Int,
     val professor: String,
     val description: String,
-    val program: String = ""
+    val program: String = "",
+    val location: String = ""
 )
 
 object ResultUtils {
