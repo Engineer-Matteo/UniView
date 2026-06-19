@@ -20,7 +20,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/vub_blue"
+            android:background="@color/vub_blue_stable"
             android:padding="16dp">
 
             <TextView
@@ -28,7 +28,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Examenrooster"
-                android:textColor="@color/white"
+                android:textColor="@color/white_stable"
                 android:textSize="20sp"
                 android:textStyle="bold" />
         </RelativeLayout>
@@ -36,7 +36,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="4dp"
-            android:background="@color/vub_orange" />
+            android:background="@color/vub_orange_stable" />
     </LinearLayout>
 
     <androidx.core.widget.NestedScrollView
@@ -144,7 +144,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             app:icon="@drawable/baseline_home_24"
-            app:iconTint="@color/white"
+            app:iconTint="@color/white_stable"
             app:iconSize="28dp"
             app:iconGravity="textStart"
             android:padding="0dp" />
@@ -156,7 +156,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             app:icon="@drawable/baseline_schedule_24"
-            app:iconTint="@color/white"
+            app:iconTint="@color/white_stable"
             app:iconSize="28dp"
             app:iconGravity="textStart"
             android:padding="0dp" />
@@ -168,7 +168,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             app:icon="@drawable/baseline_assignment_24"
-            app:iconTint="@color/white"
+            app:iconTint="@color/white_stable"
             app:iconSize="28dp"
             app:iconGravity="textStart"
             android:padding="0dp" />
@@ -180,7 +180,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             app:icon="@drawable/baseline_assessment_24"
-            app:iconTint="@color/white"
+            app:iconTint="@color/white_stable"
             app:iconSize="28dp"
             app:iconGravity="textStart"
             android:padding="0dp" />
@@ -192,7 +192,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             app:icon="@drawable/outline_book_2_24"
-            app:iconTint="@color/white"
+            app:iconTint="@color/white_stable"
             app:iconSize="28dp"
             app:iconGravity="textStart"
             android:padding="0dp" />
@@ -203,8 +203,6 @@
         android:id="@+id/imageView2"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:layout_weight="1"
-        app:layout_constraintBottom_toTopOf="@+id/scrollView2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_launcher_foreground" />
