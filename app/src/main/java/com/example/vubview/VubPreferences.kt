@@ -6,13 +6,9 @@ import androidx.appcompat.app.AppCompatDelegate
 class VubPreferences(context: Context) {
     private val prefs = context.getSharedPreferences("vub_prefs", Context.MODE_PRIVATE)
 
-    var resultsUrl: String?
-        get() = prefs.getString("results_url", null)
-        set(value) = prefs.edit().putString("results_url", value).apply()
-
-    var breakdownUrl: String?
-        get() = prefs.getString("breakdown_url", null)
-        set(value) = prefs.edit().putString("breakdown_url", value).apply()
+    var mainJsonUrl: String?
+        get() = prefs.getString("main_json_url", null)
+        set(value) = prefs.edit().putString("main_json_url", value).apply()
 
     var classesUrl: String?
         get() = prefs.getString("classes_url", null)
@@ -21,10 +17,6 @@ class VubPreferences(context: Context) {
     var examsUrl: String?
         get() = prefs.getString("exams_url", null)
         set(value) = prefs.edit().putString("exams_url", value).apply()
-
-    var coursesUrl: String?
-        get() = prefs.getString("courses_url", null)
-        set(value) = prefs.edit().putString("courses_url", value).apply()
 
     var notifyResults: Boolean
         get() = prefs.getBoolean("notify_results", true)

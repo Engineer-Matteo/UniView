@@ -33,25 +33,15 @@ class SyncWorker(context: Context, workerParams: WorkerParameters) : Worker(cont
     override fun doWork(): androidx.work.ListenableWorker.Result {
         val prefs = VubPreferences(applicationContext)
         
-        val resultsUrl = prefs.resultsUrl
-        val breakdownUrl = prefs.breakdownUrl
+        val mainJsonUrl = prefs.mainJsonUrl
         val classesUrl = prefs.classesUrl
         val examsUrl = prefs.examsUrl
-        val coursesUrl = prefs.coursesUrl
 
         var anyChanged = false
 
-        if (!resultsUrl.isNullOrBlank()) {
-            val oldData = CsvCacheManager.getResults(applicationContext)
-            if (syncResults(resultsUrl, oldData, prefs.notifyResults)) {
-                anyChanged = true
-            }
-        }
-
-        if (!breakdownUrl.isNullOrBlank()) {
-            if (syncFile(breakdownUrl, CsvCacheManager.getBreakdown(applicationContext)) {
-                CsvCacheManager.saveBreakdown(applicationContext, it)
-            }) {
+        if (!mainJsonUrl.isNullOrBlank()) {
+            val oldData = CsvCacheManager.getMainJson(applicationContext)
+            if (syncMainJson(mainJsonUrl, oldData, prefs.notifyResults)) {
                 anyChanged = true
             }
         }
@@ -66,14 +56,6 @@ class SyncWorker(context: Context, workerParams: WorkerParameters) : Worker(cont
         if (!examsUrl.isNullOrBlank()) {
             val oldData = CsvCacheManager.getExams(applicationContext)
             if (syncExams(examsUrl, oldData, prefs.notifyExams)) {
-                anyChanged = true
-            }
-        }
-
-        if (!coursesUrl.isNullOrBlank()) {
-            if (syncFile(coursesUrl, CsvCacheManager.getCourses(applicationContext)) {
-                CsvCacheManager.saveCourses(applicationContext, it)
-            }) {
                 anyChanged = true
             }
         }
@@ -139,26 +121,26 @@ class SyncWorker(context: Context, workerParams: WorkerParameters) : Worker(cont
         }
     }
 
-    private fun syncResults(url: String, oldData: String, shouldNotify: Boolean): Boolean {
+    private fun syncMainJson(url: String, oldData: String, shouldNotify: Boolean): Boolean {
         return try {
             val newData = NetworkHelper.fetchUrl(url)
             if (newData.isNotBlank() && newData != oldData) {
                 if (shouldNotify && oldData.isNotBlank()) {
-                    val oldList = CsvParser.parseResultsCsv(oldData)
-                    val newList = CsvParser.parseResultsCsv(newData)
+                    val (oldList, _, _) = JsonParser.parseMainJson(oldData)
+                    val (newList, _, _) = JsonParser.parseMainJson(newData)
 
                     val newResults = findNewResults(oldList, newList)
                     if (newResults.isNotEmpty()) {
                         sendResultsNotification(newResults)
                     }
                 }
-                CsvCacheManager.saveResults(applicationContext, newData)
+                CsvCacheManager.saveMainJson(applicationContext, newData)
                 true
             } else {
                 false
             }
         } catch (e: Exception) {
-            Log.e("SyncWorker", "Error syncing results", e)
+            Log.e("SyncWorker", "Error syncing main JSON", e)
             false
         }
     }
@@ -302,21 +284,6 @@ class SyncWorker(context: Context, workerParams: WorkerParameters) : Worker(cont
             val notificationManager: NotificationManager =
                 applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
-        }
-    }
-
-    private fun syncFile(url: String, cachedData: String, saveAction: (String) -> Unit): Boolean {
-        return try {
-            val newData = NetworkHelper.fetchUrl(url)
-            if (newData.isNotBlank() && newData != cachedData) {
-                saveAction(newData)
-                true
-            } else {
-                false
-            }
-        } catch (e: Exception) {
-            Log.e("SyncWorker", "Error syncing $url", e)
-            false
         }
     }
 }

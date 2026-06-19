@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.vubview.databinding.ActivityCoursesBinding
@@ -77,18 +76,18 @@ class CoursesActivity : AppCompatActivity() {
     }
 
     private fun loadCachedData() {
-        val cached = CsvCacheManager.getCourses(this)
-        if (cached.isNotBlank()) {
-            val items = CsvParser.parseCoursesCsv(cached)
+        val cachedJson = CsvCacheManager.getMainJson(this)
+        if (cachedJson.isNotBlank()) {
+            val (_, _, courses) = JsonParser.parseMainJson(cachedJson)
             allCourses.clear()
-            allCourses.addAll(items)
+            allCourses.addAll(courses)
             updateFilters()
             loadFilteredCourses()
         }
     }
 
     private fun refreshCourses() {
-        val url = dataStore.coursesUrl
+        val url = dataStore.mainJsonUrl
         if (url.isNullOrBlank()) {
             if (allCourses.isEmpty()) {
                 binding.emptyView.text = getString(R.string.no_url_defined)
@@ -100,12 +99,12 @@ class CoursesActivity : AppCompatActivity() {
         binding.progressBar.visibility = View.VISIBLE
         Thread {
             try {
-                val text = NetworkHelper.fetchUrl(url)
-                if (text.isNotBlank()) {
-                    CsvCacheManager.saveCourses(this, text)
-                    val items = CsvParser.parseCoursesCsv(text)
+                val jsonText = NetworkHelper.fetchUrl(url)
+                if (jsonText.isNotBlank()) {
+                    CsvCacheManager.saveMainJson(this, jsonText)
+                    val (_, _, courses) = JsonParser.parseMainJson(jsonText)
                     allCourses.clear()
-                    allCourses.addAll(items)
+                    allCourses.addAll(courses)
                     runOnUiThread {
                         updateFilters()
                         loadFilteredCourses()

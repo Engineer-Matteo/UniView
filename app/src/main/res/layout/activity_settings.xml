@@ -192,7 +192,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="CSV Configuratie"
+                android:text="Configuratie"
                 android:textColor="@color/vub_blue"
                 android:textSize="18sp"
                 android:textStyle="bold"
@@ -207,28 +207,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Results CSV URL"
+                android:text="Main JSON URL"
                 android:textColor="@color/vub_blue"
                 android:textSize="12sp"
                 android:textStyle="bold" />
             <EditText
-                android:id="@+id/inputResultsUrl"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="@drawable/bg_input_field"
-                android:inputType="textUri"
-                android:paddingHorizontal="12dp"
-                android:layout_marginBottom="12dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Breakdown CSV URL"
-                android:textColor="@color/vub_blue"
-                android:textSize="12sp"
-                android:textStyle="bold" />
-            <EditText
-                android:id="@+id/inputBreakdownUrl"
+                android:id="@+id/inputMainJsonUrl"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:background="@drawable/bg_input_field"
@@ -269,22 +253,6 @@
                 android:inputType="textUri"
                 android:paddingHorizontal="12dp"
                 android:layout_marginBottom="12dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Courses CSV URL"
-                android:textColor="@color/vub_blue"
-                android:textSize="12sp"
-                android:textStyle="bold" />
-            <EditText
-                android:id="@+id/inputCoursesUrl"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="@drawable/bg_input_field"
-                android:inputType="textUri"
-                android:paddingHorizontal="12dp"
-                android:layout_marginBottom="16dp" />
 
             <View
                 android:layout_width="match_parent"

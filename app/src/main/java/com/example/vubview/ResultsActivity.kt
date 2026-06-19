@@ -12,7 +12,6 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -83,44 +82,33 @@ class ResultsActivity : AppCompatActivity() {
     }
 
     private fun loadCachedData() {
-        val cachedResults = CsvCacheManager.getResults(this)
-        val cachedBreakdown = CsvCacheManager.getBreakdown(this)
-        
-        if (cachedResults.isNotBlank()) {
+        val cachedJson = CsvCacheManager.getMainJson(this)
+        if (cachedJson.isNotBlank()) {
+            val (results, breakdowns, _) = JsonParser.parseMainJson(cachedJson)
             allResults.clear()
-            allResults.addAll(CsvParser.parseResultsCsv(cachedResults))
+            allResults.addAll(results)
+            allBreakdowns.clear()
+            allBreakdowns.addAll(breakdowns)
             updateFilters()
             loadFilteredResults()
-        }
-        
-        if (cachedBreakdown.isNotBlank()) {
-            allBreakdowns.clear()
-            allBreakdowns.addAll(CsvParser.parseBreakdownCsv(cachedBreakdown))
         }
     }
 
     private fun refreshResults() {
+        val jsonUrl = dataStore.mainJsonUrl
+        if (jsonUrl.isNullOrBlank()) return
+
         binding.progressBar.visibility = View.VISIBLE
         Thread {
-            val resultsUrl = dataStore.resultsUrl
-            val breakdownUrl = dataStore.breakdownUrl
-            
             try {
-                val resultsText = if (!resultsUrl.isNullOrBlank()) NetworkHelper.fetchUrl(resultsUrl) else ""
-                val breakdownText = if (!breakdownUrl.isNullOrBlank()) NetworkHelper.fetchUrl(breakdownUrl) else ""
-                
-                if (resultsText.isNotBlank()) {
-                    CsvCacheManager.saveResults(this, resultsText)
-                    val rows = CsvParser.parseResultsCsv(resultsText)
+                val jsonText = NetworkHelper.fetchUrl(jsonUrl)
+                if (jsonText.isNotBlank()) {
+                    CsvCacheManager.saveMainJson(this, jsonText)
+                    val (results, breakdowns, _) = JsonParser.parseMainJson(jsonText)
                     allResults.clear()
-                    allResults.addAll(rows)
-                }
-                
-                if (breakdownText.isNotBlank()) {
-                    CsvCacheManager.saveBreakdown(this, breakdownText)
-                    val breakdownRows = CsvParser.parseBreakdownCsv(breakdownText)
+                    allResults.addAll(results)
                     allBreakdowns.clear()
-                    allBreakdowns.addAll(breakdownRows)
+                    allBreakdowns.addAll(breakdowns)
                 }
 
                 runOnUiThread {

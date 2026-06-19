@@ -4,11 +4,15 @@ import android.content.Context
 import java.io.File
 
 object CsvCacheManager {
+    private const val MAIN_JSON_FILE = "main_data_cache.json"
     private const val RESULTS_FILE = "results_cache.csv"
     private const val BREAKDOWN_FILE = "breakdown_cache.csv"
     private const val CLASSES_FILE = "classes_cache.csv"
     private const val EXAMS_FILE = "exams_cache.csv"
     private const val COURSES_FILE = "courses_cache.csv"
+
+    fun saveMainJson(context: Context, data: String) = saveFile(context, MAIN_JSON_FILE, data)
+    fun getMainJson(context: Context): String = readFile(context, MAIN_JSON_FILE)
 
     fun saveResults(context: Context, data: String) = saveFile(context, RESULTS_FILE, data)
     fun getResults(context: Context): String = readFile(context, RESULTS_FILE)

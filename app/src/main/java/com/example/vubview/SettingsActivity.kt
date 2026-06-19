@@ -58,11 +58,9 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private fun loadSavedUrls() {
-        binding.inputResultsUrl.setText(dataStore.resultsUrl)
-        binding.inputBreakdownUrl.setText(dataStore.breakdownUrl)
+        binding.inputMainJsonUrl.setText(dataStore.mainJsonUrl)
         binding.inputClassesUrl.setText(dataStore.classesUrl)
         binding.inputExamsUrl.setText(dataStore.examsUrl)
-        binding.inputCoursesUrl.setText(dataStore.coursesUrl)
     }
 
     private fun loadNotificationSettings() {
@@ -81,11 +79,9 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private fun saveUrls() {
-        dataStore.resultsUrl = binding.inputResultsUrl.text.toString().trim()
-        dataStore.breakdownUrl = binding.inputBreakdownUrl.text.toString().trim()
+        dataStore.mainJsonUrl = binding.inputMainJsonUrl.text.toString().trim()
         dataStore.classesUrl = binding.inputClassesUrl.text.toString().trim()
         dataStore.examsUrl = binding.inputExamsUrl.text.toString().trim()
-        dataStore.coursesUrl = binding.inputCoursesUrl.text.toString().trim()
     }
 
     private fun saveNotificationSettings() {
