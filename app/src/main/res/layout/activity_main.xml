@@ -22,10 +22,11 @@
         android:id="@+id/vHeaderDivider"
         android:layout_width="match_parent"
         android:layout_height="4dp"
-        android:background="@color/vub_orange"
+        android:background="@color/vub_orange_stable"
         app:layout_constraintTop_toBottomOf="@id/tvHeader" />
 
     <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@id/llFooter"
@@ -44,10 +45,10 @@
                 android:id="@+id/llNextEventContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
                 android:background="@drawable/bg_banner"
                 android:orientation="vertical"
-                android:padding="16dp"
-                android:layout_marginBottom="24dp">
+                android:padding="16dp">
 
                 <TextView
                     android:id="@+id/tvNextEventLabel"
@@ -61,9 +62,9 @@
                     android:id="@+id/tvNextEventBanner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
                     android:text="Even wachten..."
-                    android:textColor="@color/black"
-                    android:layout_marginTop="4dp" />
+                    android:textColor="@color/black" />
             </LinearLayout>
 
             <!-- Menu Items -->
@@ -73,6 +74,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="64dp"
                 android:layout_marginBottom="12dp"
+                android:backgroundTint="@color/white"
                 android:gravity="center_vertical|start"
                 android:paddingStart="24dp"
                 android:text="Lesrooster"
@@ -81,7 +83,7 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:cornerRadius="12dp"
-                app:icon="@android:drawable/ic_menu_today"
+                app:icon="@drawable/baseline_schedule_24"
                 app:iconPadding="16dp"
                 app:iconSize="24dp"
                 app:iconTint="@color/vub_blue"
@@ -94,6 +96,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="64dp"
                 android:layout_marginBottom="12dp"
+                android:backgroundTint="@color/white"
                 android:gravity="center_vertical|start"
                 android:paddingStart="24dp"
                 android:text="Examenrooster"
@@ -102,7 +105,7 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:cornerRadius="12dp"
-                app:icon="@android:drawable/ic_menu_edit"
+                app:icon="@drawable/baseline_assignment_24"
                 app:iconPadding="16dp"
                 app:iconSize="24dp"
                 app:iconTint="@color/vub_blue"
@@ -115,6 +118,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="64dp"
                 android:layout_marginBottom="12dp"
+                android:backgroundTint="@color/white"
                 android:gravity="center_vertical|start"
                 android:paddingStart="24dp"
                 android:text="Resultaten"
@@ -123,7 +127,7 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:cornerRadius="12dp"
-                app:icon="@android:drawable/ic_menu_sort_by_size"
+                app:icon="@drawable/baseline_assessment_24"
                 app:iconPadding="16dp"
                 app:iconSize="24dp"
                 app:iconTint="@color/vub_blue"
@@ -136,6 +140,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="64dp"
                 android:layout_marginBottom="12dp"
+                android:backgroundTint="@color/white"
                 android:gravity="center_vertical|start"
                 android:paddingStart="24dp"
                 android:text="Opleidingsonderdelen"
@@ -144,7 +149,29 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:cornerRadius="12dp"
-                app:icon="@android:drawable/ic_menu_agenda"
+                app:icon="@drawable/outline_book_2_24"
+                app:iconPadding="16dp"
+                app:iconSize="24dp"
+                app:iconTint="@color/vub_blue"
+                app:strokeColor="@color/vub_blue"
+                app:strokeWidth="2dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSync"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:layout_marginBottom="12dp"
+                android:backgroundTint="@color/white"
+                android:gravity="center_vertical|start"
+                android:paddingStart="24dp"
+                android:text="Laad nieuwe gegevens"
+                android:textAllCaps="false"
+                android:textColor="@color/vub_blue"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:cornerRadius="12dp"
+                app:icon="@drawable/baseline_cached_24"
                 app:iconPadding="16dp"
                 app:iconSize="24dp"
                 app:iconTint="@color/vub_blue"
@@ -157,6 +184,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="64dp"
                 android:layout_marginBottom="12dp"
+                android:backgroundTint="@color/white"
                 android:gravity="center_vertical|start"
                 android:paddingStart="24dp"
                 android:text="Instellingen"
@@ -165,7 +193,7 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:cornerRadius="12dp"
-                app:icon="@android:drawable/ic_menu_preferences"
+                app:icon="@drawable/outline_admin_panel_settings_24"
                 app:iconPadding="16dp"
                 app:iconSize="24dp"
                 app:iconTint="@color/vub_blue"
@@ -175,43 +203,87 @@
         </LinearLayout>
     </ScrollView>
 
-    <!-- Footer -->
+    <!-- Footer Navigation -->
     <LinearLayout
         android:id="@+id/llFooter"
         style="@style/VUBFooterStyle"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="64dp"
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tekst grootte"
-            android:textColor="@color/white"
-            android:layout_marginEnd="16dp" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/navHome"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:icon="@drawable/baseline_home_24"
+            app:iconTint="@color/white_stable"
+            app:iconSize="28dp"
+            app:iconGravity="textStart"
+            android:padding="0dp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnTextMinus"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:backgroundTint="@color/vub_orange"
-            android:text="A-"
+            android:id="@+id/navSchedule"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:icon="@drawable/baseline_schedule_24"
+            app:iconTint="@color/white_stable"
+            app:iconSize="28dp"
+            app:iconGravity="textStart"
             android:padding="0dp"
-            app:cornerRadius="4dp" />
+            android:insetTop="0dp"
+            android:insetBottom="0dp" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnTextPlus"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:backgroundTint="@color/vub_orange"
-            android:layout_marginStart="8dp"
-            android:text="A+"
+            android:id="@+id/navExams"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:icon="@drawable/baseline_assignment_24"
+            app:iconTint="@color/white_stable"
+            app:iconSize="28dp"
+            app:iconGravity="textStart"
             android:padding="0dp"
-            app:cornerRadius="4dp" />
+            android:insetTop="0dp"
+            android:insetBottom="0dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/navResults"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:icon="@drawable/baseline_assessment_24"
+            app:iconTint="@color/white_stable"
+            app:iconSize="28dp"
+            app:iconGravity="textStart"
+            android:padding="0dp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/navCourses"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:icon="@drawable/outline_book_2_24"
+            app:iconTint="@color/white_stable"
+            app:iconSize="28dp"
+            app:iconGravity="textStart"
+            android:padding="0dp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

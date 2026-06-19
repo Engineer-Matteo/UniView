@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- By overriding these with fixed values, we ignore the system defaults -->
+    <dimen name="widget_corner_radius">16dp</dimen>
+    <dimen name="widget_inner_corner_radius">14dp</dimen>
+</resources>

@@ -1,5 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme for night mode. -->
+    <!-- Base application theme for Dark Mode -->
     <style name="Theme.VUBView" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/vub_blue</item>
@@ -9,8 +9,8 @@
         <item name="colorSecondary">@color/vub_orange</item>
         <item name="colorOnSecondary">@color/white</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor">@color/vub_blue_dark</item>
-        <!-- Customize your theme here. -->
-        <item name="android:windowBackground">@color/vub_blue_dark</item>
+        <item name="android:statusBarColor">@color/black</item>
+        <!-- Use Dark Mode background -->
+        <item name="android:windowBackground">@color/background_light</item>
     </style>
 </resources>

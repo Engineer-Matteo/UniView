@@ -20,7 +20,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/vub_blue"
+            android:background="@color/vub_blue_stable"
             android:padding="16dp">
 
             <TextView
@@ -28,7 +28,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Resultaten"
-                android:textColor="@color/white"
+                android:textColor="@color/white_stable"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -42,14 +42,14 @@
                 android:paddingHorizontal="12dp"
                 android:paddingVertical="4dp"
                 android:text="gem. 0,0 /20"
-                android:textColor="@color/white"
+                android:textColor="@color/white_stable"
                 android:textSize="14sp" />
         </RelativeLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="4dp"
-            android:background="@color/vub_orange" />
+            android:background="@color/vub_orange_stable" />
     </LinearLayout>
 
     <!-- Filters Section -->
@@ -66,7 +66,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingVertical="8dp"
-            android:text="← Terug naar homepage"
+            android:text="← Vorige pagina"
             android:textColor="@color/vub_blue"
             android:textStyle="bold" />
 
@@ -98,6 +98,7 @@
             <View android:layout_width="16dp" android:layout_height="0dp" />
 
             <LinearLayout
+                android:id="@+id/llSemesterFilter"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -141,7 +142,7 @@
         android:layout_height="0dp"
         android:clipToPadding="false"
         android:padding="16dp"
-        app:layout_constraintBottom_toTopOf="@id/footer"
+        app:layout_constraintBottom_toTopOf="@id/llFooter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/filtersContainer" />
@@ -152,7 +153,7 @@
         android:layout_height="wrap_content"
         android:text="Geen resultaten gevonden"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@id/footer"
+        app:layout_constraintBottom_toTopOf="@id/llFooter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/filtersContainer" />
@@ -162,46 +163,83 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@id/footer"
+        app:layout_constraintBottom_toTopOf="@id/llFooter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/filtersContainer" />
 
-    <!-- Footer -->
+    <!-- Footer Navigation -->
     <LinearLayout
-        android:id="@+id/footer"
+        android:id="@+id/llFooter"
         style="@style/VUBFooterStyle"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="64dp"
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tekst grootte"
-            android:textColor="@color/white"
-            android:layout_marginEnd="16dp" />
-
-        <Button
-            android:id="@+id/btnTextMinus"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:backgroundTint="@color/vub_orange"
-            android:text="A-"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/navHome"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:icon="@drawable/baseline_home_24"
+            app:iconTint="@color/white_stable"
+            app:iconGravity="textStart"
+            app:iconSize="28dp"
             android:padding="0dp" />
 
-        <Button
-            android:id="@+id/btnTextPlus"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:backgroundTint="@color/vub_orange"
-            android:layout_marginStart="8dp"
-            android:text="A+"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/navSchedule"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:icon="@drawable/baseline_schedule_24"
+            app:iconTint="@color/white_stable"
+            app:iconGravity="textStart"
+            app:iconSize="28dp"
             android:padding="0dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/navExams"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:icon="@drawable/baseline_assignment_24"
+            app:iconTint="@color/white_stable"
+            app:iconGravity="textStart"
+            app:iconSize="28dp"
+            android:padding="0dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/navResults"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:icon="@drawable/baseline_assessment_24"
+            app:iconTint="@color/white_stable"
+            app:iconGravity="textStart"
+            app:iconSize="28dp"
+            android:padding="0dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/navCourses"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:icon="@drawable/outline_book_2_24"
+            app:iconTint="@color/white_stable"
+            app:iconGravity="textStart"
+            app:iconSize="28dp"
+            android:padding="0dp" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -40,7 +40,7 @@ class ResultsAdapter(
             val context = itemView.context
             val progressDrawable = when {
                 item.grade < 10 -> R.drawable.bg_progress_red
-                item.grade < 14 -> R.drawable.bg_progress_orange
+                item.grade < 15 -> R.drawable.bg_progress_yellow
                 else -> R.drawable.bg_progress_green
             }
             progress.progressDrawable = ContextCompat.getDrawable(context, progressDrawable)

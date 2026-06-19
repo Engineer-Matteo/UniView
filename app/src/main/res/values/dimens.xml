@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="widget_margin">0dp</dimen>
+    <!-- Fixed outer radius defined by you -->
+    <dimen name="widget_corner_radius">28dp</dimen>
+    <!-- Inner radius = outer radius - border width (2dp) -->
+    <dimen name="widget_inner_corner_radius">26dp</dimen>
+    <dimen name="widget_border_width">2dp</dimen>
+</resources>
