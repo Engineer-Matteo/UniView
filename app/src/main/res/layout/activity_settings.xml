@@ -299,11 +299,14 @@
             android:id="@+id/navExams"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
             android:padding="0dp"
             app:icon="@drawable/baseline_assignment_24"
             app:iconGravity="textStart"
+            app:iconSize="28dp"
             app:iconTint="@color/white_stable" />
 
         <com.google.android.material.button.MaterialButton
