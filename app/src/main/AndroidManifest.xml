@@ -14,7 +14,8 @@
         android:usesCleartextTraffic="true">
         <receiver
             android:name=".NextEventWidget"
-            android:exported="false">
+            android:exported="false"
+            android:label="@string/next_event_widget_text">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -26,7 +27,8 @@
 
         <receiver
             android:name=".WeeklyScheduleWidget"
-            android:exported="false">
+            android:exported="false"
+            android:label="@string/weekly_schedule_widget_text">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>

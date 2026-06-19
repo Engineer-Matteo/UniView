@@ -286,13 +286,4 @@
             android:insetBottom="0dp" />
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        app:layout_constraintBottom_toTopOf="@+id/scrollView2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_launcher_foreground" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
