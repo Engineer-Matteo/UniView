@@ -18,6 +18,7 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.Worker
 import androidx.work.WorkerParameters
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 class SyncWorker(context: Context, workerParams: WorkerParameters) : Worker(context, workerParams) {
@@ -28,6 +29,7 @@ class SyncWorker(context: Context, workerParams: WorkerParameters) : Worker(cont
         private const val ID_SCHEDULE = 1002
         private const val ID_EXAMS = 1003
         private const val ID_NEXT_CLASS = 1004
+        private const val TAG = "SyncWorker"
     }
 
     override fun doWork(): androidx.work.ListenableWorker.Result {
@@ -61,7 +63,7 @@ class SyncWorker(context: Context, workerParams: WorkerParameters) : Worker(cont
         }
 
         if (anyChanged) {
-            Log.d("SyncWorker", "Data changed, updating widgets")
+            Log.d(TAG, "Data changed, updating widgets")
             NextEventWidget.triggerUpdate(applicationContext)
             WeeklyScheduleWidget.triggerUpdate(applicationContext)
         }
@@ -122,22 +124,27 @@ class SyncWorker(context: Context, workerParams: WorkerParameters) : Worker(cont
         return try {
             val newData = NetworkHelper.fetchUrl(url)
             if (newData.isNotBlank() && newData != oldData) {
-                if (shouldNotify && oldData.isNotBlank()) {
-                    val (oldResults, _, _) = JsonParser.parseMainJson(oldData)
-                    val (newResultsList, _, _) = JsonParser.parseMainJson(newData)
+                val (oldResults, oldBreakdowns, oldCourses) = JsonParser.parseMainJson(oldData)
+                val (newResultsList, newBreakdowns, newCourses) = JsonParser.parseMainJson(newData)
 
+                // Comparison excluding potentially volatile descriptions or order
+                val contentChanged = oldResults.toSet() != newResultsList.toSet() || 
+                                     oldBreakdowns.toSet() != newBreakdowns.toSet() || 
+                                     oldCourses.size != newCourses.size
+
+                if (shouldNotify && oldData.isNotBlank() && contentChanged) {
                     val newResults = findNewResults(oldResults, newResultsList)
                     if (newResults.isNotEmpty()) {
                         sendResultsNotification(newResults)
                     }
                 }
                 DataCacheManager.saveMainJson(applicationContext, newData)
-                true
+                contentChanged
             } else {
                 false
             }
         } catch (e: Exception) {
-            Log.e("SyncWorker", "Error syncing main JSON", e)
+            Log.e(TAG, "Error syncing main JSON", e)
             false
         }
     }
@@ -146,22 +153,39 @@ class SyncWorker(context: Context, workerParams: WorkerParameters) : Worker(cont
         return try {
             val newData = NetworkHelper.fetchUrl(url)
             if (newData.isNotBlank() && newData != oldData) {
-                if (shouldNotify && oldData.isNotBlank()) {
-                    sendUpdateNotification(
-                        "Roosterwijziging",
-                        "Er zijn wijzigingen in je lesrooster gevonden.",
-                        ScheduleActivity::class.java,
-                        ID_SCHEDULE,
-                        R.drawable.baseline_schedule_24
-                    )
+                val oldEvents = IcalParser.parse(oldData, "class")
+                val newEvents = IcalParser.parse(newData, "class")
+                
+                val now = System.currentTimeMillis()
+                val oldFingerprints = getFingerprints(oldEvents, now)
+                val newFingerprints = getFingerprints(newEvents, now)
+                
+                val added = newFingerprints - oldFingerprints
+                val removed = oldFingerprints - newFingerprints
+                val contentChanged = added.isNotEmpty() || removed.isNotEmpty()
+
+                if (contentChanged) {
+                    Log.d(TAG, "Schedule changed: ${added.size} added, ${removed.size} removed")
+                    
+                    val hasFutureChanges = (added + removed).any { isFingerprintFuture(it, now) }
+
+                    if (shouldNotify && oldData.isNotBlank() && hasFutureChanges) {
+                        sendUpdateNotification(
+                            "Roosterwijziging",
+                            "Er zijn wijzigingen in je lesrooster gevonden.",
+                            ScheduleActivity::class.java,
+                            ID_SCHEDULE,
+                            R.drawable.baseline_schedule_24
+                        )
+                    }
                 }
                 DataCacheManager.saveClasses(applicationContext, newData)
-                true
+                contentChanged
             } else {
                 false
             }
         } catch (e: Exception) {
-            Log.e("SyncWorker", "Error syncing classes", e)
+            Log.e(TAG, "Error syncing classes", e)
             false
         }
     }
@@ -170,24 +194,74 @@ class SyncWorker(context: Context, workerParams: WorkerParameters) : Worker(cont
         return try {
             val newData = NetworkHelper.fetchUrl(url)
             if (newData.isNotBlank() && newData != oldData) {
-                if (shouldNotify && oldData.isNotBlank()) {
-                    sendUpdateNotification(
-                        "Examenrooster gewijzigd",
-                        "Er zijn wijzigingen in je examenrooster gevonden.",
-                        ExamsActivity::class.java,
-                        ID_EXAMS,
-                        R.drawable.baseline_assignment_24
-                    )
+                val oldEvents = IcalParser.parse(oldData, "exam")
+                val newEvents = IcalParser.parse(newData, "exam")
+                
+                val now = System.currentTimeMillis()
+                val oldFingerprints = getFingerprints(oldEvents, now)
+                val newFingerprints = getFingerprints(newEvents, now)
+                
+                val added = newFingerprints - oldFingerprints
+                val removed = oldFingerprints - newFingerprints
+                val contentChanged = added.isNotEmpty() || removed.isNotEmpty()
+
+                if (contentChanged) {
+                    Log.d(TAG, "Exam schedule changed: ${added.size} added, ${removed.size} removed")
+                    
+                    val hasFutureChanges = (added + removed).any { isFingerprintFuture(it, now) }
+
+                    if (shouldNotify && oldData.isNotBlank() && hasFutureChanges) {
+                        sendUpdateNotification(
+                            "Examenrooster gewijzigd",
+                            "Er zijn wijzigingen in je examenrooster gevonden.",
+                            ExamsActivity::class.java,
+                            ID_EXAMS,
+                            R.drawable.baseline_assignment_24
+                        )
+                    }
                 }
                 DataCacheManager.saveExams(applicationContext, newData)
-                true
+                contentChanged
             } else {
                 false
             }
         } catch (e: Exception) {
-            Log.e("SyncWorker", "Error syncing exams", e)
+            Log.e(TAG, "Error syncing exams", e)
             false
         }
+    }
+
+    private fun getFingerprints(events: List<NextEvent>, now: Long): Set<String> {
+        // Only consider events that are still relevant (ended less than 24h ago)
+        return events.filter { it.endDateTimeMillis() > now - 86400000 }
+            .map { "${it.title.trim()}|${it.date}|${it.start}|${it.end}|${it.room.trim()}" }
+            .toSet()
+    }
+
+    private fun isFingerprintFuture(fingerprint: String, now: Long): Boolean {
+        val parts = fingerprint.split("|")
+        if (parts.size < 3) return false
+        val date = parts[1]
+        val time = parts[2]
+        return try {
+            val dateParts = date.split(Regex("[^0-9]+")).filter { it.isNotBlank() }.map { it.toInt() }
+            val cal = Calendar.getInstance()
+            if (dateParts[0] > 1000) { cal.set(dateParts[0], dateParts[1] - 1, dateParts[2]) }
+            else if (dateParts[2] > 1000) { cal.set(dateParts[2], dateParts[1] - 1, dateParts[0]) }
+            else { cal.set(2000 + dateParts[2], dateParts[1] - 1, dateParts[0]) }
+            
+            val timeParts = time.split(":").filter { it.isNotBlank() }.map { it.toInt() }
+            if (timeParts.size >= 2) {
+                cal.set(Calendar.HOUR_OF_DAY, timeParts[0])
+                cal.set(Calendar.MINUTE, timeParts[1])
+            } else {
+                cal.set(Calendar.HOUR_OF_DAY, 0)
+                cal.set(Calendar.MINUTE, 0)
+            }
+            cal.set(Calendar.SECOND, 0)
+            cal.set(Calendar.MILLISECOND, 0)
+            cal.timeInMillis > now
+        } catch (e: Exception) { false }
     }
 
     private fun findNewResults(oldList: List<ResultEntry>, newList: List<ResultEntry>): List<ResultEntry> {

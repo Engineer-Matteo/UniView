@@ -157,6 +157,28 @@
                 app:strokeWidth="2dp" />
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSync"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:layout_marginBottom="12dp"
+                android:backgroundTint="@color/white"
+                android:gravity="center_vertical|start"
+                android:paddingStart="24dp"
+                android:text="Laad nieuwe gegevens"
+                android:textAllCaps="false"
+                android:textColor="@color/vub_blue"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:cornerRadius="12dp"
+                app:icon="@drawable/baseline_cached_24"
+                app:iconPadding="16dp"
+                app:iconSize="24dp"
+                app:iconTint="@color/vub_blue"
+                app:strokeColor="@color/vub_blue"
+                app:strokeWidth="2dp" />
+
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnSettings"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="match_parent"

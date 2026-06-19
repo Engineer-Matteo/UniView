@@ -6,13 +6,17 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.ExistingWorkPolicy
 import androidx.work.NetworkType
+import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import com.example.vubview.databinding.ActivityMainBinding
 import java.util.concurrent.TimeUnit
@@ -53,6 +57,9 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, CoursesActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
             startActivity(intent)
+        }
+        binding.btnSync.setOnClickListener { 
+            forceSync()
         }
         binding.btnSettings.setOnClickListener {
             startActivity(Intent(this, SettingsActivity::class.java))
@@ -117,6 +124,37 @@ class MainActivity : AppCompatActivity() {
             ExistingPeriodicWorkPolicy.KEEP,
             syncRequest
         )
+    }
+
+    private fun forceSync() {
+        Toast.makeText(this, "Gegevens worden opgehaald...", Toast.LENGTH_SHORT).show()
+        
+        val constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.CONNECTED)
+            .build()
+
+        val syncRequest = OneTimeWorkRequestBuilder<SyncWorker>()
+            .setConstraints(constraints)
+            .build()
+
+        val workManager = WorkManager.getInstance(applicationContext)
+        workManager.enqueueUniqueWork(
+            "ManualSync",
+            ExistingWorkPolicy.REPLACE,
+            syncRequest
+        )
+
+        // Observe the work status to update the UI (banner) when finished
+        workManager.getWorkInfoByIdLiveData(syncRequest.id).observe(this) { workInfo ->
+            if (workInfo != null && workInfo.state.isFinished) {
+                if (workInfo.state == WorkInfo.State.SUCCEEDED) {
+                    Toast.makeText(this, "Sync voltooid", Toast.LENGTH_SHORT).show()
+                    loadNextEventBanner()
+                } else {
+                    Toast.makeText(this, "Sync mislukt", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
     }
 
     private fun loadNextEventBanner() {
