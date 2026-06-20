@@ -15,7 +15,7 @@ The app is currently in active testing (`vbeta1.2`). If no major bugs are found 
 * **📚 Course Directory:** Browse course lists complete with detailed descriptions and period breakdowns.
 * **🔔 Smart Notifications:** 
     * Get notified 15 minutes before a lesson starts.
-    * Receive alerts when you post new academic results or when your schedule changes.
+    * Receive alerts when updates to your hosted results or schedule are detected.
 * **🖼️ Home Screen Widgets:** 
     * **Next Event:** A quick glance at your upcoming class or exam.
     * **Weekly Schedule:** Your entire week's planning directly on your home screen.
@@ -57,3 +57,41 @@ To get a local copy of the project up and running:
 2. Download the latest `.apk` file (e.g., from the `vbeta1.2` tag).
 3. On your Android device, enable **"Install from Unknown Sources"** in your security settings.
 4. Open the downloaded file and follow the on-screen prompts to install.
+
+### Using your personal schedule
+1. If you do not have it yet, make a new calendar in Google Calendar with your classes and one with your exams.
+2. Go to the settings of that calendar and go to the section **"Integrate calendar"**.
+3. Copy the **"Secret address in iCal format"** and paste it into the app settings.
+4. Press the save button.
+
+### Adding your personal courses and grades
+1. The app expects a download link for a JSON file. This is best achieved by hosting a `.json` file on Google Drive and using a direct download link.
+2. Your link should look like: `https://drive.google.com/uc?export=download&id=YOUR_FILE_ID`
+3. Paste that link in the app settings and press the save button.
+4. **JSON Structure:** Ensure your JSON file follows this structure:
+   ```json
+   [
+     {
+        "courseName": "From Genome to Organism",
+        "ects": "4",
+        "score": "15",
+        "year": "2027-2028",
+        "program": "BA3 - BME",
+        "semester": "1st semester",
+        "description": "Human anatomy and biology",
+        "professor": "prof. dr. ...",
+        "location": "Health Campus",
+        "partials": [
+            {
+                "name": "Theory exam",
+                "weight": "0.5",
+                "score": "16"
+            },
+            {
+                "name": "",
+                "weight": "",
+                "score": ""
+            },...]
+    },...]
+   ```
+   *Note: If the `score` field is left blank, the course will appear in your Course Directory but will be hidden from the Results tab.*
