@@ -20,7 +20,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/vub_blue_stable"
+            android:background="@color/main_blue_stable"
             android:padding="16dp">
 
             <TextView
@@ -36,7 +36,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="4dp"
-            android:background="@color/vub_orange_stable" />
+            android:background="@color/main_orange_stable" />
     </LinearLayout>
 
     <androidx.core.widget.NestedScrollView
@@ -61,7 +61,7 @@
                 android:layout_height="wrap_content"
                 android:paddingVertical="8dp"
                 android:text="← Vorige pagina"
-                android:textColor="@color/vub_blue"
+                android:textColor="@color/main_blue"
                 android:textStyle="bold" />
 
             <!-- Filters Section -->
@@ -86,7 +86,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Opleidingsjaar"
-                            android:textColor="@color/vub_blue"
+                            android:textColor="@color/main_blue"
                             android:textSize="12sp"
                             android:textStyle="bold" />
                         <Spinner
@@ -107,7 +107,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Semester"
-                            android:textColor="@color/vub_blue"
+                            android:textColor="@color/main_blue"
                             android:textSize="12sp"
                             android:textStyle="bold" />
                         <Spinner
@@ -132,7 +132,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="12dp"
-                    android:background="@color/vub_orange" />
+                    android:background="@color/main_orange" />
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
@@ -169,7 +169,7 @@
     <!-- Footer -->
     <LinearLayout
         android:id="@+id/llFooter"
-        style="@style/VUBFooterStyle"
+        style="@style/MainFooterStyle"
         android:layout_width="0dp"
         android:layout_height="64dp"
         android:gravity="center"

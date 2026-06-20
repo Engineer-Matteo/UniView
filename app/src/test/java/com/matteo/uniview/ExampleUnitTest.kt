@@ -1,4 +1,4 @@
-package com.matteo.vubview
+package com.matteo.uniview
 
 import org.junit.Test
 

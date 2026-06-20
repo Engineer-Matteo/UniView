@@ -1,4 +1,4 @@
-package com.example.vubview
+package com.example.uniview
 
 import android.content.Intent
 import android.os.Bundle
@@ -12,18 +12,18 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.vubview.databinding.ActivityCoursesBinding
+import com.example.uniview.databinding.ActivityCoursesBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.util.*
 
 class CoursesActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCoursesBinding
-    private lateinit var dataStore: VubPreferences
+    private lateinit var dataStore: Preferences
     private val adapter = CoursesAdapter { showCourseDetailDialog(it) }
     private val allCourses = mutableListOf<CourseEntry>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        dataStore = VubPreferences(this)
+        dataStore = Preferences(this)
         dataStore.applyTheme()
 
         super.onCreate(savedInstanceState)

@@ -1,10 +1,10 @@
-package com.example.vubview
+package com.example.uniview
 
 import android.content.Context
 import androidx.appcompat.app.AppCompatDelegate
 
-class VubPreferences(context: Context) {
-    private val prefs = context.getSharedPreferences("vub_prefs", Context.MODE_PRIVATE)
+class Preferences(context: Context) {
+    private val prefs = context.getSharedPreferences("prefs", Context.MODE_PRIVATE)
 
     var mainJsonUrl: String?
         get() = prefs.getString("main_json_url", null)

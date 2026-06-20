@@ -10,7 +10,7 @@
         android:id="@+id/event_indicator"
         android:layout_width="4dp"
         android:layout_height="match_parent"
-        android:background="@color/vub_orange"
+        android:background="@color/main_orange"
         android:contentDescription="@null" />
 
     <LinearLayout
@@ -23,7 +23,7 @@
             android:id="@+id/event_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/vub_blue"
+            android:textColor="@color/main_blue"
             android:textSize="14sp"
             android:textStyle="bold" />
 

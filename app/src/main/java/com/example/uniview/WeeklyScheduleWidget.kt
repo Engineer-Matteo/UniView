@@ -1,4 +1,4 @@
-package com.example.vubview
+package com.example.uniview
 
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
@@ -118,9 +118,9 @@ class WeeklyScheduleFactory(private val context: Context) : RemoteViewsService.R
         views.setTextViewText(R.id.event_time_location, info)
 
         val color = if (event.kind == "exam") {
-            ContextCompat.getColor(context, R.color.vub_orange)
+            ContextCompat.getColor(context, R.color.main_orange)
         } else {
-            ContextCompat.getColor(context, R.color.vub_blue)
+            ContextCompat.getColor(context, R.color.main_blue)
         }
         
         views.setInt(R.id.event_indicator, "setBackgroundColor", color)

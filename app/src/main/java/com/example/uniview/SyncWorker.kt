@@ -1,4 +1,4 @@
-package com.example.vubview
+package com.example.uniview
 
 import android.Manifest
 import android.app.NotificationChannel
@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit
 class SyncWorker(context: Context, workerParams: WorkerParameters) : Worker(context, workerParams) {
 
     companion object {
-        private const val CHANNEL_ID = "vub_view_updates"
+        private const val CHANNEL_ID = "uni_view_updates"
         private const val ID_RESULTS = 1001
         private const val ID_SCHEDULE = 1002
         private const val ID_EXAMS = 1003
@@ -33,7 +33,7 @@ class SyncWorker(context: Context, workerParams: WorkerParameters) : Worker(cont
     }
 
     override fun doWork(): androidx.work.ListenableWorker.Result {
-        val prefs = VubPreferences(applicationContext)
+        val prefs = Preferences(applicationContext)
         
         val mainJsonUrl = prefs.mainJsonUrl
         val classesUrl = prefs.classesUrl
@@ -74,7 +74,7 @@ class SyncWorker(context: Context, workerParams: WorkerParameters) : Worker(cont
         return androidx.work.ListenableWorker.Result.success()
     }
 
-    private fun checkAndNotifyUpcomingClass(prefs: VubPreferences) {
+    private fun checkAndNotifyUpcomingClass(prefs: Preferences) {
         if (!prefs.notifyNextLesson) return
 
         val classesData = DataCacheManager.getClasses(applicationContext)
@@ -346,7 +346,7 @@ class SyncWorker(context: Context, workerParams: WorkerParameters) : Worker(cont
 
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name = "VUBVIEW Updates"
+            val name = "UNIVIEW Updates"
             val descriptionText = "Meldingen voor nieuwe resultaten en roosterwijzigingen"
             val importance = NotificationManager.IMPORTANCE_DEFAULT
             val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {

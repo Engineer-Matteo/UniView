@@ -7,9 +7,9 @@
     <color name="grey_text">#AAAAAA</color>
 
     <!-- BRAND COLORS: Re-adjusted for dark mode contrast -->
-    <color name="vub_blue">#5C9AFF</color>
-    <color name="vub_blue_dark">#3D7FFF</color>
+    <color name="main_blue">#5C9AFF</color>
+    <color name="main_blue_dark">#3D7FFF</color>
 
     <!-- We keep orange as is, or slightly brighten it -->
-    <color name="vub_orange">#FF8533</color>
+    <color name="main_orange">#FF8533</color>
 </resources>

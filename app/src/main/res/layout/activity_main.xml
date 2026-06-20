@@ -10,7 +10,7 @@
     <!-- Header -->
     <TextView
         android:id="@+id/tvHeader"
-        style="@style/VUBHeaderStyle"
+        style="@style/MainHeaderStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Homepage"
@@ -22,7 +22,7 @@
         android:id="@+id/vHeaderDivider"
         android:layout_width="match_parent"
         android:layout_height="4dp"
-        android:background="@color/vub_orange_stable"
+        android:background="@color/main_orange_stable"
         app:layout_constraintTop_toBottomOf="@id/tvHeader" />
 
     <ScrollView
@@ -55,7 +55,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Volgend examen:"
-                    android:textColor="@color/vub_orange"
+                    android:textColor="@color/main_orange"
                     android:textStyle="bold" />
 
                 <TextView
@@ -79,15 +79,15 @@
                 android:paddingStart="24dp"
                 android:text="Lesrooster"
                 android:textAllCaps="false"
-                android:textColor="@color/vub_blue"
+                android:textColor="@color/main_blue"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:cornerRadius="12dp"
                 app:icon="@drawable/baseline_schedule_24"
                 app:iconPadding="16dp"
                 app:iconSize="24dp"
-                app:iconTint="@color/vub_blue"
-                app:strokeColor="@color/vub_blue"
+                app:iconTint="@color/main_blue"
+                app:strokeColor="@color/main_blue"
                 app:strokeWidth="2dp" />
 
             <com.google.android.material.button.MaterialButton
@@ -101,15 +101,15 @@
                 android:paddingStart="24dp"
                 android:text="Examenrooster"
                 android:textAllCaps="false"
-                android:textColor="@color/vub_blue"
+                android:textColor="@color/main_blue"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:cornerRadius="12dp"
                 app:icon="@drawable/baseline_assignment_24"
                 app:iconPadding="16dp"
                 app:iconSize="24dp"
-                app:iconTint="@color/vub_blue"
-                app:strokeColor="@color/vub_blue"
+                app:iconTint="@color/main_blue"
+                app:strokeColor="@color/main_blue"
                 app:strokeWidth="2dp" />
 
             <com.google.android.material.button.MaterialButton
@@ -123,15 +123,15 @@
                 android:paddingStart="24dp"
                 android:text="Resultaten"
                 android:textAllCaps="false"
-                android:textColor="@color/vub_blue"
+                android:textColor="@color/main_blue"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:cornerRadius="12dp"
                 app:icon="@drawable/baseline_assessment_24"
                 app:iconPadding="16dp"
                 app:iconSize="24dp"
-                app:iconTint="@color/vub_blue"
-                app:strokeColor="@color/vub_blue"
+                app:iconTint="@color/main_blue"
+                app:strokeColor="@color/main_blue"
                 app:strokeWidth="2dp" />
 
             <com.google.android.material.button.MaterialButton
@@ -145,15 +145,15 @@
                 android:paddingStart="24dp"
                 android:text="Opleidingsonderdelen"
                 android:textAllCaps="false"
-                android:textColor="@color/vub_blue"
+                android:textColor="@color/main_blue"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:cornerRadius="12dp"
                 app:icon="@drawable/outline_book_2_24"
                 app:iconPadding="16dp"
                 app:iconSize="24dp"
-                app:iconTint="@color/vub_blue"
-                app:strokeColor="@color/vub_blue"
+                app:iconTint="@color/main_blue"
+                app:strokeColor="@color/main_blue"
                 app:strokeWidth="2dp" />
 
             <com.google.android.material.button.MaterialButton
@@ -167,15 +167,15 @@
                 android:paddingStart="24dp"
                 android:text="Laad nieuwe gegevens"
                 android:textAllCaps="false"
-                android:textColor="@color/vub_blue"
+                android:textColor="@color/main_blue"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:cornerRadius="12dp"
                 app:icon="@drawable/baseline_cached_24"
                 app:iconPadding="16dp"
                 app:iconSize="24dp"
-                app:iconTint="@color/vub_blue"
-                app:strokeColor="@color/vub_blue"
+                app:iconTint="@color/main_blue"
+                app:strokeColor="@color/main_blue"
                 app:strokeWidth="2dp" />
 
             <com.google.android.material.button.MaterialButton
@@ -189,15 +189,15 @@
                 android:paddingStart="24dp"
                 android:text="Instellingen"
                 android:textAllCaps="false"
-                android:textColor="@color/vub_blue"
+                android:textColor="@color/main_blue"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:cornerRadius="12dp"
                 app:icon="@drawable/outline_admin_panel_settings_24"
                 app:iconPadding="16dp"
                 app:iconSize="24dp"
-                app:iconTint="@color/vub_blue"
-                app:strokeColor="@color/vub_blue"
+                app:iconTint="@color/main_blue"
+                app:strokeColor="@color/main_blue"
                 app:strokeWidth="2dp" />
 
         </LinearLayout>
@@ -206,7 +206,7 @@
     <!-- Footer Navigation -->
     <LinearLayout
         android:id="@+id/llFooter"
-        style="@style/VUBFooterStyle"
+        style="@style/MainFooterStyle"
         android:layout_width="0dp"
         android:layout_height="64dp"
         android:gravity="center"

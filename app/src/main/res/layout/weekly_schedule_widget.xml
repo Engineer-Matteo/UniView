@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:text="Rooster deze week"
-            android:textColor="@color/vub_blue"
+            android:textColor="@color/main_blue"
             android:textSize="16sp"
             android:textStyle="bold" />
 

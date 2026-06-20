@@ -20,7 +20,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/vub_blue_stable"
+            android:background="@color/main_blue_stable"
             android:padding="16dp">
 
             <TextView
@@ -36,7 +36,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="4dp"
-            android:background="@color/vub_orange_stable" />
+            android:background="@color/main_orange_stable" />
     </LinearLayout>
 
     <androidx.core.widget.NestedScrollView
@@ -60,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:text="← Vorige pagina"
-                android:textColor="@color/vub_blue"
+                android:textColor="@color/main_blue"
                 android:textStyle="bold" />
 
             <TextView
@@ -68,7 +68,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Komende examens"
-                android:textColor="@color/vub_blue"
+                android:textColor="@color/main_blue"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:layout_marginBottom="4dp" />
@@ -76,7 +76,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/vub_orange"
+                android:background="@color/main_orange"
                 android:layout_marginBottom="16dp" />
 
             <!-- Upcoming Exams -->
@@ -105,7 +105,7 @@
                 android:text="Toon vorige examens"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
-                app:backgroundTint="@color/vub_orange"
+                app:backgroundTint="@color/main_orange"
                 android:visibility="gone" />
 
             <!-- Past Exams -->
@@ -128,7 +128,7 @@
     <!-- Footer -->
     <LinearLayout
         android:id="@+id/llFooter"
-        style="@style/VUBFooterStyle"
+        style="@style/MainFooterStyle"
         android:layout_width="0dp"
         android:layout_height="64dp"
         android:gravity="center"
