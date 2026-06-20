@@ -22,6 +22,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "VUBVIEW"
+rootProject.name = "UNIVIEW"
 include(":app")
- 
