@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Dark Mode Colors -->
+    <color name="background_light">#121212</color>
+    <color name="white">#1E1E1E</color> <!-- Surface color -->
+    <color name="black">#E1E1E1</color> <!-- Primary text color -->
+    <color name="grey_text">#AAAAAA</color>
+
+    <!-- BRAND COLORS: Re-adjusted for dark mode contrast -->
+    <color name="main_blue">#5C9AFF</color>
+    <color name="main_blue_dark">#3D7FFF</color>
+
+    <!-- We keep orange as is, or slightly brighten it -->
+    <color name="main_orange">#FF8533</color>
+</resources>

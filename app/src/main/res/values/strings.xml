@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">VUB Overzicht</string>
+    <string name="app_name">UniView</string>
     <string name="next_event_loading">Even wachten...</string>
     <string name="next_event_setup">Voer URL\'s in instellingen in om het volgende evenement te tonen.</string>
     <string name="next_event_none">Geen komende evenementen gevonden.</string>
@@ -14,7 +14,9 @@
     <string name="label_exams_url">Exams CSV URL</string>
     <string name="save_settings">Opslaan</string>
     <string name="no_url_defined">Geen URL gedefinieerd</string>
-    <string name="appwidget_text">EXAMPLE</string>
-    <string name="add_widget">Add widget</string>
-    <string name="app_widget_description">This is an app widget description</string>
+    <string name="next_event_widget_text">Volgende gebeurtenis</string>
+    <string name="add_widget">Widget toevoegen</string>
+    <string name="weekly_schedule_widget_text">Weekplanning</string>
+    <string name="weekly_schedule_widget_description">Een gedetaileerde weekplanning</string>
+    <string name="next_event_widget_description">De eerstvolgende gebeurtenis op in de uur- en examenrooster</string>
 </resources>

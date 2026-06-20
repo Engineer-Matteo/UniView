@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.vubview">
+    package="com.uniview.uniview">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
@@ -10,11 +10,12 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:theme="@style/Theme.VUBView"
+        android:theme="@style/Theme.UniView"
         android:usesCleartextTraffic="true">
         <receiver
-            android:name=".NextEventWidget"
-            android:exported="false">
+            android:name="com.uniview.uniview.NextEventWidget"
+            android:exported="false"
+            android:label="@string/next_event_widget_text">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -24,23 +25,40 @@
                 android:resource="@xml/next_event_widget_info" />
         </receiver>
 
+        <receiver
+            android:name="com.uniview.uniview.WeeklyScheduleWidget"
+            android:exported="false"
+            android:label="@string/weekly_schedule_widget_text">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/weekly_schedule_widget_info" />
+        </receiver>
+
+        <service
+            android:name="com.uniview.uniview.WeeklyScheduleService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+
         <activity
-            android:name=".SettingsActivity"
+            android:name="com.uniview.uniview.SettingsActivity"
             android:label="Instellingen" />
         <activity
-            android:name=".ResultsActivity"
+            android:name="com.uniview.uniview.ResultsActivity"
             android:label="Resultaten" />
         <activity
-            android:name=".ScheduleActivity"
+            android:name="com.uniview.uniview.ScheduleActivity"
             android:label="Lesrooster" />
         <activity
-            android:name=".ExamsActivity"
+            android:name="com.uniview.uniview.ExamsActivity"
             android:label="Examenrooster" />
         <activity
-            android:name=".CoursesActivity"
+            android:name="com.uniview.uniview.CoursesActivity"
             android:label="Opleidingsonderdelen" />
         <activity
-            android:name=".MainActivity"
+            android:name="com.uniview.uniview.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

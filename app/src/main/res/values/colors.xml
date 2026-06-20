@@ -1,13 +1,20 @@
 <resources>
-    <color name="vub_blue">#003399</color>
-    <color name="vub_blue_dark">#002266</color>
-    <color name="vub_orange">#FF6600</color>
+    <color name="main_blue">#003399</color>
+    <color name="main_blue_dark">#002266</color>
+    <color name="main_orange">#FF6600</color>
     <color name="background_light">#F0F4F8</color>
     <color name="white">#FFFFFFFF</color>
     <color name="black">#FF000000</color>
     <color name="grey_text">#666666</color>
 
+    <!-- Stable colors for banners that don't change in dark mode -->
+    <color name="main_blue_stable">#003399</color>
+    <color name="main_blue_dark_stable">#002266</color>
+    <color name="main_orange_stable">#FF6600</color>
+    <color name="white_stable">#FFFFFFFF</color>
+
     <color name="score_red">#E53935</color>
+    <color name="score_yellow">#FDD835</color>
     <color name="score_orange">#FB8C00</color>
     <color name="score_green">#43A047</color>
     <color name="light_blue_50">#FFE1F5FE</color>

@@ -28,7 +28,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_toStartOf="@id/breakdownClose"
-                    android:textColor="@color/vub_blue"
+                    android:textColor="@color/main_blue"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 

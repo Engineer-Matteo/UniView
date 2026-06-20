@@ -20,7 +20,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/vub_blue"
+            android:background="@color/main_blue_stable"
             android:padding="16dp">
 
             <TextView
@@ -28,7 +28,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Lesrooster"
-                android:textColor="@color/white"
+                android:textColor="@color/white_stable"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -42,14 +42,14 @@
                 android:paddingHorizontal="12dp"
                 android:paddingVertical="4dp"
                 android:text="gem. -- u/week"
-                android:textColor="@color/white"
+                android:textColor="@color/white_stable"
                 android:textSize="14sp" />
         </RelativeLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="4dp"
-            android:background="@color/vub_orange" />
+            android:background="@color/main_orange_stable" />
     </LinearLayout>
 
     <androidx.core.widget.NestedScrollView
@@ -73,8 +73,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingVertical="8dp"
-                android:text="← Terug naar homepage"
-                android:textColor="@color/vub_blue"
+                android:text="← Vorige pagina"
+                android:textColor="@color/main_blue"
                 android:textStyle="bold" />
 
             <!-- View Toggle Group -->
@@ -96,8 +96,8 @@
                     android:layout_weight="1"
                     android:text="Kalender"
                     android:textAllCaps="false"
-                    android:textColor="@color/vub_blue"
-                    app:strokeColor="@color/vub_blue" />
+                    android:textColor="@color/main_blue"
+                    app:strokeColor="@color/main_blue" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/viewList"
@@ -107,8 +107,8 @@
                     android:layout_weight="1"
                     android:text="Lijst"
                     android:textAllCaps="false"
-                    android:textColor="@color/vub_blue"
-                    app:strokeColor="@color/vub_blue" />
+                    android:textColor="@color/main_blue"
+                    app:strokeColor="@color/main_blue" />
 
             </com.google.android.material.button.MaterialButtonToggleGroup>
 
@@ -118,7 +118,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:text="Wekelijkse uurrooster"
-                android:textColor="@color/vub_blue"
+                android:textColor="@color/main_blue"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -141,7 +141,7 @@
                     android:textColor="@color/white"
                     android:textSize="24sp"
                     android:textStyle="bold"
-                    app:backgroundTint="@color/vub_blue"
+                    app:backgroundTint="@color/main_blue"
                     app:cornerRadius="8dp" />
 
                 <com.google.android.material.button.MaterialButton
@@ -152,9 +152,9 @@
                     android:layout_marginHorizontal="8dp"
                     android:text="Vandaag"
                     android:textAllCaps="false"
-                    android:textColor="@color/vub_blue"
+                    android:textColor="@color/main_blue"
                     android:textStyle="bold"
-                    app:strokeColor="@color/vub_blue"
+                    app:strokeColor="@color/main_blue"
                     app:strokeWidth="1dp"
                     app:cornerRadius="8dp" />
 
@@ -180,7 +180,7 @@
                     android:textColor="@color/white"
                     android:textSize="24sp"
                     android:textStyle="bold"
-                    app:backgroundTint="@color/vub_blue"
+                    app:backgroundTint="@color/main_blue"
                     app:cornerRadius="8dp" />
             </LinearLayout>
 
@@ -217,7 +217,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:backgroundTint="@color/vub_orange"
+                    android:backgroundTint="@color/main_orange"
                     android:text="Toon vorige afspraken"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
@@ -247,7 +247,7 @@
     <!-- Footer -->
     <LinearLayout
         android:id="@+id/llFooter"
-        style="@style/VUBFooterStyle"
+        style="@style/MainFooterStyle"
         android:layout_width="0dp"
         android:layout_height="64dp"
         android:gravity="center"
@@ -263,7 +263,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             app:icon="@drawable/baseline_home_24"
-            app:iconTint="@color/white"
+            app:iconTint="@color/white_stable"
             app:iconSize="28dp"
             app:iconGravity="textStart"
             android:padding="0dp"
@@ -277,7 +277,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             app:icon="@drawable/baseline_schedule_24"
-            app:iconTint="@color/white"
+            app:iconTint="@color/white_stable"
             app:iconSize="28dp"
             app:iconGravity="textStart"
             android:padding="0dp"
@@ -291,7 +291,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             app:icon="@drawable/baseline_assignment_24"
-            app:iconTint="@color/white"
+            app:iconTint="@color/white_stable"
             app:iconSize="28dp"
             app:iconGravity="textStart"
             android:padding="0dp"
@@ -305,7 +305,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             app:icon="@drawable/baseline_assessment_24"
-            app:iconTint="@color/white"
+            app:iconTint="@color/white_stable"
             app:iconSize="28dp"
             app:iconGravity="textStart"
             android:padding="0dp"
@@ -319,7 +319,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             app:icon="@drawable/outline_book_2_24"
-            app:iconTint="@color/white"
+            app:iconTint="@color/white_stable"
             app:iconSize="28dp"
             app:iconGravity="textStart"
             android:padding="0dp"

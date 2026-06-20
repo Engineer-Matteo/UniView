@@ -20,7 +20,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/vub_blue"
+            android:background="@color/main_blue_stable"
             android:padding="16dp">
 
             <TextView
@@ -28,15 +28,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Instellingen"
-                android:textColor="@color/white"
+                android:textColor="@color/white_stable"
                 android:textSize="20sp"
                 android:textStyle="bold" />
+
         </RelativeLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="4dp"
-            android:background="@color/vub_orange" />
+            android:background="@color/main_orange_stable" />
+
     </LinearLayout>
 
     <ScrollView
@@ -57,16 +59,141 @@
                 android:id="@+id/backToHome"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="← Terug naar homepage"
-                android:textColor="@color/vub_blue"
-                android:textStyle="bold"
-                android:layout_marginBottom="16dp" />
+                android:layout_marginBottom="16dp"
+                android:text="← Vorige pagina"
+                android:textColor="@color/main_blue"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="Meldingen"
+                android:textColor="@color/main_blue"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="16dp"
+                android:background="@color/main_orange" />
+
+            <Switch
+                android:id="@+id/switch1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="Meldingen voor nieuwe resultaten"
+                android:textColor="@color/black" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="2dp" />
+
+            <Switch
+                android:id="@+id/switch2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Meldingen voor roosterwijzigingen"
+                android:textColor="@color/black" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="2dp" />
+
+            <Switch
+                android:id="@+id/switch3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Meldingen voor examenroosterwijzigingen"
+                android:textColor="@color/black" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="2dp" />
+
+            <Switch
+                android:id="@+id/switch4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Meldingen voor volgende les"
+                android:textColor="@color/black" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="Thema"
+                android:textColor="@color/main_blue"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <View
+                android:id="@+id/view2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="16dp"
+                android:background="@color/main_orange" />
+
+            <RadioGroup
+                android:id="@+id/themeRadioGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <RadioButton
+                    android:id="@+id/radioButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"
+                    android:checked="true"
+                    android:text="Licht" />
+
+                <RadioButton
+                    android:id="@+id/radioButton2"
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"
+                    android:text="Donker" />
+
+                <RadioButton
+                    android:id="@+id/radioButton3"
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"
+                    android:text="Systeemstandaard" />
+
+            </RadioGroup>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="2dp" />
+
+            <Button
+                android:id="@+id/buttonSaveSettings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/main_orange"
+                android:text="Opslaan"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/statusText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="16dp"
+                android:textColor="@android:color/holo_green_dark" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="CSV Configuratie"
-                android:textColor="@color/vub_blue"
+                android:text="Configuratie"
+                android:textColor="@color/main_blue"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:layout_marginBottom="4dp" />
@@ -74,18 +201,18 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/vub_orange"
+                android:background="@color/main_orange"
                 android:layout_marginBottom="16dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Results CSV URL"
-                android:textColor="@color/vub_blue"
+                android:text="Main JSON URL"
+                android:textColor="@color/main_blue"
                 android:textSize="12sp"
                 android:textStyle="bold" />
             <EditText
-                android:id="@+id/inputResultsUrl"
+                android:id="@+id/inputMainJsonUrl"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:background="@drawable/bg_input_field"
@@ -96,26 +223,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Breakdown CSV URL"
-                android:textColor="@color/vub_blue"
+                android:text="Classes iCal URL"
+                android:textColor="@color/main_blue"
                 android:textSize="12sp"
                 android:textStyle="bold" />
-            <EditText
-                android:id="@+id/inputBreakdownUrl"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="@drawable/bg_input_field"
-                android:inputType="textUri"
-                android:paddingHorizontal="12dp"
-                android:layout_marginBottom="12dp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Classes CSV URL"
-                android:textColor="@color/vub_blue"
-                android:textSize="12sp"
-                android:textStyle="bold" />
             <EditText
                 android:id="@+id/inputClassesUrl"
                 android:layout_width="match_parent"
@@ -128,10 +240,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Exams CSV URL"
-                android:textColor="@color/vub_blue"
+                android:text="Exams iCal URL"
+                android:textColor="@color/main_blue"
                 android:textSize="12sp"
                 android:textStyle="bold" />
+
             <EditText
                 android:id="@+id/inputExamsUrl"
                 android:layout_width="match_parent"
@@ -139,23 +252,7 @@
                 android:background="@drawable/bg_input_field"
                 android:inputType="textUri"
                 android:paddingHorizontal="12dp"
-                android:layout_marginBottom="16dp" />
-
-            <Button
-                android:id="@+id/buttonSaveSettings"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/vub_orange"
-                android:text="Opslaan"
-                android:textColor="@color/white" />
-
-            <TextView
-                android:id="@+id/statusText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="16dp"
-                android:textColor="@android:color/holo_green_dark" />
+                android:layout_marginBottom="12dp" />
 
             <View
                 android:layout_width="match_parent"
@@ -167,7 +264,7 @@
     <!-- Footer Navigation -->
     <LinearLayout
         android:id="@+id/llFooter"
-        style="@style/VUBFooterStyle"
+        style="@style/MainFooterStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -185,7 +282,7 @@
             android:padding="0dp"
             app:icon="@drawable/baseline_home_24"
             app:iconGravity="textStart"
-            app:iconTint="@color/white" />
+            app:iconTint="@color/white_stable" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/navSchedule"
@@ -196,18 +293,21 @@
             android:padding="0dp"
             app:icon="@drawable/baseline_schedule_24"
             app:iconGravity="textStart"
-            app:iconTint="@color/white" />
+            app:iconTint="@color/white_stable" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/navExams"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
             android:padding="0dp"
             app:icon="@drawable/baseline_assignment_24"
             app:iconGravity="textStart"
-            app:iconTint="@color/white" />
+            app:iconSize="28dp"
+            app:iconTint="@color/white_stable" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/navResults"
@@ -218,7 +318,7 @@
             android:padding="0dp"
             app:icon="@drawable/baseline_assessment_24"
             app:iconGravity="textStart"
-            app:iconTint="@color/white" />
+            app:iconTint="@color/white_stable" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/navCourses"
@@ -229,7 +329,7 @@
             android:padding="0dp"
             app:icon="@drawable/outline_book_2_24"
             app:iconGravity="textStart"
-            app:iconTint="@color/white" />
+            app:iconTint="@color/white_stable" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
