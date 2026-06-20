@@ -1,4 +1,4 @@
-package com.example.uniview
+package com.uniview.uniview
 
 import java.text.SimpleDateFormat
 import java.util.*

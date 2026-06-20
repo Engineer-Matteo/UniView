@@ -1,4 +1,4 @@
-package com.example.uniview
+package com.uniview.uniview
 
 import android.content.Intent
 import android.graphics.Color
@@ -12,7 +12,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.uniview.databinding.ActivityScheduleBinding
+import com.uniview.uniview.databinding.ActivityScheduleBinding
 import java.text.SimpleDateFormat
 import java.util.*
 

@@ -1,4 +1,4 @@
-package com.example.uniview
+package com.uniview.uniview
 
 import android.content.Context
 import androidx.appcompat.app.AppCompatDelegate
