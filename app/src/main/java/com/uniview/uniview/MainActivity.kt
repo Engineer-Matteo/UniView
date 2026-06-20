@@ -1,4 +1,4 @@
-package com.example.uniview
+package com.uniview.uniview
 
 import android.Manifest
 import android.content.Intent
@@ -18,7 +18,7 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
-import com.example.uniview.databinding.ActivityMainBinding
+import com.uniview.uniview.databinding.ActivityMainBinding
 import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {

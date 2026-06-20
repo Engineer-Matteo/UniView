@@ -1,4 +1,4 @@
-package com.example.uniview
+package com.uniview.uniview
 
 import android.view.View
 import android.widget.AdapterView

@@ -1,11 +1,11 @@
-package com.example.uniview
+package com.uniview.uniview
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.uniview.databinding.ActivityExamsBinding
+import com.uniview.uniview.databinding.ActivityExamsBinding
 
 class ExamsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityExamsBinding

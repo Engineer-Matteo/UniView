@@ -1,10 +1,10 @@
-package com.example.uniview
+package com.uniview.uniview
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.example.uniview.databinding.ActivitySettingsBinding
+import com.uniview.uniview.databinding.ActivitySettingsBinding
 
 class SettingsActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySettingsBinding

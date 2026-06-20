@@ -1,4 +1,4 @@
-package com.example.uniview
+package com.uniview.uniview
 
 import android.content.Intent
 import android.os.Bundle
@@ -15,7 +15,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.uniview.databinding.ActivityResultsBinding
+import com.uniview.uniview.databinding.ActivityResultsBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.util.*
 
