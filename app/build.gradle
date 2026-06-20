@@ -2,15 +2,15 @@ apply plugin: 'com.android.application'
 apply plugin: 'org.jetbrains.kotlin.android'
 
 android {
-    namespace "com.example.vubview"
+    namespace "com.example.uniview"
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.example.vubview"
+        applicationId "com.example.uniview"
         minSdk 26
         targetSdk 34
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "1.2-beta"
     }
 
     buildTypes {

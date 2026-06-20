@@ -1,4 +1,4 @@
-package com.example.vubview
+package com.example.uniview
 
 import android.Manifest
 import android.content.Intent
@@ -18,7 +18,7 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
-import com.example.vubview.databinding.ActivityMainBinding
+import com.example.uniview.databinding.ActivityMainBinding
 import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val dataStore = VubPreferences(this)
+        val dataStore = Preferences(this)
         dataStore.applyTheme()
 
         super.onCreate(savedInstanceState)
@@ -120,7 +120,7 @@ class MainActivity : AppCompatActivity() {
             .build()
 
         WorkManager.getInstance(applicationContext).enqueueUniquePeriodicWork(
-            "VubDataSync",
+            "UniViewDataSync",
             ExistingPeriodicWorkPolicy.KEEP,
             syncRequest
         )
@@ -158,7 +158,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadNextEventBanner() {
-        val dataStore = VubPreferences(this)
+        val dataStore = Preferences(this)
         val examsUrl = dataStore.examsUrl
         val classesUrl = dataStore.classesUrl
         binding.tvNextEventBanner.text = getString(R.string.next_event_loading)

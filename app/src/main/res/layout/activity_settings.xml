@@ -20,7 +20,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/vub_blue_stable"
+            android:background="@color/main_blue_stable"
             android:padding="16dp">
 
             <TextView
@@ -37,7 +37,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="4dp"
-            android:background="@color/vub_orange_stable" />
+            android:background="@color/main_orange_stable" />
 
     </LinearLayout>
 
@@ -61,7 +61,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:text="← Vorige pagina"
-                android:textColor="@color/vub_blue"
+                android:textColor="@color/main_blue"
                 android:textStyle="bold" />
 
             <TextView
@@ -70,7 +70,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="4dp"
                 android:text="Meldingen"
-                android:textColor="@color/vub_blue"
+                android:textColor="@color/main_blue"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -79,7 +79,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginBottom="16dp"
-                android:background="@color/vub_orange" />
+                android:background="@color/main_orange" />
 
             <Switch
                 android:id="@+id/switch1"
@@ -132,7 +132,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="4dp"
                 android:text="Thema"
-                android:textColor="@color/vub_blue"
+                android:textColor="@color/main_blue"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -141,7 +141,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginBottom="16dp"
-                android:background="@color/vub_orange" />
+                android:background="@color/main_orange" />
 
             <RadioGroup
                 android:id="@+id/themeRadioGroup"
@@ -177,7 +177,7 @@
                 android:id="@+id/buttonSaveSettings"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/vub_orange"
+                android:backgroundTint="@color/main_orange"
                 android:text="Opslaan"
                 android:textColor="@color/white" />
 
@@ -193,7 +193,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Configuratie"
-                android:textColor="@color/vub_blue"
+                android:textColor="@color/main_blue"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:layout_marginBottom="4dp" />
@@ -201,14 +201,14 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/vub_orange"
+                android:background="@color/main_orange"
                 android:layout_marginBottom="16dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Main JSON URL"
-                android:textColor="@color/vub_blue"
+                android:textColor="@color/main_blue"
                 android:textSize="12sp"
                 android:textStyle="bold" />
             <EditText
@@ -224,7 +224,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Classes iCal URL"
-                android:textColor="@color/vub_blue"
+                android:textColor="@color/main_blue"
                 android:textSize="12sp"
                 android:textStyle="bold" />
 
@@ -241,7 +241,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Exams iCal URL"
-                android:textColor="@color/vub_blue"
+                android:textColor="@color/main_blue"
                 android:textSize="12sp"
                 android:textStyle="bold" />
 
@@ -264,7 +264,7 @@
     <!-- Footer Navigation -->
     <LinearLayout
         android:id="@+id/llFooter"
-        style="@style/VUBFooterStyle"
+        style="@style/MainFooterStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"

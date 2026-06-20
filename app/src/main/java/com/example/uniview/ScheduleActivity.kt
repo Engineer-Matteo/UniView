@@ -1,4 +1,4 @@
-package com.example.vubview
+package com.example.uniview
 
 import android.content.Intent
 import android.graphics.Color
@@ -11,15 +11,14 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.vubview.databinding.ActivityScheduleBinding
+import com.example.uniview.databinding.ActivityScheduleBinding
 import java.text.SimpleDateFormat
 import java.util.*
 
 class ScheduleActivity : AppCompatActivity() {
     private lateinit var binding: ActivityScheduleBinding
-    private lateinit var dataStore: VubPreferences
+    private lateinit var dataStore: Preferences
     private val upcomingAdapter = EventsAdapter()
     private val pastAdapter = EventsAdapter()
     private var allEvents = listOf<NextEvent>()
@@ -27,7 +26,7 @@ class ScheduleActivity : AppCompatActivity() {
     private var isCalendarView = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        dataStore = VubPreferences(this)
+        dataStore = Preferences(this)
         dataStore.applyTheme()
 
         super.onCreate(savedInstanceState)

@@ -6,7 +6,7 @@
     android:background="#f0f0f0"
     android:paddingHorizontal="16dp"
     android:paddingVertical="8dp"
-    android:textColor="@color/vub_blue"
+    android:textColor="@color/main_blue"
     android:textSize="14sp"
     android:textStyle="bold"
     android:layout_marginTop="16dp" />

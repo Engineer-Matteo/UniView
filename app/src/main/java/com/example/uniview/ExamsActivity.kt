@@ -1,21 +1,21 @@
-package com.example.vubview
+package com.example.uniview
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.vubview.databinding.ActivityExamsBinding
+import com.example.uniview.databinding.ActivityExamsBinding
 
 class ExamsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityExamsBinding
-    private lateinit var dataStore: VubPreferences
+    private lateinit var dataStore: Preferences
     private val upcomingAdapter = EventsAdapter()
     private val pastAdapter = EventsAdapter()
     private var allEvents = listOf<NextEvent>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        dataStore = VubPreferences(this)
+        dataStore = Preferences(this)
         dataStore.applyTheme()
 
         super.onCreate(savedInstanceState)

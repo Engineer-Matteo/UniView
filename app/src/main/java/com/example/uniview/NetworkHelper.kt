@@ -1,4 +1,4 @@
-package com.example.vubview
+package com.example.uniview
 
 import android.util.Log
 import java.io.BufferedReader

@@ -1,4 +1,4 @@
-package com.example.vubview
+package com.example.uniview
 
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
@@ -77,7 +77,7 @@ internal fun updateAppWidget(
 
     if (next == null) {
         views.setViewVisibility(R.id.widget_label, View.GONE)
-        val prefs = VubPreferences(context)
+        val prefs = Preferences(context)
         if (prefs.examsUrl.isNullOrBlank() && prefs.classesUrl.isNullOrBlank()) {
             views.setTextViewText(R.id.widget_content, "Voer URL's in de app in.")
         } else {

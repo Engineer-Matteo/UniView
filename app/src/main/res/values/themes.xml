@@ -1,51 +1,51 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.VUBView" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.UniView" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/vub_blue</item>
-        <item name="colorPrimaryVariant">@color/vub_blue_dark</item>
+        <item name="colorPrimary">@color/main_blue</item>
+        <item name="colorPrimaryVariant">@color/main_blue_dark</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/vub_orange</item>
+        <item name="colorSecondary">@color/main_orange</item>
         <item name="colorOnSecondary">@color/white</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor">@color/vub_blue_dark</item>
+        <item name="android:statusBarColor">@color/main_blue_dark</item>
         <!-- Customize your theme here. -->
         <item name="android:windowBackground">@color/background_light</item>
     </style>
 
-    <style name="VUBHeaderStyle">
-        <item name="android:background">@color/vub_blue_stable</item>
+    <style name="MainHeaderStyle">
+        <item name="android:background">@color/main_blue_stable</item>
         <item name="android:padding">16dp</item>
         <item name="android:textColor">@color/white_stable</item>
         <item name="android:textSize">20sp</item>
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="VUBFooterStyle">
-        <item name="android:background">@color/vub_blue_dark_stable</item>
+    <style name="MainFooterStyle">
+        <item name="android:background">@color/main_blue_dark_stable</item>
         <item name="android:padding">8dp</item>
     </style>
 
-    <style name="VUBCardStyle" parent="Widget.MaterialComponents.CardView">
+    <style name="MainCardStyle" parent="Widget.MaterialComponents.CardView">
         <item name="cardCornerRadius">8dp</item>
         <item name="cardElevation">2dp</item>
         <item name="android:layout_margin">8dp</item>
         <item name="cardBackgroundColor">@color/white</item>
     </style>
 
-    <style name="VUBMenuButtonStyle">
+    <style name="MainMenuButtonStyle">
         <item name="android:background">@drawable/bg_menu_item</item>
         <item name="android:padding">16dp</item>
         <item name="android:layout_marginBottom">8dp</item>
         <item name="android:drawablePadding">16dp</item>
         <item name="android:gravity">center_vertical</item>
-        <item name="android:textColor">@color/vub_blue</item>
+        <item name="android:textColor">@color/main_blue</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="Theme.VUBView.AppWidgetContainerParent" parent="@android:style/Theme.DeviceDefault">
+    <style name="Theme.UniView.AppWidgetContainerParent" parent="@android:style/Theme.DeviceDefault">
         <!-- Radius of the outer bound of widgets to make the rounded corners -->
         <item name="appWidgetRadius">16dp</item>
         <!--
@@ -55,7 +55,7 @@
         <item name="appWidgetInnerRadius">8dp</item>
     </style>
 
-    <style name="Theme.VUBView.AppWidgetContainer" parent="Theme.VUBView.AppWidgetContainerParent">
+    <style name="Theme.UniView.AppWidgetContainer" parent="Theme.UniView.AppWidgetContainerParent">
         <!-- Apply padding to avoid the content of the widget colliding with the rounded corners -->
         <item name="appWidgetPadding">16dp</item>
     </style>

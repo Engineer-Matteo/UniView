@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Volgend evenement:"
-            android:textColor="@color/vub_orange"
+            android:textColor="@color/main_orange"
             android:textSize="12sp"
             android:textStyle="bold" />
 

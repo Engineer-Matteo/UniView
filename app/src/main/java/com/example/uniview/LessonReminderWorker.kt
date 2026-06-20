@@ -1,4 +1,4 @@
-package com.example.vubview
+package com.example.uniview
 
 import android.Manifest
 import android.app.NotificationChannel
@@ -17,7 +17,7 @@ import androidx.work.WorkerParameters
 class LessonReminderWorker(context: Context, workerParams: WorkerParameters) : Worker(context, workerParams) {
 
     companion object {
-        private const val CHANNEL_ID = "vub_view_updates"
+        private const val CHANNEL_ID = "uni_view_updates"
         private const val ID_NEXT_CLASS = 1004
     }
 
@@ -54,7 +54,7 @@ class LessonReminderWorker(context: Context, workerParams: WorkerParameters) : W
 
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name = "VUBVIEW Updates"
+            val name = "UNIVIEW Updates"
             val descriptionText = "Meldingen voor nieuwe resultaten en roosterwijzigingen"
             val importance = NotificationManager.IMPORTANCE_DEFAULT
             val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {

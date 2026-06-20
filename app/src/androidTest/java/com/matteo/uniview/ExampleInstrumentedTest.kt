@@ -1,4 +1,4 @@
-package com.matteo.vubview
+package com.matteo.uniview
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.matteo.vubview", appContext.packageName)
+        assertEquals("com.example.uniview", appContext.packageName)
     }
 }

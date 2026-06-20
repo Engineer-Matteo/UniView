@@ -1,10 +1,9 @@
-package com.example.vubview
+package com.example.uniview
 
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
-import java.util.*
 
 object IcalParser {
     private val dateOnlyFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")

@@ -1,17 +1,17 @@
-package com.example.vubview
+package com.example.uniview
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.example.vubview.databinding.ActivitySettingsBinding
+import com.example.uniview.databinding.ActivitySettingsBinding
 
 class SettingsActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySettingsBinding
-    private lateinit var dataStore: VubPreferences
+    private lateinit var dataStore: Preferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        dataStore = VubPreferences(this)
+        dataStore = Preferences(this)
         dataStore.applyTheme()
 
         super.onCreate(savedInstanceState)

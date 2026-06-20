@@ -1,4 +1,4 @@
-package com.example.vubview
+package com.example.uniview
 
 import android.content.Intent
 import android.os.Bundle
@@ -15,19 +15,19 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.vubview.databinding.ActivityResultsBinding
+import com.example.uniview.databinding.ActivityResultsBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.util.*
 
 class ResultsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityResultsBinding
     private val adapter = ResultsAdapter { showBreakdownDialog(it) }
-    private lateinit var dataStore: VubPreferences
+    private lateinit var dataStore: Preferences
     private val allResults = mutableListOf<ResultEntry>()
     private val allBreakdowns = mutableListOf<BreakdownEntry>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        dataStore = VubPreferences(this)
+        dataStore = Preferences(this)
         dataStore.applyTheme()
 
         super.onCreate(savedInstanceState)

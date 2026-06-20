@@ -1,4 +1,4 @@
-package com.example.vubview
+package com.example.uniview
 
 import android.content.Context
 import java.io.File

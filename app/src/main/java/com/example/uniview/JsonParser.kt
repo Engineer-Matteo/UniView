@@ -1,8 +1,7 @@
-package com.example.vubview
+package com.example.uniview
 
 import android.util.Log
 import org.json.JSONArray
-import org.json.JSONObject
 
 object JsonParser {
     private const val TAG = "JsonParser"

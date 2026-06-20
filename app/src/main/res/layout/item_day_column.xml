@@ -19,7 +19,7 @@
             android:id="@+id/dayName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/vub_blue"
+            android:textColor="@color/main_blue"
             android:textSize="12sp"
             android:textStyle="bold"
             android:textAllCaps="true" />
