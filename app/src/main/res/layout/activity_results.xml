@@ -27,7 +27,7 @@
                 android:id="@+id/headerTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Resultaten"
+                android:text="@string/header_results"
                 android:textColor="@color/white_stable"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -41,7 +41,7 @@
                 android:background="@drawable/bg_avg_badge"
                 android:paddingHorizontal="12dp"
                 android:paddingVertical="4dp"
-                android:text="gem. 0,0 /20"
+                android:text="@string/label_average_placeholder"
                 android:textColor="@color/white_stable"
                 android:textSize="14sp" />
         </RelativeLayout>
@@ -66,7 +66,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingVertical="8dp"
-            android:text="← Vorige pagina"
+            android:text="@string/back_to_previous"
             android:textColor="@color/main_blue"
             android:textStyle="bold" />
 
@@ -84,7 +84,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Academisch jaar"
+                    android:text="@string/label_academic_year"
                     android:textColor="@color/main_blue"
                     android:textSize="12sp"
                     android:textStyle="bold" />
@@ -106,7 +106,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Semester"
+                    android:text="@string/label_semester"
                     android:textColor="@color/main_blue"
                     android:textSize="12sp"
                     android:textStyle="bold" />
@@ -124,7 +124,7 @@
             android:layout_height="48dp"
             android:layout_marginTop="12dp"
             android:background="@drawable/bg_input_field"
-            android:hint="Zoek een vak..."
+            android:hint="@string/hint_search_course"
             android:inputType="text"
             android:paddingHorizontal="12dp" />
 
@@ -151,7 +151,7 @@
         android:id="@+id/emptyView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Geen resultaten gevonden"
+        android:text="@string/empty_results"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/llFooter"
         app:layout_constraintEnd_toEndOf="parent"

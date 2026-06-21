@@ -127,7 +127,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun forceSync() {
-        Toast.makeText(this, "Gegevens worden opgehaald...", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, getString(R.string.sync_in_progress), Toast.LENGTH_SHORT).show()
         
         val constraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.CONNECTED)
@@ -148,10 +148,10 @@ class MainActivity : AppCompatActivity() {
         workManager.getWorkInfoByIdLiveData(syncRequest.id).observe(this) { workInfo ->
             if (workInfo != null && workInfo.state.isFinished) {
                 if (workInfo.state == WorkInfo.State.SUCCEEDED) {
-                    Toast.makeText(this, "Sync voltooid", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getString(R.string.sync_completed), Toast.LENGTH_SHORT).show()
                     loadNextEventBanner()
                 } else {
-                    Toast.makeText(this, "Sync mislukt", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getString(R.string.sync_failed), Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -206,8 +206,8 @@ class MainActivity : AppCompatActivity() {
                     }
                 } else {
                     binding.tvNextEventLabel.visibility = View.VISIBLE
-                    binding.tvNextEventLabel.text = if (next.kind == "exam") "Volgend examen:" else "Volgende les:"
-                    binding.tvNextEventBanner.text = getString(R.string.next_event_text, next.title, next.dateLabel(), next.timeLabel())
+                    binding.tvNextEventLabel.text = if (next.kind == "exam") getString(R.string.label_next_exam) else getString(R.string.label_next_lesson)
+                    binding.tvNextEventBanner.text = getString(R.string.next_event_text, next.title, next.dateLabel(this), next.timeLabel())
                 }
             }
         }.start()

@@ -79,15 +79,15 @@ internal fun updateAppWidget(
         views.setViewVisibility(R.id.widget_label, View.GONE)
         val prefs = Preferences(context)
         if (prefs.examsUrl.isNullOrBlank() && prefs.classesUrl.isNullOrBlank()) {
-            views.setTextViewText(R.id.widget_content, "Voer URL's in de app in.")
+            views.setTextViewText(R.id.widget_content, context.getString(R.string.widget_setup_hint))
         } else {
-            views.setTextViewText(R.id.widget_content, "Geen komende evenementen.")
+            views.setTextViewText(R.id.widget_content, context.getString(R.string.next_event_none))
         }
     } else {
         views.setViewVisibility(R.id.widget_label, View.VISIBLE)
-        views.setTextViewText(R.id.widget_label, if (next.kind == "exam") "Volgend examen:" else "Volgende les:")
+        views.setTextViewText(R.id.widget_label, if (next.kind == "exam") context.getString(R.string.label_next_exam) else context.getString(R.string.label_next_lesson))
         
-        val content = "${next.title}\n${next.dateLabel()} om ${next.timeLabel()}"
+        val content = context.getString(R.string.format_next_event_widget, next.title, next.dateLabel(context), next.timeLabel())
         views.setTextViewText(R.id.widget_content, content)
     }
 

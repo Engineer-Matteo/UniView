@@ -17,7 +17,7 @@
             android:id="@+id/widget_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Volgend evenement:"
+            android:text="@string/label_next_event"
             android:textColor="@color/main_orange"
             android:textSize="12sp"
             android:textStyle="bold" />
@@ -26,7 +26,7 @@
             android:id="@+id/widget_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Laden..."
+            android:text="@string/loading"
             android:textColor="@color/black"
             android:textSize="14sp"
             android:layout_marginTop="2dp" />

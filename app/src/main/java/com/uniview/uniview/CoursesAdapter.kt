@@ -30,10 +30,11 @@ class CoursesAdapter(
         private val meta = itemView.findViewById<TextView>(R.id.courseMeta)
 
         fun bind(item: CourseEntry) {
+            val context = itemView.context
             name.text = item.name
             professor.text = item.professor
-            // Use 'program' (BA1 IR, etc.) instead of academic 'year'
-            meta.text = "${item.program} · ${item.semester} · ${item.ects} ECTS"
+            // Use format_course_meta: %1$s · %2$s · %3$d ECTS
+            meta.text = context.getString(R.string.format_course_meta, item.program, item.semester, item.ects)
             
             itemView.setOnClickListener { onCourseClick(item) }
         }

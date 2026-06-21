@@ -37,7 +37,11 @@ class ExamsActivity : AppCompatActivity() {
             binding.pastExamsRecycler.visibility = if (isHidden) View.VISIBLE else View.GONE
             
             val pastCount = allEvents.count { !it.isUpcoming() }
-            binding.btnShowPast.text = if (isHidden) "Verberg geschiedenis ($pastCount)" else "Toon verleden ($pastCount)"
+            binding.btnShowPast.text = if (isHidden) {
+                getString(R.string.btn_hide_past_exams, pastCount)
+            } else {
+                getString(R.string.btn_show_past_exams_count, pastCount)
+            }
         }
 
         setupBottomNavigation()
@@ -97,7 +101,7 @@ class ExamsActivity : AppCompatActivity() {
             } catch (e: Exception) {
                 runOnUiThread {
                     if (allEvents.isEmpty()) {
-                        binding.emptyView.text = "Kon examengegevens niet laden"
+                        binding.emptyView.text = getString(R.string.error_loading_data)
                         binding.emptyView.visibility = View.VISIBLE
                     }
                 }
@@ -118,7 +122,9 @@ class ExamsActivity : AppCompatActivity() {
         if (past.isNotEmpty()) {
             binding.btnShowPast.visibility = View.VISIBLE
             binding.btnShowPast.text = if (binding.pastExamsRecycler.visibility == View.VISIBLE) 
-                "Verberg geschiedenis (${past.size})" else "Toon verleden (${past.size})"
+                getString(R.string.btn_hide_past_exams, past.size) 
+            else 
+                getString(R.string.btn_show_past_exams_count, past.size)
         } else {
             binding.btnShowPast.visibility = View.GONE
         }
@@ -129,7 +135,7 @@ class ExamsActivity : AppCompatActivity() {
         var lastDate: String? = null
         events.forEach { event ->
             if (event.date != lastDate) {
-                items.add(ScheduleListItem.Header(event.formattedDate()))
+                items.add(ScheduleListItem.Header(event.formattedDate(this)))
                 lastDate = event.date
             }
             items.add(ScheduleListItem.Event(event))

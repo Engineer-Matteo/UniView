@@ -59,12 +59,18 @@ class EventsAdapter : ListAdapter<ScheduleListItem, RecyclerView.ViewHolder>(Sch
 
         fun bind(item: ScheduleListItem.Event) {
             val event = item.event
+            val context = itemView.context
             title.text = event.title
             
-            val meta = StringBuilder()
-            meta.append("${event.start} – ${event.end}")
-            if (event.type.isNotBlank()) meta.append(" · ${event.type}")
-            if (event.room.isNotBlank()) meta.append(" · ${event.room}")
+            val timeRange = context.getString(R.string.format_time_range, event.start, event.end)
+            val meta = StringBuilder(timeRange)
+            
+            if (event.type.isNotBlank()) {
+                meta.append(context.getString(R.string.format_meta_separator, event.type))
+            }
+            if (event.room.isNotBlank()) {
+                meta.append(context.getString(R.string.format_meta_separator, event.room))
+            }
             
             details.text = meta.toString()
         }

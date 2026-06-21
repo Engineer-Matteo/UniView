@@ -116,7 +116,7 @@ class CoursesActivity : AppCompatActivity() {
                 runOnUiThread {
                     binding.progressBar.visibility = View.GONE
                     if (allCourses.isEmpty()) {
-                        binding.emptyView.text = "Kon gegevens niet laden"
+                        binding.emptyView.text = getString(R.string.error_loading_data)
                         binding.emptyView.visibility = View.VISIBLE
                     }
                 }
@@ -170,12 +170,12 @@ class CoursesActivity : AppCompatActivity() {
 
         dialogView.findViewById<TextView>(R.id.detailCourseName).text = course.name
         dialogView.findViewById<TextView>(R.id.detailProfessor).text = course.professor
-        dialogView.findViewById<TextView>(R.id.detailMeta).text = "${course.program} · ${course.semester} · ${course.ects} ECTS"
+        dialogView.findViewById<TextView>(R.id.detailMeta).text = getString(R.string.format_course_meta, course.program, course.semester, course.ects)
         
         val yearLocation = if (course.location.isNullOrBlank()) {
             course.year
         } else {
-            "${course.year} · ${course.location}"
+            getString(R.string.format_year_location, course.year, course.location)
         }
         dialogView.findViewById<TextView>(R.id.detailYearLocation).text = yearLocation
 

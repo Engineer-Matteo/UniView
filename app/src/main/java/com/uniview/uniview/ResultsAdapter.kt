@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import java.util.Locale
 
 class ResultsAdapter(
     private val onDetailClick: (ResultEntry) -> Unit
@@ -32,12 +33,22 @@ class ResultsAdapter(
         private val progress = itemView.findViewById<ProgressBar>(R.id.resultProgress)
 
         fun bind(item: ResultEntry) {
-            title.text = item.course
-            details.text = "Score: ${item.grade} / 20 - ${item.period.semester} ${item.period.year} - ${item.ects} ECTS"
+            val context = itemView.context
+            val locale = Locale(context.getString(R.string.locale_lang), context.getString(R.string.locale_country))
+            
+            title.text = item.course.ifBlank { context.getString(R.string.course_name_unknown) }
+            
+            val gradeStr = String.format(locale, context.getString(R.string.format_decimal_one_place), item.grade)
+            details.text = context.getString(
+                R.string.placeholder_result_detail_format, 
+                gradeStr, 
+                item.period.semester, 
+                item.period.year, 
+                item.ects
+            )
             
             progress.progress = (item.grade * 5).toInt()
             
-            val context = itemView.context
             val progressDrawable = when {
                 item.grade < 10 -> R.drawable.bg_progress_red
                 item.grade < 15 -> R.drawable.bg_progress_yellow

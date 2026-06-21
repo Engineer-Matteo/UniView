@@ -27,7 +27,7 @@
                 android:id="@+id/headerTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Opleidingsonderdelen"
+                android:text="@string/header_courses"
                 android:textColor="@color/white_stable"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -60,7 +60,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingVertical="8dp"
-                android:text="← Vorige pagina"
+                android:text="@string/back_to_previous"
                 android:textColor="@color/main_blue"
                 android:textStyle="bold" />
 
@@ -85,7 +85,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Opleidingsjaar"
+                            android:text="@string/label_program_year"
                             android:textColor="@color/main_blue"
                             android:textSize="12sp"
                             android:textStyle="bold" />
@@ -106,7 +106,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Semester"
+                            android:text="@string/label_semester"
                             android:textColor="@color/main_blue"
                             android:textSize="12sp"
                             android:textStyle="bold" />
@@ -124,7 +124,7 @@
                     android:layout_height="48dp"
                     android:layout_marginTop="12dp"
                     android:background="@drawable/bg_input_field"
-                    android:hint="Zoek een vak..."
+                    android:hint="@string/hint_search_course"
                     android:inputType="text"
                     android:paddingHorizontal="12dp" />
 
@@ -148,7 +148,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:padding="32dp"
-                android:text="Geen opleidingsonderdelen beschikbaar"
+                android:text="@string/empty_courses"
                 android:visibility="gone" />
 
             <ProgressBar
