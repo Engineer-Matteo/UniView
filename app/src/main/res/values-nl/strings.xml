@@ -130,4 +130,9 @@
     <string name="placeholder_result_detail">Score: 10 / 20 - BA1 SEM1 2024-2025 - 5 ECTS</string>
     <string name="placeholder_breakdown_title">Theorie-examen oktober</string>
     <string name="placeholder_breakdown_score">8 / 20 (5%)</string>
+
+    <string name="update_available_title">Update beschikbaar</string>
+    <string name="update_available_message">Er is een nieuwe versie (%1$s) beschikbaar op GitHub. Wil je deze downloaden?</string>
+    <string name="update_btn_download">Downloaden</string>
+    <string name="update_btn_later">Later</string>
 </resources>

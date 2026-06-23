@@ -130,4 +130,9 @@
     <string name="date_format_month_day">d MMMM</string>
     <string name="date_format_month_day_year">d MMMM yyyy</string>
     <string name="date_format_day_only">EEEE</string>
+
+    <string name="update_available_title">Update Available</string>
+    <string name="update_available_message">A new version (%1$s) is available on GitHub. Would you like to download it?</string>
+    <string name="update_btn_download">Download</string>
+    <string name="update_btn_later">Later</string>
 </resources>

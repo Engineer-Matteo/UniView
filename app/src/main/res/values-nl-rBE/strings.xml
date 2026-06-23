@@ -90,7 +90,7 @@
     <string name="title_weekly_schedule_widget">Rooster deze week</string>
     <string name="empty_weekly_schedule_widget">Geen evenementen deze week</string>
     <string name="add_widget">Widget toevoegen</string>
-    <string name="format_next_event_widget">%1$s %2$s om %3$</string>
+    <string name="format_next_event_widget">%1$s %2$s om %3$s</string>
     <string name="format_weekly_schedule_widget_item">%1$s %2$s - %3$s %4$s</string>
     <string name="widget_setup_hint">Voer URL\'s in de app in.</string>
     <string name="sync_in_progress">Gegevens worden opgehaald...</string>
@@ -130,4 +130,9 @@
     <string name="placeholder_result_detail">Score: 10 / 20 - BA1 SEM1 2024-2025 - 5 ECTS</string>
     <string name="placeholder_breakdown_title">Theorie-examen oktober</string>
     <string name="placeholder_breakdown_score">8 / 20 (5%)</string>
+
+    <string name="update_available_title">Update beschikbaar</string>
+    <string name="update_available_message">Er is een nieuwe versie (%1$s) beschikbaar op GitHub. Wil je deze downloaden?</string>
+    <string name="update_btn_download">Downloaden</string>
+    <string name="update_btn_later">Later</string>
 </resources>
