@@ -68,7 +68,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onResume() {
-        super.onResume() // Fixed: was calling super.onStart()
+        super.onResume()
         Log.d(TAG, "onResume reached")
     }
 
@@ -149,6 +149,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun forceSync() {
         Toast.makeText(this, getString(R.string.sync_in_progress), Toast.LENGTH_SHORT).show()
+        
+        // Also check for app updates when manually syncing
+        UpdateChecker.checkForUpdates(this)
+
         val constraints = Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build()
         val syncRequest = OneTimeWorkRequestBuilder<SyncWorker>().setConstraints(constraints).build()
         val wm = WorkManager.getInstance(applicationContext)

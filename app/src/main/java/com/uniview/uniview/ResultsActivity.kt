@@ -191,8 +191,11 @@ class ResultsActivity : AppCompatActivity() {
                 
                 val progressDrawable = when {
                     item.score < 10 -> R.drawable.bg_progress_red
+                    item.score < 13 -> R.drawable.bg_progress_orange
                     item.score < 15 -> R.drawable.bg_progress_yellow
-                    else -> R.drawable.bg_progress_green
+                    item.score < 17 -> R.drawable.bg_progress_green
+                    item.score < 19 -> R.drawable.bg_progress_dark_green
+                    else -> R.drawable.bg_progress_purple
                 }
                 progress.progressDrawable = ContextCompat.getDrawable(this, progressDrawable)
                 
