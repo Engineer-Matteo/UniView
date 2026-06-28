@@ -3,6 +3,8 @@ package com.uniview.uniview
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
+import android.content.pm.PackageManager
 import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import org.json.JSONArray
@@ -15,64 +17,110 @@ object UpdateChecker {
     fun checkForUpdates(context: Context) {
         Thread {
             try {
-                Log.d(TAG, "Checking for updates at $GITHUB_API_URL")
+                val currentVersion = try {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                        context.packageManager.getPackageInfo(context.packageName, PackageManager.PackageInfoFlags.of(0)).versionName
+                    } else {
+                        @Suppress("DEPRECATION")
+                        context.packageManager.getPackageInfo(context.packageName, 0).versionName
+                    } ?: "0.0.0"
+                } catch (e: Exception) { "0.0.0" }
+
+                Log.d(TAG, "Local version: $currentVersion")
+                Log.d(TAG, "Fetching updates from: $GITHUB_API_URL")
+                
                 val response = NetworkHelper.fetchUrl(GITHUB_API_URL)
-                if (response.isBlank()) return@Thread
+                if (response.isBlank()) {
+                    Log.w(TAG, "Empty response from GitHub")
+                    return@Thread
+                }
 
                 val releases = JSONArray(response)
-                if (releases.length() == 0) return@Thread
+                if (releases.length() == 0) {
+                    Log.d(TAG, "No releases found")
+                    return@Thread
+                }
 
-                // Get the most recent release
+                // GitHub API returns releases sorted by creation date (descending)
                 val latestRelease = releases.getJSONObject(0)
                 val latestVersionTag = latestRelease.getString("tag_name")
-                val latestVersion = latestVersionTag.removePrefix("v")
                 val downloadUrl = latestRelease.getString("html_url")
                 
-                val currentVersion = try {
-                    context.packageManager.getPackageInfo(context.packageName, 0).versionName ?: "0.0.0"
-                } catch (e: Exception) { "0.0.0" }
+                Log.d(TAG, "Latest remote version: $latestVersionTag")
                 
-                Log.d(TAG, "Version comparison: Local=$currentVersion, Remote=$latestVersion")
-                
-                if (isNewerVersion(currentVersion, latestVersion)) {
+                if (isNewerVersion(currentVersion, latestVersionTag)) {
+                    Log.i(TAG, "Update available! Showing dialog.")
                     (context as? MainActivity)?.runOnUiThread {
                         if (!(context as MainActivity).isFinishing && !(context as MainActivity).isDestroyed) {
-                            showUpdateDialog(context, latestVersion, downloadUrl)
+                            showUpdateDialog(context, latestVersionTag, downloadUrl)
                         }
                     }
+                } else {
+                    Log.d(TAG, "App is up to date.")
                 }
             } catch (e: Exception) {
-                Log.e(TAG, "Update check failed: ${e.message}")
+                Log.e(TAG, "Update check failed: ${e.message}", e)
             }
         }.start()
     }
 
-    /**
-     * Compares version strings. Handles basic semver and beta tags.
-     * Returns true if [latest] is a higher version than [current].
-     */
     private fun isNewerVersion(current: String, latest: String): Boolean {
+        val curr = current.removePrefix("v").trim()
+        val late = latest.removePrefix("v").trim()
+        
+        if (curr == late) return false
+        
         try {
-            // Clean versions (e.g. "1.2-beta" -> "1.2", "0.2.0-beta.1" -> "0.2.0")
-            val currClean = current.split("-")[0].split(".").map { it.toIntOrNull() ?: 0 }
-            val lateClean = latest.split("-")[0].split(".").map { it.toIntOrNull() ?: 0 }
+            val currParts = curr.split("-")
+            val lateParts = late.split("-")
             
-            val maxParts = maxOf(currClean.size, lateClean.size)
+            // Compare main version numbers (e.g., 0.3.1 vs 0.3.0)
+            val currNums = currParts[0].split(".").map { it.toIntOrNull() ?: 0 }
+            val lateNums = lateParts[0].split(".").map { it.toIntOrNull() ?: 0 }
+            
+            val maxParts = maxOf(currNums.size, lateNums.size)
             for (i in 0 until maxParts) {
-                val c = currClean.getOrElse(i) { 0 }
-                val l = lateClean.getOrElse(i) { 0 }
+                val c = currNums.getOrElse(i) { 0 }
+                val l = lateNums.getOrElse(i) { 0 }
                 if (l > c) return true
                 if (l < c) return false
             }
             
-            // If numbers match exactly, check for beta vs stable
-            // Usually, "1.2" is newer than "1.2-beta"
-            if (current.contains("-") && !latest.contains("-") && current.startsWith(latest)) return true
+            // Numbers are equal, handle suffixes (e.g., 0.3.0 vs 0.3.0-beta)
+            val currHasSuffix = currParts.size > 1
+            val lateHasSuffix = lateParts.size > 1
             
-            return false
+            // Stable is newer than beta (0.3.0 > 0.3.0-beta)
+            if (currHasSuffix && !lateHasSuffix) return true
+            if (!currHasSuffix && lateHasSuffix) return false
+            
+            // Both have suffixes (beta.2 vs beta.1)
+            if (currHasSuffix && lateHasSuffix) {
+                return compareSuffix(currParts[1], lateParts[1]) > 0
+            }
         } catch (e: Exception) {
-            return latest != current && !current.startsWith(latest)
+            Log.e(TAG, "Comparison error", e)
+            return late != curr
         }
+        return false
+    }
+
+    private fun compareSuffix(curr: String, late: String): Int {
+        val currParts = curr.split(".")
+        val lateParts = late.split(".")
+        for (i in 0 until maxOf(currParts.size, lateParts.size)) {
+            val c = currParts.getOrNull(i) ?: ""
+            val l = lateParts.getOrNull(i) ?: ""
+            val cNum = c.filter { it.isDigit() }.toIntOrNull()
+            val lNum = l.filter { it.isDigit() }.toIntOrNull()
+            
+            if (cNum != null && lNum != null) {
+                if (lNum != cNum) return lNum - cNum
+            } else if (c != l) {
+                return l.compareTo(c)
+            }
+        }
+        return 0
     }
 
     private fun showUpdateDialog(context: Context, version: String, url: String) {
