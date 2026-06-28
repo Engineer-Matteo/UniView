@@ -82,7 +82,11 @@ class ScheduleActivity : AppCompatActivity() {
             
             val pastEventsCount = allEvents.count { !it.isUpcoming() }
             
-            binding.btnShowPast.text = if (isHidden) "Verberg vorige afspraken ($pastEventsCount)" else "Toon vorige afspraken ($pastEventsCount)"
+            binding.btnShowPast.text = if (isHidden) {
+                getString(R.string.btn_show_past_appointments_count, pastEventsCount)
+            } else {
+                getString(R.string.btn_hide_past_appointments, pastEventsCount)
+            }
         }
     }
 
@@ -91,13 +95,13 @@ class ScheduleActivity : AppCompatActivity() {
             binding.calendarControls.visibility = View.VISIBLE
             binding.timetableScroll.visibility = View.VISIBLE
             binding.listContainer.visibility = View.GONE
-            binding.pageTitle.text = "Wekelijkse uurrooster"
+            binding.pageTitle.text = getString(R.string.title_weekly_schedule)
             renderWeek() 
         } else {
             binding.calendarControls.visibility = View.GONE
             binding.timetableScroll.visibility = View.GONE
             binding.listContainer.visibility = View.VISIBLE
-            binding.pageTitle.text = "Lijstweergave"
+            binding.pageTitle.text = getString(R.string.title_list_view)
             renderList()
         }
     }
@@ -153,7 +157,7 @@ class ScheduleActivity : AppCompatActivity() {
             } catch (e: Exception) {
                 runOnUiThread {
                     if (allEvents.isEmpty()) {
-                        binding.emptyView.text = "Kon gegevens niet laden"
+                        binding.emptyView.text = getString(R.string.error_loading_data)
                         binding.emptyView.visibility = View.VISIBLE
                     }
                 }
@@ -161,8 +165,12 @@ class ScheduleActivity : AppCompatActivity() {
         }.start()
     }
 
+    private fun getAppLocale(): Locale {
+        return Locale(getString(R.string.locale_lang), getString(R.string.locale_country))
+    }
+
     private fun getMonday(offset: Int): Calendar {
-        val cal = Calendar.getInstance(Locale("nl", "BE"))
+        val cal = Calendar.getInstance(getAppLocale())
         cal.firstDayOfWeek = Calendar.MONDAY
         val day = cal.get(Calendar.DAY_OF_WEEK)
         val diff = if (day == Calendar.SUNDAY) -6 else Calendar.MONDAY - day
@@ -192,14 +200,15 @@ class ScheduleActivity : AppCompatActivity() {
     }
 
     private fun renderWeek() {
+        val locale = getAppLocale()
         val monday = getMonday(weekOffset)
-        val fmt = SimpleDateFormat("d MMMM", Locale("nl", "BE"))
-        val fmtWithYear = SimpleDateFormat("d MMMM yyyy", Locale("nl", "BE"))
+        val fmt = SimpleDateFormat(getString(R.string.date_format_month_day), locale)
+        val fmtWithYear = SimpleDateFormat(getString(R.string.date_format_month_day_year), locale)
         
         val sunday = monday.clone() as Calendar
         sunday.add(Calendar.DAY_OF_YEAR, 6)
         
-        binding.weekLabel.text = "${fmt.format(monday.time)} – ${fmtWithYear.format(sunday.time)}"
+        binding.weekLabel.text = getString(R.string.date_format_week_label, fmt.format(monday.time), fmtWithYear.format(sunday.time))
         
         updateAverageWeeklyHours(monday)
 
@@ -229,7 +238,7 @@ class ScheduleActivity : AppCompatActivity() {
         if (activeDayIndices.isEmpty()) {
             if (isCalendarView) {
                 binding.emptyView.visibility = View.VISIBLE
-                binding.emptyView.text = "Geen lessen deze week."
+                binding.emptyView.text = getString(R.string.empty_week)
             }
             return
         }
@@ -242,8 +251,8 @@ class ScheduleActivity : AppCompatActivity() {
         today.set(Calendar.MILLISECOND, 0)
         val todayMillis = today.timeInMillis
 
-        val dayFmt = SimpleDateFormat("EEEE", Locale("nl", "BE"))
-        val dateFmt = SimpleDateFormat("d MMM", Locale("nl", "BE"))
+        val dayFmt = SimpleDateFormat(getString(R.string.date_format_day_only), locale)
+        val dateFmt = SimpleDateFormat(getString(R.string.date_format_day_short), locale)
 
         activeDayIndices.forEach { i ->
             val dayCal = weekCalendars[i]
@@ -328,7 +337,7 @@ class ScheduleActivity : AppCompatActivity() {
             }
 
             eventView.findViewById<TextView>(R.id.eventCourse).text = eventInfo.row.title
-            eventView.findViewById<TextView>(R.id.eventTime).text = "${eventInfo.row.start} – ${eventInfo.row.end}"
+            eventView.findViewById<TextView>(R.id.eventTime).text = getString(R.string.format_time_range, eventInfo.row.start, eventInfo.row.end)
             eventView.findViewById<TextView>(R.id.eventType).text = eventInfo.row.type
             eventView.findViewById<TextView>(R.id.eventRoom).text = eventInfo.row.room
             
@@ -339,15 +348,15 @@ class ScheduleActivity : AppCompatActivity() {
 
     private fun showEventDetails(event: NextEvent) {
         val msg = StringBuilder()
-        msg.append("Dag: ${event.formattedDate()}\n")
-        msg.append("Tijd: ${event.start} – ${event.end}\n")
-        if (event.type.isNotBlank()) msg.append("Lestype: ${event.type}\n")
-        if (event.room.isNotBlank()) msg.append("Lokaal: ${event.room}")
+        msg.append(getString(R.string.label_day, event.formattedDate(this))).append("\n")
+        msg.append(getString(R.string.label_time_range, event.start, event.end)).append("\n")
+        if (event.type.isNotBlank()) msg.append(getString(R.string.label_lesson_type, event.type)).append("\n")
+        if (event.room.isNotBlank()) msg.append(getString(R.string.label_room, event.room))
 
         AlertDialog.Builder(this)
             .setTitle(event.title)
             .setMessage(msg.toString())
-            .setPositiveButton("Sluiten", null)
+            .setPositiveButton(getString(R.string.btn_close), null)
             .show()
     }
 
@@ -376,10 +385,10 @@ class ScheduleActivity : AppCompatActivity() {
         }
         val weekCount = weekSet.size
         if (weekCount == 0) {
-            binding.averageHours.text = "gem. 0.0 u/week"
+            binding.averageHours.text = getString(R.string.label_avg_hours, 0.0f)
         } else {
             val avg = totalMinutes.toFloat() / weekCount / 60f
-            binding.averageHours.text = String.format(Locale("nl", "BE"), "gem. %.1f u/week", avg)
+            binding.averageHours.text = String.format(getAppLocale(), getString(R.string.label_avg_hours), avg)
         }
     }
 
@@ -391,7 +400,7 @@ class ScheduleActivity : AppCompatActivity() {
         pastAdapter.submitList(mapEventsToItems(pastEvents))
         
         binding.btnShowPast.visibility = if (pastEvents.isNotEmpty()) View.VISIBLE else View.GONE
-        binding.btnShowPast.text = "Toon vorige afspraken (${pastEvents.size})"
+        binding.btnShowPast.text = getString(R.string.btn_show_past_appointments_count, pastEvents.size)
     }
 
     private fun mapEventsToItems(events: List<NextEvent>): List<ScheduleListItem> {
@@ -400,7 +409,7 @@ class ScheduleActivity : AppCompatActivity() {
         events.forEach { event ->
             val dateKey = event.date
             if (dateKey != lastDate) {
-                items.add(ScheduleListItem.Header(event.formattedDate()))
+                items.add(ScheduleListItem.Header(event.formattedDate(this)))
                 lastDate = dateKey
             }
             items.add(ScheduleListItem.Event(event))

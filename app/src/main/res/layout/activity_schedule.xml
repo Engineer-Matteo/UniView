@@ -27,7 +27,7 @@
                 android:id="@+id/headerTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Lesrooster"
+                android:text="@string/header_schedule"
                 android:textColor="@color/white_stable"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -41,7 +41,7 @@
                 android:background="@drawable/bg_avg_badge"
                 android:paddingHorizontal="12dp"
                 android:paddingVertical="4dp"
-                android:text="gem. -- u/week"
+                android:text="@string/label_avg_hours_placeholder"
                 android:textColor="@color/white_stable"
                 android:textSize="14sp" />
         </RelativeLayout>
@@ -73,7 +73,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingVertical="8dp"
-                android:text="← Vorige pagina"
+                android:text="@string/back_to_previous"
                 android:textColor="@color/main_blue"
                 android:textStyle="bold" />
 
@@ -94,7 +94,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Kalender"
+                    android:text="@string/toggle_calendar"
                     android:textAllCaps="false"
                     android:textColor="@color/main_blue"
                     app:strokeColor="@color/main_blue" />
@@ -105,7 +105,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Lijst"
+                    android:text="@string/toggle_list"
                     android:textAllCaps="false"
                     android:textColor="@color/main_blue"
                     app:strokeColor="@color/main_blue" />
@@ -117,7 +117,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:text="Wekelijkse uurrooster"
+                android:text="@string/title_weekly_schedule"
                 android:textColor="@color/main_blue"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -137,7 +137,7 @@
                     android:layout_width="54dp"
                     android:layout_height="54dp"
                     android:padding="0dp"
-                    android:text="←"
+                    android:text="@string/arrow_left"
                     android:textColor="@color/white"
                     android:textSize="24sp"
                     android:textStyle="bold"
@@ -150,7 +150,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="54dp"
                     android:layout_marginHorizontal="8dp"
-                    android:text="Vandaag"
+                    android:text="@string/btn_today"
                     android:textAllCaps="false"
                     android:textColor="@color/main_blue"
                     android:textStyle="bold"
@@ -164,7 +164,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="Laden..."
+                    android:text="@string/loading"
                     android:textColor="@color/black"
                     android:textSize="14sp"
                     android:textStyle="bold" />
@@ -176,7 +176,7 @@
                     android:layout_height="54dp"
                     android:layout_marginStart="8dp"
                     android:padding="0dp"
-                    android:text="→"
+                    android:text="@string/arrow_right"
                     android:textColor="@color/white"
                     android:textSize="24sp"
                     android:textStyle="bold"
@@ -218,7 +218,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
                     android:backgroundTint="@color/main_orange"
-                    android:text="Toon vorige afspraken"
+                    android:text="@string/btn_show_past_appointments"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     android:visibility="gone" />
@@ -228,8 +228,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:nestedScrollingEnabled="false"
-                    android:visibility="gone" />
+                    android:nestedScrollingEnabled="false" />
             </LinearLayout>
 
             <TextView
@@ -238,7 +237,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
                 android:gravity="center"
-                android:text="Geen roostergegevens beschikbaar"
+                android:text="@string/empty_schedule"
                 android:visibility="gone" />
 
         </LinearLayout>

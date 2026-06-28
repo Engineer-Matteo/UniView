@@ -5,6 +5,9 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -23,6 +26,7 @@ import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+    private val TAG = "MainActivity"
 
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -33,6 +37,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        Log.d(TAG, "onCreate started")
         val dataStore = Preferences(this)
         dataStore.applyTheme()
 
@@ -40,67 +45,85 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setupButtonListeners()
+        setupNavigation()
+        
+        // Spread out startup tasks to avoid main thread congestion
+        val handler = Handler(Looper.getMainLooper())
+        
+        handler.postDelayed({
+            Log.d(TAG, "Executing delayed startup tasks")
+            checkPermissionsAndSync()
+            loadNextEventBanner()
+        }, 500)
+
+        handler.postDelayed({
+            if (!isFinishing && !isDestroyed) {
+                Log.d(TAG, "Triggering update check")
+                UpdateChecker.checkForUpdates(this)
+            }
+        }, 3000) 
+        
+        Log.d(TAG, "onCreate finished")
+    }
+
+    override fun onResume() {
+        super.onResume() // Fixed: was calling super.onStart()
+        Log.d(TAG, "onResume reached")
+    }
+
+    private fun setupButtonListeners() {
         binding.btnResults.setOnClickListener {
             startActivity(Intent(this, ResultsActivity::class.java))
         }
         binding.btnSchedule.setOnClickListener {
-            val intent = Intent(this, ScheduleActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
-            startActivity(intent)
+            startActivity(Intent(this, ScheduleActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
+            })
         }
         binding.btnExams.setOnClickListener {
-            val intent = Intent(this, ExamsActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
-            startActivity(intent)
+            startActivity(Intent(this, ExamsActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
+            })
         }
         binding.btnCourses.setOnClickListener {
-            val intent = Intent(this, CoursesActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
-            startActivity(intent)
+            startActivity(Intent(this, CoursesActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
+            })
         }
-        binding.btnSync.setOnClickListener { 
-            forceSync()
-        }
+        binding.btnSync.setOnClickListener { forceSync() }
         binding.btnSettings.setOnClickListener {
             startActivity(Intent(this, SettingsActivity::class.java))
         }
-
-        setupNavigation()
-        checkPermissionsAndSync()
-        loadNextEventBanner()
     }
 
     private fun setupNavigation() {
-        binding.navHome.setOnClickListener { /* Already on Home */ }
+        binding.navHome.setOnClickListener { /* Already Home */ }
         binding.navSchedule.setOnClickListener {
-            val intent = Intent(this, ScheduleActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
-            startActivity(intent)
+            startActivity(Intent(this, ScheduleActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
+            })
         }
         binding.navExams.setOnClickListener {
-            val intent = Intent(this, ExamsActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
-            startActivity(intent)
+            startActivity(Intent(this, ExamsActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
+            })
         }
         binding.navResults.setOnClickListener {
-            val intent = Intent(this, ResultsActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
-            startActivity(intent)
+            startActivity(Intent(this, ResultsActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
+            })
         }
         binding.navCourses.setOnClickListener {
-            val intent = Intent(this, CoursesActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
-            startActivity(intent)
+            startActivity(Intent(this, CoursesActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
+            })
         }
     }
 
     private fun checkPermissionsAndSync() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ContextCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.POST_NOTIFICATIONS
-                ) == PackageManager.PERMISSION_GRANTED
-            ) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
                 setupBackgroundSync()
             } else {
                 requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
@@ -114,11 +137,9 @@ class MainActivity : AppCompatActivity() {
         val constraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.CONNECTED)
             .build()
-
         val syncRequest = PeriodicWorkRequestBuilder<SyncWorker>(1, TimeUnit.HOURS)
             .setConstraints(constraints)
             .build()
-
         WorkManager.getInstance(applicationContext).enqueueUniquePeriodicWork(
             "UniViewDataSync",
             ExistingPeriodicWorkPolicy.KEEP,
@@ -127,87 +148,38 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun forceSync() {
-        Toast.makeText(this, "Gegevens worden opgehaald...", Toast.LENGTH_SHORT).show()
-        
-        val constraints = Constraints.Builder()
-            .setRequiredNetworkType(NetworkType.CONNECTED)
-            .build()
-
-        val syncRequest = OneTimeWorkRequestBuilder<SyncWorker>()
-            .setConstraints(constraints)
-            .build()
-
-        val workManager = WorkManager.getInstance(applicationContext)
-        workManager.enqueueUniqueWork(
-            "ManualSync",
-            ExistingWorkPolicy.REPLACE,
-            syncRequest
-        )
-
-        // Observe the work status to update the UI (banner) when finished
-        workManager.getWorkInfoByIdLiveData(syncRequest.id).observe(this) { workInfo ->
-            if (workInfo != null && workInfo.state.isFinished) {
-                if (workInfo.state == WorkInfo.State.SUCCEEDED) {
-                    Toast.makeText(this, "Sync voltooid", Toast.LENGTH_SHORT).show()
-                    loadNextEventBanner()
-                } else {
-                    Toast.makeText(this, "Sync mislukt", Toast.LENGTH_SHORT).show()
-                }
+        Toast.makeText(this, getString(R.string.sync_in_progress), Toast.LENGTH_SHORT).show()
+        val constraints = Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build()
+        val syncRequest = OneTimeWorkRequestBuilder<SyncWorker>().setConstraints(constraints).build()
+        val wm = WorkManager.getInstance(applicationContext)
+        wm.enqueueUniqueWork("ManualSync", ExistingWorkPolicy.REPLACE, syncRequest)
+        wm.getWorkInfoByIdLiveData(syncRequest.id).observe(this) { info ->
+            if (info?.state?.isFinished == true) {
+                val msg = if (info.state == WorkInfo.State.SUCCEEDED) R.string.sync_completed else R.string.sync_failed
+                Toast.makeText(this, getString(msg), Toast.LENGTH_SHORT).show()
+                if (info.state == WorkInfo.State.SUCCEEDED) loadNextEventBanner()
             }
         }
     }
 
     private fun loadNextEventBanner() {
-        val dataStore = Preferences(this)
-        val examsUrl = dataStore.examsUrl
-        val classesUrl = dataStore.classesUrl
+        val prefs = Preferences(this)
         binding.tvNextEventBanner.text = getString(R.string.next_event_loading)
-
         Thread {
             val items = mutableListOf<NextEvent>()
+            DataCacheManager.getClasses(this).also { if(it.isNotBlank()) items += IcalParser.parse(it, "class") }
+            DataCacheManager.getExams(this).also { if(it.isNotBlank()) items += IcalParser.parse(it, "exam") }
 
-            // Try to load from cache first for immediate display
-            val cachedClasses = DataCacheManager.getClasses(this)
-            if (cachedClasses.isNotBlank()) {
-                items += IcalParser.parse(cachedClasses, "class")
-            }
-            val cachedExams = DataCacheManager.getExams(this)
-            if (cachedExams.isNotBlank()) {
-                items += IcalParser.parse(cachedExams, "exam")
-            }
-
-            // Also try to fetch latest if urls available
-            if (items.isEmpty()) {
-                if (!classesUrl.isNullOrBlank()) {
-                    try {
-                        val text = NetworkHelper.fetchUrl(classesUrl)
-                        DataCacheManager.saveClasses(this, text)
-                        items += IcalParser.parse(text, "class")
-                    } catch (e: Exception) {}
-                }
-                if (!examsUrl.isNullOrBlank()) {
-                    try {
-                        val text = NetworkHelper.fetchUrl(examsUrl)
-                        DataCacheManager.saveExams(this, text)
-                        items += IcalParser.parse(text, "exam")
-                    } catch (e: Exception) {}
-                }
-            }
-
-            // For the main banner, we show the next event that hasn't started yet
             val next = items.filter { it.isFuture() }.minByOrNull { it.dateTimeMillis() }
             runOnUiThread {
                 if (next == null) {
                     binding.tvNextEventLabel.visibility = View.GONE
-                    if (examsUrl.isNullOrBlank() && classesUrl.isNullOrBlank()) {
-                        binding.tvNextEventBanner.text = getString(R.string.next_event_setup)
-                    } else {
-                        binding.tvNextEventBanner.text = getString(R.string.next_event_none)
-                    }
+                    binding.tvNextEventBanner.text = if (prefs.classesUrl.isNullOrBlank() && prefs.examsUrl.isNullOrBlank()) 
+                        getString(R.string.next_event_setup) else getString(R.string.next_event_none)
                 } else {
                     binding.tvNextEventLabel.visibility = View.VISIBLE
-                    binding.tvNextEventLabel.text = if (next.kind == "exam") "Volgend examen:" else "Volgende les:"
-                    binding.tvNextEventBanner.text = getString(R.string.next_event_text, next.title, next.dateLabel(), next.timeLabel())
+                    binding.tvNextEventLabel.text = getString(if (next.kind == "exam") R.string.label_next_exam else R.string.label_next_lesson)
+                    binding.tvNextEventBanner.text = getString(R.string.next_event_text, next.title, next.dateLabel(this), next.timeLabel())
                 }
             }
         }.start()

@@ -27,7 +27,7 @@
                 android:id="@+id/headerTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Examenrooster"
+                android:text="@string/header_exams"
                 android:textColor="@color/white_stable"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -59,7 +59,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:text="← Vorige pagina"
+                android:text="@string/back_to_previous"
                 android:textColor="@color/main_blue"
                 android:textStyle="bold" />
 
@@ -67,7 +67,7 @@
                 android:id="@+id/pageTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Komende examens"
+                android:text="@string/title_upcoming_exams"
                 android:textColor="@color/main_blue"
                 android:textSize="18sp"
                 android:textStyle="bold"
@@ -92,7 +92,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:padding="32dp"
-                android:text="Geen examengegevens beschikbaar"
+                android:text="@string/empty_exams"
                 android:visibility="gone" />
 
             <!-- History Toggle -->
@@ -102,7 +102,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:text="Toon vorige examens"
+                android:text="@string/btn_show_past_exams"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 app:backgroundTint="@color/main_orange"

@@ -16,7 +16,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Theorie-examen oktober"
+            android:text="@string/placeholder_breakdown_title"
             android:textColor="@color/black"
             android:textSize="12sp"
             android:textStyle="bold" />
@@ -25,7 +25,7 @@
             android:id="@+id/breakdownItemScore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="8 / 20 (5%)"
+            android:text="@string/placeholder_breakdown_score"
             android:textColor="@color/grey_text"
             android:textSize="12sp" />
     </LinearLayout>
