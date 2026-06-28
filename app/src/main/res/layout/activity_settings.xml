@@ -27,7 +27,7 @@
                 android:id="@+id/headerTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Instellingen"
+                android:text="@string/header_settings"
                 android:textColor="@color/white_stable"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -60,7 +60,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:text="← Vorige pagina"
+                android:text="@string/back_to_previous"
                 android:textColor="@color/main_blue"
                 android:textStyle="bold" />
 
@@ -69,7 +69,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="4dp"
-                android:text="Meldingen"
+                android:text="@string/label_notifications"
                 android:textColor="@color/main_blue"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -86,7 +86,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:checked="true"
-                android:text="Meldingen voor nieuwe resultaten"
+                android:text="@string/notif_results"
                 android:textColor="@color/black" />
 
             <Space
@@ -97,7 +97,7 @@
                 android:id="@+id/switch2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Meldingen voor roosterwijzigingen"
+                android:text="@string/notif_schedule"
                 android:textColor="@color/black" />
 
             <Space
@@ -108,7 +108,7 @@
                 android:id="@+id/switch3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Meldingen voor examenroosterwijzigingen"
+                android:text="@string/notif_exams"
                 android:textColor="@color/black" />
 
             <Space
@@ -119,7 +119,7 @@
                 android:id="@+id/switch4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Meldingen voor volgende les"
+                android:text="@string/notif_next_lesson"
                 android:textColor="@color/black" />
 
             <Space
@@ -131,7 +131,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="4dp"
-                android:text="Thema"
+                android:text="@string/label_theme"
                 android:textColor="@color/main_blue"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -153,19 +153,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="32dp"
                     android:checked="true"
-                    android:text="Licht" />
+                    android:text="@string/theme_light" />
 
                 <RadioButton
                     android:id="@+id/radioButton2"
                     android:layout_width="match_parent"
                     android:layout_height="32dp"
-                    android:text="Donker" />
+                    android:text="@string/theme_dark" />
 
                 <RadioButton
                     android:id="@+id/radioButton3"
                     android:layout_width="match_parent"
                     android:layout_height="32dp"
-                    android:text="Systeemstandaard" />
+                    android:text="@string/theme_system" />
 
             </RadioGroup>
 
@@ -178,7 +178,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/main_orange"
-                android:text="Opslaan"
+                android:text="@string/save_settings"
                 android:textColor="@color/white" />
 
             <TextView
@@ -192,7 +192,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Configuratie"
+                android:text="@string/label_configuration"
                 android:textColor="@color/main_blue"
                 android:textSize="18sp"
                 android:textStyle="bold"
@@ -207,7 +207,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Main JSON URL"
+                android:text="@string/label_main_json_url"
                 android:textColor="@color/main_blue"
                 android:textSize="12sp"
                 android:textStyle="bold" />
@@ -223,7 +223,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Classes iCal URL"
+                android:text="@string/label_classes_ical_url"
                 android:textColor="@color/main_blue"
                 android:textSize="12sp"
                 android:textStyle="bold" />
@@ -240,7 +240,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Exams iCal URL"
+                android:text="@string/label_exams_ical_url"
                 android:textColor="@color/main_blue"
                 android:textSize="12sp"
                 android:textStyle="bold" />

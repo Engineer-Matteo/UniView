@@ -113,9 +113,9 @@ class WeeklyScheduleFactory(private val context: Context) : RemoteViewsService.R
         
         views.setTextViewText(R.id.event_title, event.title)
         
-        val dayName = event.formattedDate().split(" ").firstOrNull() ?: ""
-        val info = "${dayName} ${event.start} - ${event.end}\n${event.room}".trim()
-        views.setTextViewText(R.id.event_time_location, info)
+        val dayName = event.formattedDate(context).split(" ").firstOrNull() ?: ""
+        val info = context.getString(R.string.format_weekly_schedule_widget_item, dayName, event.start, event.end, event.room)
+        views.setTextViewText(R.id.event_time_location, info.trim())
 
         val color = if (event.kind == "exam") {
             ContextCompat.getColor(context, R.color.main_orange)

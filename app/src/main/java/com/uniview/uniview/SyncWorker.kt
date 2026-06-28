@@ -98,12 +98,12 @@ class SyncWorker(context: Context, workerParams: WorkerParameters) : Worker(cont
 
             if (delay <= 0) {
                 if (startTime > now && prefs.lastNotifiedLessonTime != startTime) {
-                    sendNextLessonNotification("${lesson.title} begint om ${lesson.start}")
+                    sendNextLessonNotification(applicationContext.getString(R.string.notif_body_next_lesson_format, lesson.title, lesson.start))
                     prefs.lastNotifiedLessonTime = startTime
                 }
             } else {
                 val inputData = Data.Builder()
-                    .putString("message", "${lesson.title} begint om ${lesson.start}")
+                    .putString("message", applicationContext.getString(R.string.notif_body_next_lesson_format, lesson.title, lesson.start))
                     .build()
 
                 val reminderRequest = OneTimeWorkRequestBuilder<LessonReminderWorker>()
@@ -171,8 +171,8 @@ class SyncWorker(context: Context, workerParams: WorkerParameters) : Worker(cont
 
                     if (shouldNotify && oldData.isNotBlank() && hasFutureChanges) {
                         sendUpdateNotification(
-                            "Roosterwijziging",
-                            "Er zijn wijzigingen in je lesrooster gevonden.",
+                            applicationContext.getString(R.string.notif_title_schedule_change),
+                            applicationContext.getString(R.string.notif_body_schedule_change),
                             ScheduleActivity::class.java,
                             ID_SCHEDULE,
                             R.drawable.baseline_schedule_24
@@ -212,8 +212,8 @@ class SyncWorker(context: Context, workerParams: WorkerParameters) : Worker(cont
 
                     if (shouldNotify && oldData.isNotBlank() && hasFutureChanges) {
                         sendUpdateNotification(
-                            "Examenrooster gewijzigd",
-                            "Er zijn wijzigingen in je examenrooster gevonden.",
+                            applicationContext.getString(R.string.notif_title_exam_change),
+                            applicationContext.getString(R.string.notif_body_exam_change),
                             ExamsActivity::class.java,
                             ID_EXAMS,
                             R.drawable.baseline_assignment_24
@@ -274,14 +274,15 @@ class SyncWorker(context: Context, workerParams: WorkerParameters) : Worker(cont
     }
 
     private fun sendResultsNotification(newResults: List<ResultEntry>) {
+        val context = applicationContext
         val title = if (newResults.size == 1) {
-            "Nieuw resultaat beschikbaar"
+            context.getString(R.string.notif_title_result_single)
         } else {
-            "${newResults.size} nieuwe resultaten beschikbaar"
+            context.getString(R.string.notif_title_result_multiple, newResults.size)
         }
 
         val body = newResults.take(3).joinToString(", ") { it.course } + 
-                if (newResults.size > 3) " en meer..." else ""
+                if (newResults.size > 3) context.getString(R.string.notif_body_result_more) else ""
 
         sendUpdateNotification(title, body, ResultsActivity::class.java, ID_RESULTS, R.drawable.baseline_assessment_24)
     }
@@ -331,7 +332,7 @@ class SyncWorker(context: Context, workerParams: WorkerParameters) : Worker(cont
         )
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)
             .setSmallIcon(R.drawable.baseline_schedule_24)
-            .setContentTitle("Volgende les")
+            .setContentTitle(context.getString(R.string.notif_title_next_lesson))
             .setContentText(nextLesson)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setContentIntent(pendingIntent)
@@ -346,14 +347,15 @@ class SyncWorker(context: Context, workerParams: WorkerParameters) : Worker(cont
 
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name = "UNIVIEW Updates"
-            val descriptionText = "Meldingen voor nieuwe resultaten en roosterwijzigingen"
+            val context = applicationContext
+            val name = context.getString(R.string.notif_channel_name)
+            val descriptionText = context.getString(R.string.notif_channel_description)
             val importance = NotificationManager.IMPORTANCE_DEFAULT
             val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
                 description = descriptionText
             }
             val notificationManager: NotificationManager =
-                applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
         }
     }

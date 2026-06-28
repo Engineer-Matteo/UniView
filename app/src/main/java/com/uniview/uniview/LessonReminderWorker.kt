@@ -39,7 +39,7 @@ class LessonReminderWorker(context: Context, workerParams: WorkerParameters) : W
         )
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)
             .setSmallIcon(R.drawable.baseline_schedule_24)
-            .setContentTitle("Volgende les")
+            .setContentTitle(context.getString(R.string.notif_title_next_lesson))
             .setContentText(nextLesson)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setContentIntent(pendingIntent)
@@ -54,14 +54,15 @@ class LessonReminderWorker(context: Context, workerParams: WorkerParameters) : W
 
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name = "UNIVIEW Updates"
-            val descriptionText = "Meldingen voor nieuwe resultaten en roosterwijzigingen"
+            val context = applicationContext
+            val name = context.getString(R.string.notif_channel_name)
+            val descriptionText = context.getString(R.string.notif_channel_description)
             val importance = NotificationManager.IMPORTANCE_DEFAULT
             val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
                 description = descriptionText
             }
             val notificationManager: NotificationManager =
-                applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
         }
     }

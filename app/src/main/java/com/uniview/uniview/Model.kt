@@ -1,5 +1,6 @@
 package com.uniview.uniview
 
+import android.content.Context
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -94,17 +95,19 @@ data class NextEvent(
         } catch (e: Exception) { 0L }
     }
 
-    fun formattedDate(): String {
+    fun formattedDate(context: Context): String {
         return try {
             val millis = dateTimeMillis()
             if (millis == 0L) return date
-            val dutchLocale = Locale("nl", "BE")
-            val sdf = SimpleDateFormat("EEEE d MMMM yyyy", dutchLocale)
+            val locale = Locale(context.getString(R.string.locale_lang), context.getString(R.string.locale_country))
+            val sdf = SimpleDateFormat(context.getString(R.string.date_format_day_full), locale)
             val result = sdf.format(Date(millis))
-            result.replaceFirstChar { if (it.isLowerCase()) it.titlecase(dutchLocale) else it.toString() }
+            result.replaceFirstChar { if (it.isLowerCase()) it.titlecase(locale) else it.toString() }
         } catch (e: Exception) { date }
     }
 
-    fun dateLabel(): String = formattedDate()
+    // Helpers to avoid breaking callers that don't pass context immediately, 
+    // but these should ideally be replaced by the context-aware versions.
+    fun dateLabel(context: Context): String = formattedDate(context)
     fun timeLabel(): String = start
 }

@@ -154,7 +154,7 @@ class ResultsActivity : AppCompatActivity() {
         binding.emptyView.visibility = if (filtered.isEmpty()) View.VISIBLE else View.GONE
 
         val average = ResultUtils.calculateWeightedAverage(filtered)
-        binding.averageBadge.text = String.format(Locale("nl", "BE"), getString(R.string.average_score_text), average)
+        binding.averageBadge.text = String.format(Locale(getString(R.string.locale_lang), getString(R.string.locale_country)), getString(R.string.average_score_text), average)
     }
 
     private fun showBreakdownDialog(result: ResultEntry) {
@@ -166,33 +166,36 @@ class ResultsActivity : AppCompatActivity() {
             
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
-        val locale = Locale("nl", "BE")
-        dialogView.findViewById<TextView>(R.id.breakdownCourseTitle).text = result.course
-        dialogView.findViewById<TextView>(R.id.breakdownFinalScore).text = String.format(locale, "%.1f / 20", result.grade)
-        dialogView.findViewById<TextView>(R.id.breakdownPeriod).text = "${result.period.semester} ${result.period.year}"
-        dialogView.findViewById<TextView>(R.id.breakdownEcts).text = "${result.ects} studiepunten"
+        val locale = Locale(getString(R.string.locale_lang), getString(R.string.locale_country))
+        dialogView.findViewById<TextView>(R.id.breakdownCourseTitle).text = result.course.ifBlank { getString(R.string.course_name_unknown) }
+        dialogView.findViewById<TextView>(R.id.breakdownFinalScore).text = String.format(locale, getString(R.string.format_score_over_20), result.grade)
+        dialogView.findViewById<TextView>(R.id.breakdownPeriod).text = getString(R.string.format_semester_year, result.period.semester, result.period.year)
+        dialogView.findViewById<TextView>(R.id.breakdownEcts).text = getString(R.string.label_ects_count, result.ects)
         
         val container = dialogView.findViewById<LinearLayout>(R.id.breakdownItemsContainer)
         val items = allBreakdowns.filter { it.course.trim().equals(result.course.trim(), ignoreCase = true) }
 
         if (items.isEmpty()) {
             val emptyText = TextView(this)
-            emptyText.text = "Geen deelscores gevonden."
+            emptyText.text = getString(R.string.empty_breakdown)
             emptyText.setPadding(0, 16, 0, 0)
             container.addView(emptyText)
         } else {
             items.forEach { item ->
                 val itemView = LayoutInflater.from(this).inflate(R.layout.item_breakdown, container, false)
-                itemView.findViewById<TextView>(R.id.breakdownItemTitle).text = item.subTitle
-                itemView.findViewById<TextView>(R.id.breakdownItemScore).text = String.format(locale, "%.1f / 20 (%s)", item.score, item.weight)
+                itemView.findViewById<TextView>(R.id.breakdownItemTitle).text = item.subTitle.ifBlank { getString(R.string.partial_name_default) }
+                itemView.findViewById<TextView>(R.id.breakdownItemScore).text = String.format(locale, getString(R.string.format_score_weight), item.score, item.weight)
                 
                 val progress = itemView.findViewById<ProgressBar>(R.id.breakdownItemProgress)
                 progress.progress = (item.score * 5).toInt()
                 
                 val progressDrawable = when {
                     item.score < 10 -> R.drawable.bg_progress_red
+                    item.score < 13 -> R.drawable.bg_progress_orange
                     item.score < 15 -> R.drawable.bg_progress_yellow
-                    else -> R.drawable.bg_progress_green
+                    item.score < 17 -> R.drawable.bg_progress_green
+                    item.score < 19 -> R.drawable.bg_progress_dark_green
+                    else -> R.drawable.bg_progress_purple
                 }
                 progress.progressDrawable = ContextCompat.getDrawable(this, progressDrawable)
                 

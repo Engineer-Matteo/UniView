@@ -51,7 +51,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Tik voor omschrijving"
+                android:text="@string/hint_tap_for_description"
                 android:textColor="@color/main_blue"
                 android:textSize="11sp"
                 android:textStyle="bold"
